@@ -2,6 +2,9 @@ __pycache__/
 .ipynb_checkpoints/
 *.parquet
 *.csv
+!outputs/predictions/*.csv
+!outputs/metrics/*.csv
+!archive/*.csv
 *.zip
 *.joblib
 *.pkl

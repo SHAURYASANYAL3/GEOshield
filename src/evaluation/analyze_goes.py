@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 import numpy as np
 
-goes_dir = "D:/isro/GOES-13andGOES-14"
+goes_dir = "data/GOES-13andGOES-14"
 csv_files = glob.glob(os.path.join(goes_dir, "*.csv"))
 print(f"Found {len(csv_files)} CSV files.")
 

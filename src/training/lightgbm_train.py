@@ -39,9 +39,9 @@ def calc_metrics(y_true, y_pred, p95_val, p99_val, baseline_metrics=None, horizo
 
 def train_lightgbm():
     print("Loading data...")
-    df = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df = pd.read_parquet("data/engineered_features.parquet")
     
-    with open("D:/isro/baseline_metrics.json", "r") as f:
+    with open("outputs/metrics/baseline_metrics.json", "r") as f:
         baseline_metrics = json.load(f)
         
     # Full dataset percentiles for thresholding
@@ -119,7 +119,7 @@ def train_lightgbm():
             "actual": y_va_raw,
             "predicted": y_va_pred_raw
         })
-        pred_df.to_csv(f"D:/isro/predictions_{h_name.replace('m','').replace('h','')}.csv", index=False)
+        pred_df.to_csv(f"outputs/predictions/predictions_{h_name.replace('m','').replace('h','')}.csv", index=False)
         
         # Metrics
         mets = calc_metrics(y_va_raw, y_va_pred_raw, p95_val, p99_val, baseline_metrics, h_name)
@@ -162,23 +162,23 @@ def train_lightgbm():
         axes_imp[idx].set_title(f"Top 15 Features ({h_name})")
 
     # Save final JSON and CSV
-    with open("D:/isro/metrics.json", "w") as f:
+    with open("outputs/metrics/metrics.json", "w") as f:
         json.dump(all_metrics, f, indent=4)
         
-    pd.concat(importance_dfs).to_csv("D:/isro/feature_importance.csv", index=False)
+    pd.concat(importance_dfs).to_csv("outputs/metrics/feature_importance.csv", index=False)
     
     # Save plots
     fig_act_pred.tight_layout()
-    fig_act_pred.savefig("D:/isro/plots/actual_vs_predicted.png")
+    fig_act_pred.savefig("outputs/plots/actual_vs_predicted.png")
     
     fig_res.tight_layout()
-    fig_res.savefig("D:/isro/plots/residuals.png")
+    fig_res.savefig("outputs/plots/residuals.png")
     
     fig_peak.tight_layout()
-    fig_peak.savefig("D:/isro/plots/peak_capture.png")
+    fig_peak.savefig("outputs/plots/peak_capture.png")
     
     fig_imp.tight_layout()
-    fig_imp.savefig("D:/isro/plots/feature_importance.png")
+    fig_imp.savefig("outputs/plots/feature_importance.png")
     
     print("\nTraining complete. All outputs generated.")
 

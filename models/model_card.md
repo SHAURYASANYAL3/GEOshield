@@ -25,11 +25,11 @@ The model relies heavily on upstream solar wind drivers to anticipate delayed ma
 ## Performance Metrics (Finetuned Adaptation)
 | Metric | 45m Horizon | 6h Horizon | 12h Horizon |
 | :--- | :--- | :--- | :--- |
-| **RMSE** | 114.25 | 285.30 | 404.06 |
-| **MAE** | 50.21 | 156.88 | 156.37 |
-| **Peak Recall (95th)**| 69.2% | 5.7% | 31.0% |
-| **Peak Recall (99th)**| 7.9% | 0.0% | 4.8% |
-| **Uncertainty (±σ)** | ±113.16 | ±285.11 | ±403.74 |
+| **RMSE** | 114.25 | 285.30 | 245.71 |
+| **MAE** | 50.21 | 156.88 | 117.36 |
+| **Peak Recall (95th)**| 71.12% | 8.15% | 11.47% |
+| **Peak Recall (99th)**| 7.21% | 0.0% | 0.0% |
+| **Uncertainty (±σ)** | ±113.16 | ±285.11 | ±245.71 |
 
 ## Limitations and Ethical Considerations
 - **Amplitude Underprediction:** The model prioritizes predicting the *timing* and *onset* of a storm. It tends to conservatively underpredict the absolute maximum amplitude of rare Carrington-class events due to the logarithmic nature of particle flux and scarcity in the training data.
@@ -37,6 +37,6 @@ The model relies heavily on upstream solar wind drivers to anticipate delayed ma
 - **Causality Limit:** The 12-hour horizon exhibits decreased performance because predicting 12 hours ahead requires knowledge of solar wind currently located upstream of the L1 monitoring satellites.
 
 ## Reproducibility
-- Pretraining weights are saved as `xgb_goes_physics.json`.
-- Finetuned operational weights are saved as `xgb_goes_base.json`.
-- Environment requires `xgboost`, `pandas`, `scikit-learn`. Generated via `phase7_adapt_grasp.py`.
+- Pretraining weights are saved as `models/pretrained/xgb_goes_physics.json` (Note: excluded from git due to 100MB limit).
+- Finetuned operational weights are saved as `models/adapted/xgb_goes_base.json` and `submission/xgb_final_adapted.json`.
+- Environment requires `xgboost`, `pandas`, `scikit-learn`. Generated via `src/training/phase7_adapt_grasp.py`.

@@ -12,7 +12,7 @@ def parse_omni():
         "AE_index_nT", "SYM_H_nT"
     ]
 
-    file_path = "D:/isro/omni/omni_5min_def_dneZ2NWQwI.lst"
+    file_path = "data/omni/omni_5min_def_dneZ2NWQwI.lst"
 
     df = pd.read_csv(file_path, sep=r'\s+', names=cols)
 
@@ -31,7 +31,7 @@ def parse_omni():
     # Sort just in case
     df = df.sort_values("timestamp").drop_duplicates(subset=["timestamp"])
 
-    output_file = "D:/isro/omni_parsed.parquet"
+    output_file = "data/omni_parsed.parquet"
     df.to_parquet(output_file, index=False)
     print(f"OMNI data parsed and saved to {output_file}. Shape: {df.shape}")
 

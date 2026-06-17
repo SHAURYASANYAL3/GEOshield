@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 
 def generate_geoshield_report():
     print("Generating GEOShield Master Forensic Report...")
-    out_dir = "D:/isro/submission_v2"
+    out_dir = \"submission_v2\"
     os.makedirs(out_dir, exist_ok=True)
     
     # Load Real Metrics
     report_data = {}
     try:
-        with open("D:/isro/live_report_data.json", "r") as f:
+        with open(\"live_report_data.json\", "r") as f:
             report_data = json.load(f)
     except Exception:
         print("Warning: live_report_data.json not found, using fallbacks.")

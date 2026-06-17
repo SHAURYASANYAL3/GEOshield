@@ -5,7 +5,7 @@ import re
 
 def parse_grasp():
     print("Parsing GRASP data...")
-    zip_files = glob.glob("D:/isro/datasets/*.zip")
+    zip_files = glob.glob("data/datasets/*.zip")
     
     all_data = []
     
@@ -48,7 +48,7 @@ def parse_grasp():
     # Sort and drop any exact duplicates that might arise from zip file duplicates like "(1).zip"
     full_df = full_df.sort_values("timestamp").drop_duplicates(subset=["timestamp"])
     
-    output_file = "D:/isro/grasp_parsed.parquet"
+    output_file = "data/grasp_parsed.parquet"
     full_df.to_parquet(output_file, index=False)
     print(f"GRASP data parsed and saved to {output_file}. Shape: {full_df.shape}")
 

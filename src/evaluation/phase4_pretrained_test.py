@@ -20,14 +20,14 @@ def test_pretrained():
     print("PHASE 4: Evaluating Baseline Model on 11-Year GOES Historical Dataset")
     
     # 1. Load the Historical Features
-    df = pd.read_parquet("D:/isro/goes_historical_features.parquet")
+    df = pd.read_parquet("data/goes_historical_features.parquet")
     df.sort_values("timestamp", inplace=True)
     p95 = df["Electron_Flux"].quantile(0.95)
     p99 = df["Electron_Flux"].quantile(0.99)
     
     # 2. We need the original GRASP model (recreate it quickly since it wasn't saved)
     print("Loading GRASP Frozen Baseline...")
-    df_grasp = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df_grasp = pd.read_parquet("data/engineered_features.parquet")
     p95_grasp = df_grasp["Electron_Flux"].quantile(0.95)
     p99_grasp = df_grasp["Electron_Flux"].quantile(0.99)
     

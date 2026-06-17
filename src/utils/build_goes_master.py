@@ -83,7 +83,7 @@ def build_goes_master():
     
     # Save
     print(f"Saving {len(df)} rows to goes_historical_features.parquet...")
-    df.to_parquet("D:/isro/goes_historical_features.parquet", index=False)
+    df.to_parquet("data/goes_historical_features.parquet", index=False)
     
     # Coverage Report
     p95 = df["Electron_Flux"].quantile(0.95)
@@ -97,7 +97,7 @@ def build_goes_master():
         "features": len(df.columns)
     }
     
-    with open("D:/isro/coverage_report.json", "w") as f:
+    with open("outputs/reports/coverage_report.json", "w") as f:
         json.dump(report, f, indent=4)
         
     print("Coverage report generated.")

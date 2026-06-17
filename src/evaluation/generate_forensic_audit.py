@@ -7,12 +7,12 @@ def generate_audit():
     print("Initializing Forensic Audit...")
     
     # OUTPUT DIRS
-    out_dir = "D:/isro/forensic_audit"
+    out_dir = "outputs/reports/forensic_audit"
     os.makedirs(out_dir, exist_ok=True)
     
     # 1. Inspect Model
     model = xgb.XGBRegressor()
-    model_path = "D:/isro/xgb_goes_physics.json"
+    model_path = "models/pretrained/xgb_goes_physics.json"
     if os.path.exists(model_path):
         model.load_model(model_path)
     else:

@@ -21,7 +21,7 @@ def adapt_to_grasp():
     print("PHASE 7: Sequential Training (Warm-start adaptation) on GRASP 2017-2018...")
     
     # Load GRASP dataset
-    df = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df = pd.read_parquet("data/engineered_features.parquet")
     df.sort_values("timestamp", inplace=True)
     
     # ---------------------------------------------------------
@@ -29,7 +29,7 @@ def adapt_to_grasp():
     # ---------------------------------------------------------
     # We must match the EXACT features used in the pretrained model
     model_tmp = xgb.XGBRegressor()
-    model_tmp.load_model("D:/isro/xgb_goes_physics.json")
+    model_tmp.load_model("models/pretrained/xgb_goes_physics.json")
     
     # Get feature names from the booster
     features = model_tmp.get_booster().feature_names
@@ -103,7 +103,7 @@ def adapt_to_grasp():
     
     # To warm-start, we use xgb_model argument in fit
     print(f"Sequential training on {len(X_tr)} GRASP samples...")
-    model.fit(X_tr, y_tr, sample_weight=w_tr, xgb_model="D:/isro/xgb_goes_physics.json", verbose=False)
+    model.fit(X_tr, y_tr, sample_weight=w_tr, xgb_model="models/pretrained/xgb_goes_physics.json", verbose=False)
     
     # Test Predictions
     y_pred_log = model.predict(X_test)
@@ -116,7 +116,7 @@ def adapt_to_grasp():
         "actual": y_test_raw,
         "predicted_12h": y_pred_raw
     })
-    pred_df.to_csv("D:/isro/predictions_finetuned.csv", index=False)
+    pred_df.to_csv(\"predictions_finetuned.csv\", index=False)
     
     # Calculate metrics
     rmse, rec95, rec99 = calc_metrics(y_test_raw, y_pred_raw, p95_val, p99_val)
@@ -126,7 +126,7 @@ def adapt_to_grasp():
         "PeakRecall95": rec95,
         "PeakRecall99": rec99
     }
-    with open("D:/isro/metrics_finetuned.json", "w") as f:
+    with open("outputs/metrics/metrics_finetuned.json", "w") as f:
         json.dump(mets, f, indent=4)
         
     print("\n--- PHASE 7: ADAPTATION METRICS (12h Horizon / GRASP 20% Holdout) ---")
@@ -135,7 +135,7 @@ def adapt_to_grasp():
     print(f"PeakRecall99: {rec99*100:.1f}%")
     
     # Save final model
-    model.save_model("D:/isro/submission/xgb_final_adapted.json")
+    model.save_model(\"submission/xgb_final_adapted.json\")
     print("Saved final sequentially trained model to D:/isro/submission/xgb_final_adapted.json")
 
 if __name__ == "__main__":

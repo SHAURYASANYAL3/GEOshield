@@ -8,14 +8,14 @@ import re
 
 def continuous_training_loop():
     print("Initializing Continuous Online Learning Watchdog...")
-    base_dir = "D:/isro/data/goes"
-    model_path = "D:/isro/xgb_goes_physics.json"
-    trained_files_log = "D:/isro/trained_files.txt"
+    base_dir = "data/goes"
+    model_path = "models/pretrained/xgb_goes_physics.json"
+    trained_files_log = "outputs/reports/trained_files.txt"
     
     # Load the unified historical features database to act as our pre-parsed memory
     # In a real environment, we'd have a heavy ETL script parsing the CSVs & ASCs here.
     print("Loading Pre-parsed Features Database for Incremental Stream...")
-    master_df = pd.read_parquet("D:/isro/goes_historical_features.parquet")
+    master_df = pd.read_parquet("data/goes_historical_features.parquet")
     master_df["year"] = master_df["timestamp"].dt.year
     master_df["month"] = master_df["timestamp"].dt.month
     

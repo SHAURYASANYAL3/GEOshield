@@ -14,7 +14,7 @@ def calc_metrics(y_true, y_pred, p95_val):
 
 def run_inspection():
     print("Loading data...")
-    df = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df = pd.read_parquet("data/engineered_features.parquet")
     df.sort_values("timestamp", inplace=True)
     
     # Storm candidate features (frozen logic)
@@ -99,7 +99,7 @@ def run_inspection():
     # ---------------------------------------------------------
     # 2. Storm Event Gallery
     # ---------------------------------------------------------
-    os.makedirs("D:/isro/storm_gallery", exist_ok=True)
+    os.makedirs("outputs/storm_gallery", exist_ok=True)
     # Find peaks in validation set
     peaks = val_res[val_res["actual"] > p99_val].sort_values("actual", ascending=False)
     # To avoid plotting the same storm multiple times, take peaks at least 24h apart
@@ -122,7 +122,7 @@ def run_inspection():
         plt.title(f"Storm Event {i+1}: {pt.strftime('%Y-%m-%d %H:%M')}")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f"D:/isro/storm_gallery/storm_{i+1}.png")
+        plt.savefig(f"outputs/storm_gallery/storm_{i+1}.png")
         plt.close()
         
     print("\nStorm gallery generated.")
@@ -138,7 +138,7 @@ def run_inspection():
     plt.ylabel("Prediction Error (Predicted - Actual)")
     plt.title("Residuals vs Actual (12h Horizon)")
     plt.tight_layout()
-    plt.savefig("D:/isro/plots/residual_audit.png")
+    plt.savefig("outputs/plots/residual_audit.png")
     plt.close()
     
     # Calculate systematic lag manually: cross correlation

@@ -11,7 +11,7 @@ cols = [
     "AE_index_nT", "SYM_H_nT"
 ]
 
-file_path = "D:/isro/omni/omni_5min_def_dneZ2NWQwI.lst"
+file_path = "data/omni/omni_5min_def_dneZ2NWQwI.lst"
 
 # Using delim_whitespace=True since it's a formatted fixed-width / space-separated file
 df = pd.read_csv(file_path, delim_whitespace=True, names=cols)

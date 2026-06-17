@@ -4,7 +4,7 @@ import matplotlib.dates as mdates
 
 def create_coverage_plot():
     print("Generating coverage plot...")
-    df = pd.read_parquet("D:/isro/final_merged_data.parquet")
+    df = pd.read_parquet("data/final_merged_data.parquet")
     
     plt.figure(figsize=(15, 4))
     
@@ -25,7 +25,7 @@ def create_coverage_plot():
     plt.xticks(rotation=45)
     
     plt.tight_layout()
-    plt.savefig("D:/isro/coverage_plot.png", dpi=300)
+    plt.savefig(\"coverage_plot.png\", dpi=300)
     print("Coverage plot saved to D:/isro/coverage_plot.png")
 
 if __name__ == "__main__":

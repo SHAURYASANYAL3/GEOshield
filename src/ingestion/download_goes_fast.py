@@ -35,7 +35,7 @@ def download_file(url, dest_path, max_retries=3):
 
 def run_downloader():
     base_url = "https://www.ncei.noaa.gov/data/goes-space-environment-monitor/access/avg/{year}/{month:02d}/goes13/csv/"
-    base_dir = "D:/isro/data/goes"
+    base_dir = "data/goes"
     
     print("Starting HYPER-THREADED GOES-13 Downloader...")
     

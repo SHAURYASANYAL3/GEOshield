@@ -2,9 +2,9 @@ import pandas as pd
 
 def merge_timeseries():
     print("Merging timeseries...")
-    master_df = pd.read_parquet("D:/isro/master_time.parquet")
-    grasp_df = pd.read_parquet("D:/isro/grasp_parsed.parquet")
-    omni_df = pd.read_parquet("D:/isro/omni_parsed.parquet")
+    master_df = pd.read_parquet("data/master_time.parquet")
+    grasp_df = pd.read_parquet("data/grasp_parsed.parquet")
+    omni_df = pd.read_parquet("data/omni_parsed.parquet")
     
     # Ensure they are sorted and have exactly the same datetime precision
     master_df["timestamp"] = master_df["timestamp"].astype("datetime64[ns]")
@@ -83,7 +83,7 @@ def merge_timeseries():
         if col != "timestamp":
             merged[col] = apply_missing_policy(merged[col])
 
-    output_file = "D:/isro/final_merged_data.parquet"
+    output_file = "data/final_merged_data.parquet"
     merged.to_parquet(output_file, index=False)
     print(f"Final merged dataframe saved to {output_file}. Shape: {merged.shape}")
     

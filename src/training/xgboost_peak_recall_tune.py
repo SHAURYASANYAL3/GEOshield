@@ -38,7 +38,7 @@ def calc_metrics(y_true, y_pred, p95_val, p99_val, baseline_metrics=None, horizo
 
 def tune_6h():
     print("Loading engineered features...")
-    df = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df = pd.read_parquet("data/engineered_features.parquet")
     df.sort_values("timestamp", inplace=True)
     
     # ---------------------------------------------------------
@@ -50,7 +50,7 @@ def tune_6h():
     df["Speed_km_s_max_24h"] = df["Speed_km_s"].rolling(window=288, min_periods=1).max()
     df["BZ_nT_GSM_min_6h"] = df["BZ_nT_GSM"].rolling(window=72, min_periods=1).min()
     
-    with open("D:/isro/baseline_metrics.json", "r") as f:
+    with open("outputs/metrics/baseline_metrics.json", "r") as f:
         baseline_metrics = json.load(f)
         
     p95_val = df["Electron_Flux"].quantile(0.95)

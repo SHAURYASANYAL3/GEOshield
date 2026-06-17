@@ -2,7 +2,7 @@ import pandas as pd
 
 def engineer_features():
     print("Engineering features...")
-    df = pd.read_parquet("D:/isro/final_merged_data.parquet")
+    df = pd.read_parquet("data/final_merged_data.parquet")
     df.sort_values("timestamp", inplace=True)
     
     # ---------------------------------------------------------
@@ -69,7 +69,7 @@ def engineer_features():
     print(f"Original shape: {df.shape}")
     print(f"Final shape after masks: {final_df.shape}")
     
-    output_file = "D:/isro/engineered_features.parquet"
+    output_file = "data/engineered_features.parquet"
     final_df.to_parquet(output_file, index=False)
     print(f"Engineered features saved to {output_file}")
 

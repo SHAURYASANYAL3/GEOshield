@@ -45,7 +45,7 @@ def calculate_metrics(y_true, y_pred, p95_val, p99_val):
 
 def run_baseline():
     print("Running baseline persistence...")
-    df = pd.read_parquet("D:/isro/final_merged_data.parquet")
+    df = pd.read_parquet("data/final_merged_data.parquet")
     
     # Ensure sorted by time
     df.sort_values("timestamp", inplace=True)
@@ -89,9 +89,9 @@ def run_baseline():
                 
     # Save results
     res_df = pd.DataFrame(results)
-    res_df.to_csv("D:/isro/baseline_results.csv", index=False)
+    res_df.to_csv("outputs/predictions/baseline_results.csv", index=False)
     
-    with open("D:/isro/baseline_metrics.json", "w") as f:
+    with open("outputs/metrics/baseline_metrics.json", "w") as f:
         json.dump(metrics_dict, f, indent=4)
         
     print("\nBaseline metrics saved to baseline_results.csv and baseline_metrics.json")

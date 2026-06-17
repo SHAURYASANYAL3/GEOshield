@@ -24,7 +24,7 @@ def download_file(url, dest_path, max_retries=3):
 def run_omni_downloader():
     # NASA SPDF OMNI 5-minute High Resolution Data
     base_url = "https://spdf.gsfc.nasa.gov/pub/data/omni/high_res_omni/omni_5min{year}.asc"
-    base_dir = "D:/isro/data/omni"
+    base_dir = "data/omni"
     os.makedirs(base_dir, exist_ok=True)
     
     manifest = []
@@ -58,7 +58,7 @@ def run_omni_downloader():
         })
         
         # Save intermediate state
-        pd.DataFrame(manifest).to_csv("D:/isro/omni_manifest.csv", index=False)
+        pd.DataFrame(manifest).to_csv("data/omni_manifest.csv", index=False)
         time.sleep(1) # Be polite to NASA
         
     print("\nParallel OMNI Download Complete.")
@@ -68,7 +68,7 @@ def run_omni_downloader():
         "failed_downloads": failed_downloads,
     }
     
-    with open("D:/isro/omni_coverage_report.json", "w") as f:
+    with open("outputs/reports/omni_coverage_report.json", "w") as f:
         json.dump(coverage, f, indent=4)
 
 if __name__ == "__main__":

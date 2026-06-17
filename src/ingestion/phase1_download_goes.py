@@ -5,7 +5,7 @@ import pandas as pd
 
 def download_goes_historical():
     base_url = "https://www.ncei.noaa.gov/data/goes-space-environment-monitor/access/avg/{year}/{month:02d}/goes13/csv/"
-    out_dir = "D:/isro/data/goes"
+    out_dir = "data/goes"
     os.makedirs(out_dir, exist_ok=True)
     
     manifest_data = []
@@ -68,7 +68,7 @@ def download_goes_historical():
                 })
                 
     manifest_df = pd.DataFrame(manifest_data)
-    manifest_df.to_csv("D:/isro/download_manifest.csv", index=False)
+    manifest_df.to_csv("data/download_manifest.csv", index=False)
     print(f"Download complete. Manifest saved with {len(manifest_df)} entries.")
 
 if __name__ == "__main__":

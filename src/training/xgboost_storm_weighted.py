@@ -38,7 +38,7 @@ def calc_metrics(y_true, y_pred, p95_val, p99_val, baseline_metrics=None, horizo
 
 def train_xgboost():
     print("Loading engineered features...")
-    df = pd.read_parquet("D:/isro/engineered_features.parquet")
+    df = pd.read_parquet("data/engineered_features.parquet")
     df.sort_values("timestamp", inplace=True)
     
     # ---------------------------------------------------------
@@ -55,7 +55,7 @@ def train_xgboost():
         if f"{col}_std_24h" not in df.columns:
             df[f"{col}_std_24h"] = df[col].rolling(window=288, min_periods=1).std().fillna(0)
             
-    with open("D:/isro/baseline_metrics.json", "r") as f:
+    with open("outputs/metrics/baseline_metrics.json", "r") as f:
         baseline_metrics = json.load(f)
         
     p95_val = df["Electron_Flux"].quantile(0.95)

@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
 
-zip_files = glob.glob("D:/isro/datasets/*.zip")
+zip_files = glob.glob("data/datasets/*.zip")
 print(f"Found {len(zip_files)} zip files.")
 
 total_files = 0

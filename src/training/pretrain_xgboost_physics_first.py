@@ -12,7 +12,7 @@ def calc_physics_ratio(imp_df):
 
 def pretrain_physics_first():
     print("Loading 11-year historical dataset...")
-    df = pd.read_parquet("D:/isro/goes_historical_features.parquet")
+    df = pd.read_parquet("data/goes_historical_features.parquet")
     df.sort_values("timestamp", inplace=True)
     df["year"] = df["timestamp"].dt.year
     
@@ -137,7 +137,7 @@ def pretrain_physics_first():
     print(f"Validation RMSE: {rmse:.1f}")
     print(f"Optimized Score (Recall * PhysicsRatio): {recall_95 * physics_ratio:.3f}")
 
-    model.save_model("D:/isro/xgb_goes_physics.json")
+    model.save_model("models/pretrained/xgb_goes_physics.json")
     print("\nModel saved to xgb_goes_physics.json")
 
 if __name__ == "__main__":

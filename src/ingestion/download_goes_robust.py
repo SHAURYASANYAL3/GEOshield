@@ -58,7 +58,7 @@ def validate_csv(filepath):
 
 def run_downloader():
     base_url = "https://www.ncei.noaa.gov/data/goes-space-environment-monitor/access/avg/{year}/{month:02d}/goes13/csv/"
-    base_dir = "D:/isro/data/goes"
+    base_dir = "data/goes"
     
     manifest = []
     failed_downloads = 0
@@ -126,12 +126,12 @@ def run_downloader():
             years_completed.append(year)
             
         # Save intermediate manifest to allow safe interruption
-        pd.DataFrame(manifest).to_csv("D:/isro/download_manifest.csv", index=False)
+        pd.DataFrame(manifest).to_csv("data/download_manifest.csv", index=False)
             
     print("\nDownload Loop Complete. Generating final reports...")
     
     # Final Manifest
-    pd.DataFrame(manifest).to_csv("D:/isro/download_manifest.csv", index=False)
+    pd.DataFrame(manifest).to_csv("data/download_manifest.csv", index=False)
     
     # Coverage Report
     coverage = {
@@ -142,7 +142,7 @@ def run_downloader():
         "years_completed": years_completed
     }
     
-    with open("D:/isro/coverage_report.json", "w") as f:
+    with open("outputs/reports/coverage_report.json", "w") as f:
         json.dump(coverage, f, indent=4)
         
     print(f"Completed! Downloaded {total_files} valid files. Data spans {total_rows} rows.")
