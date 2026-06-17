@@ -12,7 +12,7 @@ def generate_geoshield_report():
     try:
         with open("D:/isro/live_report_data.json", "r") as f:
             report_data = json.load(f)
-    except:
+    except Exception:
         print("Warning: live_report_data.json not found, using fallbacks.")
         report_data = {"Metrics": {"RMSE": "UNKNOWN", "MAE": "UNKNOWN", "PeakRecall95": "UNKNOWN", "PeakRecall99": "UNKNOWN"}, "TopFeatures": [], "TestUnits": []}
 

@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-import json
+from sklearn.metrics import mean_squared_error
 
 def calc_metrics(y_true, y_pred, p95_val, p99_val):
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))

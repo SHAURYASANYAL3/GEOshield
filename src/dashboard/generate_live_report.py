@@ -32,7 +32,7 @@ def generate_report():
             
     X_test = test_df[features]
     y_test_raw = test_df["Target_12h"]
-    y_test_log = np.log10(y_test_raw + 1)
+    np.log10(y_test_raw + 1)
     
     # 3. Predict on 2020
     preds_log = model.predict(X_test)
@@ -40,16 +40,16 @@ def generate_report():
     preds_raw = np.clip(preds_raw, 0, None)
     
     # 4. Calculate core metrics
-    rmse = np.sqrt(mean_squared_error(y_test_raw, preds_raw))
-    mae = mean_absolute_error(y_test_raw, preds_raw)
+    np.sqrt(mean_squared_error(y_test_raw, preds_raw))
+    mean_absolute_error(y_test_raw, preds_raw)
     
     true_95 = y_test_raw > p95_val
     pred_95 = preds_raw > p95_val
-    recall_95 = np.sum(true_95 & pred_95) / np.sum(true_95) if np.sum(true_95) > 0 else 0
+    np.sum(true_95 & pred_95) / np.sum(true_95) if np.sum(true_95) > 0 else 0
     
     true_99 = y_test_raw > p99_val
     pred_99 = preds_raw > p99_val
-    recall_99 = np.sum(true_99 & pred_99) / np.sum(true_99) if np.sum(true_99) > 0 else 0
+    np.sum(true_99 & pred_99) / np.sum(true_99) if np.sum(true_99) > 0 else 0
     
     # 5. Extract Feature Importances
     imp_df = pd.DataFrame({
@@ -57,7 +57,7 @@ def generate_report():
         "Importance": model.feature_importances_.astype(float)
     }).sort_values("Importance", ascending=False)
     
-    top_features = imp_df.head(10).to_dict(orient="records")
+    imp_df.head(10).to_dict(orient="records")
     
     # 6. Specific Test Units (Major Storm Events in 2020)
     # We will find the peak flux moments in 2020 and see what the model predicted 12h prior

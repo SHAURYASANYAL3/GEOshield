@@ -2,12 +2,12 @@ import pandas as pd
 import numpy as np
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error
-import json
 
 def calc_physics_ratio(imp_df):
     omni_imp = imp_df[imp_df["Feature"].str.contains("Speed|BZ|SYM_H", case=False, na=False)]["Importance"].sum()
     electron_imp = imp_df[imp_df["Feature"].str.contains("Electron_Flux", case=False, na=False)]["Importance"].sum()
-    if electron_imp == 0: return float('inf')
+    if electron_imp == 0:
+        return float('inf')
     return float(omni_imp / electron_imp)
 
 def pretrain_physics_first():
@@ -27,10 +27,6 @@ def pretrain_physics_first():
     # ---------------------------------------------------------
     # INTERVENTION 1: Drop rolling target features
     # ---------------------------------------------------------
-    drop_cols = [
-        "Electron_Flux_mean_24h", "Electron_Flux_std_24h", "Electron_Flux_max_24h",
-        "Electron_Flux_mean_3h", "Electron_Flux_std_3h"
-    ]
     # In my synthetic data, I only made mean_3h, mean_24h, max_24h, std_24h.
     # We will exclude any column that is in drop_cols or starts with Electron_Flux_mean/std/max
     features = []
@@ -69,7 +65,7 @@ def pretrain_physics_first():
     
     X_va = df[valid_mask & valid_rows][features]
     y_va_raw = df[valid_mask & valid_rows][target_col]
-    y_va = np.log10(y_va_raw + 1)
+    np.log10(y_va_raw + 1)
     
     # ---------------------------------------------------------
     # INTERVENTION 3: Feature Dropout (Approximation via feature_weights)

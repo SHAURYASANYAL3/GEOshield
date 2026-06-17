@@ -1,4 +1,3 @@
-import json
 import xgboost as xgb
 import pandas as pd
 import os
@@ -68,7 +67,7 @@ def generate_audit():
         f.write(model_card)
         
     # 5. Generate Final Decision
-    final_decision = f"""# FINAL VERDICT
+    final_decision = """# FINAL VERDICT
     
 - **Final Model Name:** PS14_xgb_goes_physics (incrementally adapted)
 - **Final Dataset:** 11-Year GOES + OMNI (2010-2020), 2020 held out.

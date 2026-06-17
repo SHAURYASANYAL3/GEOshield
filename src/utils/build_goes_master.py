@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import json
-import os
 
 def create_synthetic_historical_data():
     """Generates synthetic 11-year OMNI and GOES data for demonstration."""

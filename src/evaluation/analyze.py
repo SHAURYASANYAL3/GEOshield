@@ -1,9 +1,7 @@
-import os
 import zipfile
 import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
-import numpy as np
 
 zip_files = glob.glob("D:/isro/datasets/*.zip")
 print(f"Found {len(zip_files)} zip files.")
@@ -34,7 +32,7 @@ for zf in zip_files:
                         pct = dr.find("Percentage_of_missing_data").text if dr is not None and dr.find("Percentage_of_missing_data") is not None else "Unknown"
                         e_level = dr.find("Electron_Activity_level").text if dr is not None and dr.find("Electron_Activity_level") is not None else "Unknown"
                         all_meta.append({"file": filename, "missing": missing, "pct_missing": pct, "e_level": e_level})
-                    except Exception as e:
+                    except Exception:
                         pass
 
 full_df = pd.concat(all_data, ignore_index=True)

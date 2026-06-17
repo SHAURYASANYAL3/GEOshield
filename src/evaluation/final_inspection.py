@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_squared_error
 import os
 import matplotlib.pyplot as plt
 
@@ -79,7 +79,7 @@ def run_inspection():
     
     X_va = df[valid_mask & valid_rows][all_features]
     y_va_raw = df[valid_mask & valid_rows][target_col]
-    y_va = np.log10(y_va_raw + 1)
+    np.log10(y_va_raw + 1)
     
     print("Training full 12h model...")
     model_full = xgb.XGBRegressor(**xgb_params)
@@ -109,7 +109,8 @@ def run_inspection():
         if (row["timestamp"] - last_t).total_seconds() > 86400:
             unique_peaks.append(row["timestamp"])
             last_t = row["timestamp"]
-        if len(unique_peaks) == 10: break
+        if len(unique_peaks) == 10:
+            break
         
     for i, pt in enumerate(unique_peaks):
         event_data = val_res[(val_res["timestamp"] >= pt - pd.Timedelta(hours=48)) & 

@@ -92,7 +92,7 @@ def continuous_training_loop():
             model.save_model(model_path)
             print(f" -> Model Updated successfully on {len(X)} rows.")
             
-        print(f"Batch complete. Continuing watch...")
+        print("Batch complete. Continuing watch...")
         time.sleep(5)
 
 if __name__ == "__main__":

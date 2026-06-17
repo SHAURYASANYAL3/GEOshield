@@ -1,7 +1,6 @@
 import os
 import shutil
 import csv
-import time
 from datetime import datetime
 import zipfile
 
@@ -270,7 +269,8 @@ with zipfile.ZipFile(os.path.join(root_dir, "submission_release.zip"), "w", zipf
         if ".git" in root or "venv" in root or "archive" in root:
             continue
         for file in files:
-            if file == "submission_release.zip" or file.endswith(".parquet") or file.endswith(".csv"): continue
+            if file == "submission_release.zip" or file.endswith(".parquet") or file.endswith(".csv"):
+                continue
             zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), root_dir))
 
 with open(os.path.join(root_dir, "RELEASE_NOTES.md"), "w") as f:

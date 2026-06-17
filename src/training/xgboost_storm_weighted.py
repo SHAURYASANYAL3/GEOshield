@@ -3,7 +3,6 @@ import numpy as np
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import json
-import matplotlib.pyplot as plt
 
 def calc_metrics(y_true, y_pred, p95_val, p99_val, baseline_metrics=None, horizon="6h"):
     mae = mean_absolute_error(y_true, y_pred)

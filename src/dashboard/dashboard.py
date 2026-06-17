@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import json
@@ -8,7 +9,6 @@ st.set_page_config(page_title="PS14 Space Weather Forecast", layout="wide")
 st.title("🛰️ PS14: Geostationary Radiation Environment Forecast")
 st.markdown("Forecasting >2 MeV Electron Flux for ISRO Satellites using OMNI & GRASP")
 
-import os
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 
 # Load metrics

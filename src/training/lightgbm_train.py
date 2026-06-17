@@ -4,7 +4,6 @@ import lightgbm as lgb
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import json
 import matplotlib.pyplot as plt
-import os
 
 def calc_metrics(y_true, y_pred, p95_val, p99_val, baseline_metrics=None, horizon="45m"):
     mae = mean_absolute_error(y_true, y_pred)
@@ -52,7 +51,7 @@ def train_lightgbm():
     # Identify splits
     train_mask = (df["timestamp"] >= "2017-01-01") & (df["timestamp"] <= "2017-09-30")
     valid_mask = (df["timestamp"] >= "2017-10-01") & (df["timestamp"] <= "2017-12-31")
-    test_mask  = (df["timestamp"] >= "2018-01-01") & (df["timestamp"] <= "2018-12-31")
+    (df["timestamp"] >= "2018-01-01") & (df["timestamp"] <= "2018-12-31")
     
     features = [c for c in df.columns if c not in ["timestamp", "Target_45m", "Target_6h", "Target_12h", "Electron_Flux", "Proton_Flux"]]
     # Wait, the user said KEEP Electron_Flux lag, Proton_Flux lag. 

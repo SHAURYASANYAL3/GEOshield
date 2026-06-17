@@ -2,7 +2,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import time
 
 def download_goes_historical():
     base_url = "https://www.ncei.noaa.gov/data/goes-space-environment-monitor/access/avg/{year}/{month:02d}/goes13/csv/"

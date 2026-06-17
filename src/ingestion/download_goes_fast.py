@@ -1,9 +1,6 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
-import time
-import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def fetch_file_list(url, max_retries=3):
