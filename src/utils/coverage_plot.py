@@ -25,7 +25,7 @@ def create_coverage_plot():
     plt.xticks(rotation=45)
     
     plt.tight_layout()
-    plt.savefig(\"coverage_plot.png\", dpi=300)
+    plt.savefig("coverage_plot.png", dpi=300)
     print("Coverage plot saved to D:/isro/coverage_plot.png")
 
 if __name__ == "__main__":

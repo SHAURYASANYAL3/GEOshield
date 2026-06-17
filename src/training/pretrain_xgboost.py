@@ -44,7 +44,7 @@ def pretrain():
     # GUARDRAIL 1: Storm Leakage Audit
     # ---------------------------------------------------------
     storm_rates = df.groupby("year").apply(lambda x: (x["Electron_Flux"] > p95_val).sum()).reset_index(name="storm_count")
-    storm_rates.to_csv(\"storm_distribution.csv\", index=False)
+    storm_rates.to_csv("storm_distribution.csv", index=False)
     print("\nStorm Distribution Guardrail saved.")
     print(storm_rates)
     
@@ -52,7 +52,7 @@ def pretrain():
     # GUARDRAIL 2: Feature Stability Audit
     # ---------------------------------------------------------
     stability = df.groupby("year")[["Speed_km_s", "BZ_nT_GSM", "Flow_pressure_nPa", "Electron_Flux"]].agg(["mean", "std"])
-    stability.to_csv(\"feature_stability.csv\")
+    stability.to_csv("feature_stability.csv")
     print("\nFeature Stability Guardrail saved.")
     
     # Check if normalization is absolutely necessary
@@ -117,7 +117,7 @@ def pretrain():
     model.fit(X_tr, y_tr, sample_weight=w_tr, verbose=False)
     
     # Save the model
-    model.save_model(\"xgb_goes_base.json\")
+    model.save_model("xgb_goes_base.json")
     print("Model saved to xgb_goes_base.json")
     
     # Feature Importance
@@ -125,7 +125,7 @@ def pretrain():
         "Feature": features,
         "Importance": model.feature_importances_
     }).sort_values("Importance", ascending=False)
-    imp_df.to_csv(\"pretrain_feature_importance.csv\", index=False)
+    imp_df.to_csv("pretrain_feature_importance.csv", index=False)
     print("\nTop 5 Features:")
     print(imp_df.head(5).to_string(index=False))
     
@@ -135,7 +135,7 @@ def pretrain():
     y_va_pred_raw = np.clip(y_va_pred_raw, 0, None)
     
     mets = calc_metrics(y_va_raw, y_va_pred_raw, p95_val, p99_val, y_va_base)
-    with open(\"pretrain_metrics.json\", "w") as f:
+    with open("pretrain_metrics.json", "w") as f:
         json.dump(mets, f, indent=4)
         
     print("\nPretrain Validation Metrics (2018-2019):")
@@ -170,7 +170,7 @@ def pretrain():
         plt.title(f"GOES Historical Storm {i+1}: {pt.strftime('%Y-%m-%d %H:%M')}")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f\"storm_gallery_goes/storm_{i+1}.png\")
+        plt.savefig(f"storm_gallery_goes/storm_{i+1}.png")
         plt.close()
 
 if __name__ == "__main__":

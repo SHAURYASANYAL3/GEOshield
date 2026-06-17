@@ -10,7 +10,7 @@ st.markdown("Forecasting >2 MeV Electron Flux for ISRO Satellites using OMNI & G
 
 # Load metrics
 try:
-    with open("D:/isro/metrics.json", "r") as f:
+    with open("outputs/metrics/metrics.json", "r") as f:
         metrics = json.load(f)
 except FileNotFoundError:
     st.error("Metrics file not found. Ensure training scripts have run.")
@@ -19,9 +19,9 @@ except FileNotFoundError:
 # Load predictions
 @st.cache_data
 def load_predictions():
-    pred_45 = pd.read_csv("D:/isro/predictions_45.csv")
-    pred_6 = pd.read_csv("D:/isro/predictions_6.csv")
-    pred_12 = pd.read_csv("D:/isro/predictions_12.csv")
+    pred_45 = pd.read_csv("outputs/predictions/predictions_45.csv")
+    pred_6 = pd.read_csv("outputs/predictions/predictions_6.csv")
+    pred_12 = pd.read_csv("outputs/predictions/predictions_12.csv")
     for df in [pred_45, pred_6, pred_12]:
         df["timestamp"] = pd.to_datetime(df["timestamp"])
     return pred_45, pred_6, pred_12

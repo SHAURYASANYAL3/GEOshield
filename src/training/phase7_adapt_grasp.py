@@ -116,7 +116,7 @@ def adapt_to_grasp():
         "actual": y_test_raw,
         "predicted_12h": y_pred_raw
     })
-    pred_df.to_csv(\"predictions_finetuned.csv\", index=False)
+    pred_df.to_csv("predictions_finetuned.csv", index=False)
     
     # Calculate metrics
     rmse, rec95, rec99 = calc_metrics(y_test_raw, y_pred_raw, p95_val, p99_val)
@@ -135,7 +135,7 @@ def adapt_to_grasp():
     print(f"PeakRecall99: {rec99*100:.1f}%")
     
     # Save final model
-    model.save_model(\"submission/xgb_final_adapted.json\")
+    model.save_model("submission/xgb_final_adapted.json")
     print("Saved final sequentially trained model to D:/isro/submission/xgb_final_adapted.json")
 
 if __name__ == "__main__":
