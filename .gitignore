@@ -1,0 +1,12 @@
+__pycache__/
+.ipynb_checkpoints/
+*.parquet
+*.csv
+*.zip
+*.joblib
+*.pkl
+venv/
+data/raw/
+data/omni/
+data/datasets/
+models/pretrained/xgb_goes_physics.json

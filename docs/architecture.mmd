@@ -1,0 +1,31 @@
+```mermaid
+graph TD
+    subgraph Data Sources
+        O[OMNI Solar Wind] -->|Speed, Bz, SYM-H| P(Parser & Cleaner)
+        G[GOES Historical 2010-2020] -->|Electron Flux| P
+        GR[GRASP Target Events] -->|Specific Storm Flux| P
+    end
+
+    subgraph Feature Engineering
+        P --> F1[Temporal Lags 45m-48h]
+        P --> F2[Rolling Statistics 3h-24h]
+        F1 --> FE(Merged Feature Store)
+        F2 --> FE
+    end
+
+    subgraph Phase 1: Physics Pretraining
+        FE -->|1.15 Million Rows| XGB1[XGBoost Physics Model]
+        XGB1 -->|Weights| W1(xgb_goes_physics.json)
+    end
+
+    subgraph Phase 2: Target Adaptation
+        W1 --> XGB2[XGBoost Adaptation]
+        FE -->|GRASP Specific Data| XGB2
+        XGB2 -->|Finetuned Weights| W2(xgb_goes_base.json)
+    end
+
+    subgraph Operations
+        W2 --> Predict[GEOShield Inference]
+        Predict --> Out[45m, 6h, 12h Forecasts]
+    end
+```
