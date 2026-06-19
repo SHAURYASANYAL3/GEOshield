@@ -12,7 +12,7 @@ def generate_audit():
     
     # 1. Inspect Model
     model = xgb.XGBRegressor()
-    model_path = "models/pretrained/xgb_goes_physics.json"
+    model_path = "models/pretrained/model_phase1_pretrained.json"
     if os.path.exists(model_path):
         model.load_model(model_path)
     else:
@@ -69,7 +69,8 @@ def generate_audit():
     # 5. Generate Final Decision
     final_decision = """# FINAL VERDICT
     
-- **Final Model Name:** PS14_xgb_goes_physics (incrementally adapted)
+- **Final Model Name:** PS14_xgb_final_adapted (incrementally adapted)
+- **Migration Note:** Previously known as xgb_goes_physics, xgb_goes_base, model_phase2_adapted.
 - **Final Dataset:** 11-Year GOES + OMNI (2010-2020), 2020 held out.
 - **Final Metrics:** PeakRecall95: 36.28%, PeakRecall99: 18.23%
 - **Final Scientific Claim:** The model successfully predicts the timing of >95th percentile solar flux events 12 hours in advance using primarily upstream solar wind physics (Speed, Bz), completely decoupling from the trivial persistence baseline.

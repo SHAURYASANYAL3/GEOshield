@@ -137,8 +137,8 @@ def pretrain_physics_first():
     print(f"Validation RMSE: {rmse:.1f}")
     print(f"Optimized Score (Recall * PhysicsRatio): {recall_95 * physics_ratio:.3f}")
 
-    model.save_model("models/pretrained/xgb_goes_physics.json")
-    print("\nModel saved to xgb_goes_physics.json")
+    model.save_model("models/pretrained/model_phase1_pretrained.json")
+    print("\nModel saved to model_phase1_pretrained.json")
 
 if __name__ == "__main__":
     pretrain_physics_first()

@@ -17,8 +17,8 @@ def calc_metrics(y_true, y_pred, p95_val, p99_val):
     
     return float(rmse), float(recall_95), float(recall_99)
 
-def adapt_to_grasp():
-    print("PHASE 7: Sequential Training (Warm-start adaptation) on GRASP 2017-2018...")
+def adapt_to_grasp(loss_type="mse"):
+    print(f"PHASE 7: Sequential Training (Warm-start adaptation) on GRASP 2017-2018 with {loss_type} loss...")
     
     # Load GRASP dataset
     df = pd.read_parquet("data/engineered_features.parquet")
@@ -29,7 +29,7 @@ def adapt_to_grasp():
     # ---------------------------------------------------------
     # We must match the EXACT features used in the pretrained model
     model_tmp = xgb.XGBRegressor()
-    model_tmp.load_model("models/pretrained/xgb_goes_physics.json")
+    model_tmp.load_model("models/pretrained/model_phase1_pretrained.json")
     
     # Get feature names from the booster
     features = model_tmp.get_booster().feature_names
@@ -82,7 +82,7 @@ def adapt_to_grasp():
     y_test_raw = test_df[target_col]
     
     # ---------------------------------------------------------
-    # Warm-start from xgb_goes_physics.json
+    # Warm-start from model_phase1_pretrained.json
     # ---------------------------------------------------------
     xgb_params = {
         "objective": "reg:squarederror",
@@ -99,14 +99,19 @@ def adapt_to_grasp():
         "n_jobs": -1
     }
     
+    if loss_type == "quantile":
+        xgb_params["objective"] = "reg:quantileerror"
+        xgb_params["quantile_alpha"] = 0.99
+    
     model = xgb.XGBRegressor(**xgb_params)
     
     # To warm-start, we use xgb_model argument in fit
     print(f"Sequential training on {len(X_tr)} GRASP samples...")
-    model.fit(X_tr, y_tr, sample_weight=w_tr, xgb_model="models/pretrained/xgb_goes_physics.json", verbose=False)
+    model.fit(X_tr, y_tr, sample_weight=w_tr, xgb_model="models/pretrained/model_phase1_pretrained.json", verbose=False)
     
     # Test Predictions
     y_pred_log = model.predict(X_test)
+    y_pred_log = np.clip(y_pred_log, -10, 10)  # Prevent overflow
     y_pred_raw = np.power(10, y_pred_log) - 1
     y_pred_raw = np.clip(y_pred_raw, 0, None)
     
@@ -120,23 +125,22 @@ def adapt_to_grasp():
     
     # Calculate metrics
     rmse, rec95, rec99 = calc_metrics(y_test_raw, y_pred_raw, p95_val, p99_val)
-    
-    mets = {
-        "RMSE": rmse,
-        "PeakRecall95": rec95,
-        "PeakRecall99": rec99
-    }
-    with open("outputs/metrics/metrics_finetuned.json", "w") as f:
-        json.dump(mets, f, indent=4)
         
-    print("\n--- PHASE 7: ADAPTATION METRICS (12h Horizon / GRASP 20% Holdout) ---")
+    print(f"\n--- PHASE 7: ADAPTATION METRICS (12h Horizon / GRASP 20% Holdout / {loss_type}) ---")
     print(f"RMSE: {rmse:.1f}")
     print(f"PeakRecall95: {rec95*100:.1f}%")
     print(f"PeakRecall99: {rec99*100:.1f}%")
     
     # Save final model
-    model.save_model("submission/xgb_final_adapted.json")
-    print("Saved final sequentially trained model to D:/isro/submission/xgb_final_adapted.json")
+    import os
+    os.makedirs("models/adapted", exist_ok=True)
+    model_path = "models/adapted/xgb_final_adapted.json"
+    model.save_model(model_path)
+    print(f"Saved final sequentially trained model to D:/isro/{model_path}")
 
 if __name__ == "__main__":
-    adapt_to_grasp()
+    import sys
+    loss = "mse"
+    if len(sys.argv) > 1 and sys.argv[1] in ["mse", "quantile"]:
+        loss = sys.argv[1]
+    adapt_to_grasp(loss_type=loss)

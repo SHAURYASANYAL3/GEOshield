@@ -9,7 +9,7 @@ import re
 def continuous_training_loop():
     print("Initializing Continuous Online Learning Watchdog...")
     base_dir = "data/goes"
-    model_path = "models/pretrained/xgb_goes_physics.json"
+    model_path = "models/pretrained/model_phase1_pretrained.json"
     trained_files_log = "outputs/reports/trained_files.txt"
     
     # Load the unified historical features database to act as our pre-parsed memory

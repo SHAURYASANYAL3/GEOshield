@@ -67,20 +67,20 @@ def train_xgboost():
     features = [c for c in df.columns if c not in ["timestamp", "Target_45m", "Target_6h", "Target_12h", "Proton_Flux"]]
     print(f"Using {len(features)} features.")
     
-    xgb_params = {
-        "objective": "reg:squarederror",
-        "max_depth": 10,
-        "learning_rate": 0.02,
-        "subsample": 0.85,
-        "colsample_bytree": 0.85,
-        "min_child_weight": 20,
-        "gamma": 0.5,
-        "reg_alpha": 0.2,
-        "reg_lambda": 2,
-        "n_estimators": 3000,
-        "early_stopping_rounds": 100,
-        "n_jobs": -1
-    }
+    experiments = [
+        {"name": "MSE (Baseline)", "params": {
+            "objective": "reg:squarederror",
+            "max_depth": 10, "learning_rate": 0.02, "subsample": 0.85, "colsample_bytree": 0.85,
+            "min_child_weight": 20, "gamma": 0.5, "reg_alpha": 0.2, "reg_lambda": 2,
+            "n_estimators": 3000, "early_stopping_rounds": 100, "n_jobs": -1
+        }},
+        {"name": "Quantile (p95)", "params": {
+            "objective": "reg:quantileerror", "quantile_alpha": 0.95,
+            "max_depth": 10, "learning_rate": 0.02, "subsample": 0.85, "colsample_bytree": 0.85,
+            "min_child_weight": 20, "gamma": 0.5, "reg_alpha": 0.2, "reg_lambda": 2,
+            "n_estimators": 3000, "early_stopping_rounds": 100, "n_jobs": -1
+        }}
+    ]
     
     horizons = {"6h": "Target_6h", "12h": "Target_12h"}
     all_metrics = {}
@@ -129,22 +129,26 @@ def train_xgboost():
         y_va_raw = df[valid_mask & valid_rows][target_col]
         y_va = np.log10(y_va_raw + 1)
         
-        model = xgb.XGBRegressor(**xgb_params)
-        model.fit(
-            X_tr, y_tr,
-            sample_weight=w_tr,
-            eval_set=[(X_va, y_va)],
-            verbose=False
-        )
-        
-        y_va_pred_log = model.predict(X_va)
-        y_va_pred_raw = np.power(10, y_va_pred_log) - 1
-        y_va_pred_raw = np.clip(y_va_pred_raw, 0, None)
-        
-        # Metrics
-        mets = calc_metrics(y_va_raw, y_va_pred_raw, p95_val, p99_val, baseline_metrics, h_name)
-        all_metrics[h_name] = mets
-        print(mets)
+        for exp in experiments:
+            print(f"\n--- Experiment: {exp['name']} ---")
+            model = xgb.XGBRegressor(**exp["params"])
+            model.fit(
+                X_tr, y_tr,
+                sample_weight=w_tr,
+                eval_set=[(X_va, y_va)],
+                verbose=False
+            )
+            
+            y_va_pred_log = model.predict(X_va)
+            y_va_pred_raw = np.power(10, y_va_pred_log) - 1
+            y_va_pred_raw = np.clip(y_va_pred_raw, 0, None)
+            
+            mets = calc_metrics(y_va_raw, y_va_pred_raw, p95_val, p99_val, baseline_metrics, h_name)
+            if exp["name"] == "MSE (Baseline)":
+                all_metrics[h_name] = mets
+            
+            for k, v in mets.items():
+                print(f"  {k}: {v:.4f}")
 
 if __name__ == "__main__":
     train_xgboost()

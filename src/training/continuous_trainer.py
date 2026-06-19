@@ -42,7 +42,7 @@ def generate_features(df_goes, df_omni):
     
     # Generate lag features to match the model's expected 49 features
     model = xgb.XGBRegressor()
-    model.load_model("models/pretrained/xgb_goes_physics.json")
+    model.load_model("models/pretrained/model_phase1_pretrained.json")
     expected_features = model.get_booster().feature_names
     
     # Fill dummy data for demonstration of the online learning loop
@@ -69,7 +69,7 @@ def generate_features(df_goes, df_omni):
 def continuous_training_loop():
     print("Initializing Continuous Online Learning Watchdog...")
     base_dir = "data/goes"
-    model_path = "models/pretrained/xgb_goes_physics.json"
+    model_path = "models/pretrained/model_phase1_pretrained.json"
     trained_files_log = "outputs/reports/trained_files.txt"
     
     trained_files = set()

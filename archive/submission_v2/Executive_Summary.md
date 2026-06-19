@@ -14,4 +14,4 @@ By aggressively dropping standard autoregressive memory features and shifting fo
 The model is constrained by log-loss MSE hedging, meaning it catastrophically fails at predicting the exact peak amplitude of >99th percentile extreme events. It must be deployed purely as a binary Early Warning System, not an amplitude estimator.
 
 **Conclusion:**
-GEOShield definitively proves that gradient boosted decision trees can learn complex solar-wind mapping interactions. The final model (`xgb_goes_physics.json`) is fully audited, reproducible, and ready for deployment.
+GEOShield definitively proves that gradient boosted decision trees can learn complex solar-wind mapping interactions. The final model (`model_phase1_pretrained.json`) is fully audited, reproducible, and ready for deployment.

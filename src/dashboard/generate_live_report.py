@@ -13,7 +13,7 @@ def generate_report():
     
     # 1. Load the live updating model
     model = xgb.XGBRegressor()
-    model.load_model(os.path.join(ROOT, "models", "pretrained", "xgb_goes_physics.json"))
+    model.load_model(os.path.join(ROOT, "models", "pretrained", "model_phase1_pretrained.json"))
     features = model.get_booster().feature_names
     
     # 2. Load the historical testing data (Year 2020 is strict holdout)

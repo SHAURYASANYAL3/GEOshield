@@ -15,13 +15,13 @@ graph TD
 
     subgraph Phase 1: Physics Pretraining
         FE -->|1.15 Million Rows| XGB1[XGBoost Physics Model]
-        XGB1 -->|Weights| W1(xgb_goes_physics.json)
+        XGB1 -->|Weights| W1(model_phase1_pretrained.json)
     end
 
     subgraph Phase 2: Target Adaptation
         W1 --> XGB2[XGBoost Adaptation]
         FE -->|GRASP Specific Data| XGB2
-        XGB2 -->|Finetuned Weights| W2(xgb_goes_base.json)
+        XGB2 -->|Finetuned Weights| W2(xgb_final_adapted.json)
     end
 
     subgraph Operations

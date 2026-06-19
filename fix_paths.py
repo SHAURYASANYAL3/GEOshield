@@ -8,7 +8,7 @@ replacements = [
     ('"D:/isro/grasp_parsed.parquet"', '"data/grasp_parsed.parquet"'),
     ('"D:/isro/omni_parsed.parquet"', '"data/omni_parsed.parquet"'),
     ('"D:/isro/master_time.parquet"', '"data/master_time.parquet"'),
-    ('"D:/isro/xgb_goes_physics.json"', '"models/pretrained/xgb_goes_physics.json"'),
+    ('"D:/isro/model_phase1_pretrained.json"', '"models/pretrained/model_phase1_pretrained.json"'),
     ('"D:/isro/baseline_metrics.json"', '"outputs/metrics/baseline_metrics.json"'),
     ('"D:/isro/metrics.json"', '"outputs/metrics/metrics.json"'),
     ('"D:/isro/metrics_finetuned.json"', '"outputs/metrics/metrics_finetuned.json"'),

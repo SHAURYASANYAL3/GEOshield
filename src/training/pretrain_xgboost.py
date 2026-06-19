@@ -117,8 +117,10 @@ def pretrain():
     model.fit(X_tr, y_tr, sample_weight=w_tr, verbose=False)
     
     # Save the model
-    model.save_model("xgb_goes_base.json")
-    print("Model saved to xgb_goes_base.json")
+    import os
+    os.makedirs("models/pretrained", exist_ok=True)
+    model.save_model("models/pretrained/model_phase1_pretrained.json")
+    print("Model saved to models/pretrained/model_phase1_pretrained.json")
     
     # Feature Importance
     imp_df = pd.DataFrame({
@@ -135,8 +137,6 @@ def pretrain():
     y_va_pred_raw = np.clip(y_va_pred_raw, 0, None)
     
     mets = calc_metrics(y_va_raw, y_va_pred_raw, p95_val, p99_val, y_va_base)
-    with open("pretrain_metrics.json", "w") as f:
-        json.dump(mets, f, indent=4)
         
     print("\nPretrain Validation Metrics (2018-2019):")
     print(mets)

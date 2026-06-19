@@ -1,51 +1,93 @@
 import pandas as pd
 import numpy as np
 import json
+import glob
+import os
 
-def create_synthetic_historical_data():
-    """Generates synthetic 11-year OMNI and GOES data for demonstration."""
-    print("Generating 11-year synthetic history (2010-2020)...")
-    date_rng = pd.date_range(start='2010-01-01', end='2020-12-31 23:55:00', freq='5min')
+def load_real_historical_data():
+    """Loads 11-year real OMNI and GOES-15 data and merges them."""
+    print("Loading Real OMNI data (2010-2020)...")
+    omni_files = glob.glob("data/omni/omni_5min*.asc")
     
-    n = len(date_rng)
-    np.random.seed(42)
+    if not omni_files:
+        raise ValueError("No OMNI data found in data/omni/omni_5min*.asc. Please run download_omni_robust.py first.")
+        
+    omni_dfs = []
+    for f in omni_files:
+        # Load specific columns:
+        # 0: Year, 1: Day, 2: Hour, 3: Minute
+        # 18: Bz_GSM, 21: Speed, 26: Temperature, 27: Pressure, 41: SYM_H
+        df_o = pd.read_csv(f, sep=r'\s+', header=None, 
+                           usecols=[0, 1, 2, 3, 18, 21, 26, 27, 41],
+                           names=["Year", "Day", "Hour", "Minute", "BZ_nT_GSM", "Speed_km_s", 
+                                  "Proton_Temperature_K", "Flow_pressure_nPa", "SYM_H_nT"])
+        
+        # Build UTC Timestamp
+        df_o["timestamp"] = pd.to_datetime(df_o["Year"] * 1000 + df_o["Day"], format="%Y%j")
+        df_o["timestamp"] = df_o["timestamp"] + pd.to_timedelta(df_o["Hour"], unit="h") + pd.to_timedelta(df_o["Minute"], unit="m")
+        df_o.drop(columns=["Year", "Day", "Hour", "Minute"], inplace=True)
+        
+        # Convert fillers to NaN
+        fillers = [99.99, 999.99, 9999.99, 9999.9, 99999, 99999.9, 9999999., 999999.9, 999999]
+        df_o.replace(fillers, np.nan, inplace=True)
+        
+        omni_dfs.append(df_o)
+        
+    omni_df = pd.concat(omni_dfs, ignore_index=True)
+    omni_df = omni_df.sort_values("timestamp").drop_duplicates(subset=["timestamp"])
     
-    # OMNI Synthetic (random walks and some storm cycles)
-    speed_base = 400 + np.sin(np.linspace(0, 100*np.pi, n)) * 100
-    speed_noise = np.random.normal(0, 20, n)
-    speed = speed_base + speed_noise
+    print(f"OMNI loaded: {len(omni_df)} rows")
+
+    print("Loading Real GOES-15 data (2010-2020)...")
+    goes_files = glob.glob("GEOShield_RealData_2010_2020/goes15/*_science_v1.0.0.csv")
     
-    bz_base = np.sin(np.linspace(0, 200*np.pi, n)) * 5
-    bz_noise = np.random.normal(0, 2, n)
-    bz = bz_base + bz_noise
+    if not goes_files:
+        raise ValueError("No GOES-15 data found.")
+        
+    goes_dfs = []
+    for f in goes_files:
+        try:
+            skip = 0
+            with open(f, 'r') as fp:
+                for i, line in enumerate(fp):
+                    if line.startswith('time_tag,'):
+                        skip = i
+                        break
+            
+            df_g = pd.read_csv(f, skiprows=skip)
+            # Use E2W_COR_FLUX (>2 MeV electrons)
+            df_g = df_g[["time_tag", "E2W_COR_FLUX"]].copy()
+            df_g.rename(columns={"time_tag": "timestamp", "E2W_COR_FLUX": "Electron_Flux"}, inplace=True)
+            df_g["timestamp"] = pd.to_datetime(df_g["timestamp"], errors="coerce")
+            
+            # Remove bad/missing values
+            df_g.loc[df_g["Electron_Flux"] < -90000, "Electron_Flux"] = np.nan
+            
+            df_g.dropna(subset=["timestamp"], inplace=True)
+            
+            # GOES-15 is 1-minute data, OMNI is 5-minute. We resample GOES to 5-min by taking the mean.
+            df_g.set_index("timestamp", inplace=True)
+            df_g = df_g.resample("5min").mean()
+            df_g.reset_index(inplace=True)
+            
+            goes_dfs.append(df_g)
+        except Exception as e:
+            print(f"Error loading {f}: {e}")
+            
+    goes_df = pd.concat(goes_dfs, ignore_index=True)
+    goes_df = goes_df.sort_values("timestamp").drop_duplicates(subset=["timestamp"])
     
-    pressure = np.clip(np.random.normal(2, 1, n), 0.1, 10)
-    symh = np.clip(np.random.normal(-10, 5, n) - (speed > 550) * 50 + (bz < -5) * -50, -300, 50)
+    print(f"GOES loaded: {len(goes_df)} rows")
     
-    # GOES Synthetic
-    # Normal flux around 1e2 - 1e4. Storms when speed high and bz negative
-    flux_base = np.random.lognormal(mean=np.log(500), sigma=1, size=n)
-    storm_multiplier = np.where((speed > 500) & (bz < 0), np.random.uniform(50, 500, n), 1)
-    flux = flux_base * storm_multiplier
+    # Merge on timestamp
+    df = pd.merge(omni_df, goes_df, on="timestamp", how="outer")
+    df = df.sort_values("timestamp").reset_index(drop=True)
     
-    df = pd.DataFrame({
-        "timestamp": date_rng,
-        "Speed_km_s": speed,
-        "BZ_nT_GSM": bz,
-        "Flow_pressure_nPa": pressure,
-        "SYM_H_nT": symh,
-        "Proton_Temperature_K": np.random.normal(1e5, 2e4, n),
-        "Electron_Flux": flux
-    })
-    
-    # Inject 10% missing data randomly
-    mask = np.random.rand(n) < 0.1
-    df.loc[mask, ["Electron_Flux", "Speed_km_s", "BZ_nT_GSM"]] = np.nan
-    
+    print(f"Merged Data shape: {df.shape}")
     return df
 
 def build_goes_master():
-    df = create_synthetic_historical_data()
+    df = load_real_historical_data()
     
     # Forward fill up to 6 hours (72 intervals)
     print("Applying missing data policy...")
@@ -97,6 +139,7 @@ def build_goes_master():
         "features": len(df.columns)
     }
     
+    os.makedirs("outputs/reports", exist_ok=True)
     with open("outputs/reports/coverage_report.json", "w") as f:
         json.dump(report, f, indent=4)
         

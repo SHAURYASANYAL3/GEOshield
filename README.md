@@ -30,6 +30,37 @@ See `FINAL_METRIC_RECONCILIATION.md` for a complete breakdown of true metrics.
 ## Limitations
 Results should be interpreted as demonstrating operational event awareness rather than precise peak magnitude estimation.
 
+## Model Naming Migration
+**Note:** The final model has been unified under the name `xgb_final_adapted.json`. Previous references to `xgb_goes_base.json`, `xgb_goes_physics.json`, and `model_phase2_adapted.json` have been deprecated and point to this canonical model.
+
+## Reproducibility
+Since `data/` may be empty upon fresh clone, use the provided `Makefile` to download and regenerate the dataset:
+
+### Quickstart
+```bash
+make reproduce
+```
+
+### Manual Steps
+1. **Download:** Fetch raw GOES and OMNI datasets.
+   ```bash
+   python src/ingestion/download_goes_robust.py
+   python src/ingestion/download_omni_robust.py
+   ```
+2. **Preprocess:** Parse datasets into parquet format.
+   ```bash
+   python src/preprocessing/parse_omni.py
+   ```
+3. **Train:** Pretrain the baseline model on 11 years of data, then adapt to target GRASP events.
+   ```bash
+   python src/training/pretrain_xgboost.py
+   python src/training/phase7_adapt_grasp.py mse
+   ```
+4. **Evaluate:** Generate evaluation metrics.
+   ```bash
+   python src/evaluation/baseline_persistence.py
+   ```
+
 ## Installation
 ```bash
 pip install -r requirements.txt

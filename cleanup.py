@@ -77,8 +77,8 @@ moves = {
     "Final_Decision.md": "docs/final_decision.md",
     "Architecture.mmd": "docs/architecture.mmd",
     "Dataset_Lineage.mmd": "docs/dataset_lineage.mmd",
-    "xgb_goes_physics.json": "models/pretrained/xgb_goes_physics.json",
-    "xgb_goes_base.json": "models/adapted/xgb_goes_base.json",
+    "model_phase1_pretrained.json": "models/pretrained/model_phase1_pretrained.json",
+    "xgb_final_adapted.json": "models/adapted/xgb_final_adapted.json",
     "Model_Card.md": "models/model_card.md",
     "download_goes_fast.py": "src/ingestion/download_goes_fast.py",
     "download_goes_robust.py": "src/ingestion/download_goes_robust.py",
@@ -111,9 +111,7 @@ moves = {
     "coverage_plot.py": "src/utils/coverage_plot.py",
     "metrics.json": "outputs/metrics/metrics.json",
     "metrics_final.csv": "outputs/metrics/metrics_final.csv",
-    "metrics_finetuned.json": "outputs/metrics/metrics_finetuned.json",
     "baseline_metrics.json": "outputs/metrics/baseline_metrics.json",
-    "pretrain_metrics.json": "outputs/metrics/pretrain_metrics.json",
     "feature_importance.csv": "outputs/metrics/feature_importance.csv",
     "pretrain_feature_importance.csv": "outputs/metrics/pretrain_feature_importance.csv",
     "feature_stability.csv": "outputs/metrics/feature_stability.csv",
@@ -214,6 +212,37 @@ See `FINAL_METRIC_RECONCILIATION.md` for a complete breakdown of true metrics.
 
 ## Limitations
 Results should be interpreted as demonstrating operational event awareness rather than precise peak magnitude estimation.
+
+## Model Naming Migration
+**Note:** The final model has been unified under the name `xgb_final_adapted.json`. Previous references to `xgb_goes_base.json`, `xgb_goes_physics.json`, and `model_phase2_adapted.json` have been deprecated and point to this canonical model.
+
+## Reproducibility
+Since `data/` may be empty upon fresh clone, use the provided `Makefile` to download and regenerate the dataset:
+
+### Quickstart
+```bash
+make reproduce
+```
+
+### Manual Steps
+1. **Download:** Fetch raw GOES and OMNI datasets.
+   ```bash
+   python src/ingestion/download_goes_robust.py
+   python src/ingestion/download_omni_robust.py
+   ```
+2. **Preprocess:** Parse datasets into parquet format.
+   ```bash
+   python src/preprocessing/parse_omni.py
+   ```
+3. **Train:** Pretrain the baseline model on 11 years of data, then adapt to target GRASP events.
+   ```bash
+   python src/training/pretrain_xgboost.py
+   python src/training/phase7_adapt_grasp.py mse
+   ```
+4. **Evaluate:** Generate evaluation metrics.
+   ```bash
+   python src/evaluation/baseline_persistence.py
+   ```
 
 ## Installation
 ```bash

@@ -21,7 +21,7 @@
 **Action:** 
 1. Build a massive historical database (GOES 13/14 + OMNI from 2010–2020).
 2. Train an XGBoost model on 1.15 million rows to learn the fundamental, underlying physics of Solar Wind $\rightarrow$ Magnetosphere energy transfer.
-3. Save the weights (`xgb_goes_physics.json`).
+3. Save the weights (`model_phase1_pretrained.json`).
 4. Load the weights, and run a low-learning-rate adaptation pass on the GRASP dataset.
 
 **Outcome:** **SUCCESS.** The final model retains the physical causality learned from a decade of data but is calibrated to the specific baseline fluxes and sensor characteristics of the GRASP periods. This approach yielded a 12-hour Peak Recall of **31.0%** (a 4.3x improvement over baseline) and completely bypassed the limitations of small-sample target datasets and autoregressive memory collapse.
