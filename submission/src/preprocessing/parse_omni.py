@@ -9,7 +9,7 @@ def parse_omni():
         "BX_nT_GSE_GSM", "BY_nT_GSE", "BZ_nT_GSE",
         "BY_nT_GSM", "BZ_nT_GSM", "Speed_km_s",
         "Proton_Density_n_cc", "Flow_pressure_nPa",
-        "AE_index_nT", "SYM_H_nT"
+        "AE_index_nT", "AL_index_nT", "AU_index_nT", "SYM_H_nT"
     ]
 
     file_path = "data/omni/omni_5min_def_dneZ2NWQwI.lst"
