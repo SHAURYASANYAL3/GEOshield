@@ -27,8 +27,10 @@ The model demonstrates an operational event awareness that outpaces naive persis
 ## Final Metrics
 See `FINAL_METRIC_RECONCILIATION.md` for a complete breakdown of true metrics.
 
-## Limitations
-Results should be interpreted as demonstrating operational event awareness rather than precise peak magnitude estimation.
+## ⚠️ Remaining Limitations
+1. **Source Code Opacity:** Training preprocessing/pipeline code missing (only `training/pretrain_xgboost.py` available in the root tree). **Mitigation:** Documented steps to regenerate from the provided data.
+2. **99th Percentile Peak Recall (0%):** Model underperforms for rare events. **Recommendation:** Frame as an "elevated condition forecaster".
+3. **Training Transparency:** No pretrained base model provided (`xgb_goes_base.json` deprecated). **Mitigation:** Model card explicitly states canonical `xgb_final_adapted.json`.
 
 ## Model Naming Migration
 **Note:** The final model has been unified under the name `xgb_final_adapted.json`. Previous references to `xgb_goes_base.json`, `xgb_goes_physics.json`, and `model_phase2_adapted.json` have been deprecated and point to this canonical model.

@@ -4,7 +4,7 @@
 - **Name:** GEOShield Physics-Aware XGBoost
 - **Version:** 1.0.0 (Final Submission)
 - **Type:** Gradient Boosted Decision Tree (XGBoost Regressor)
-- **Task:** Time-Series Forecasting (Regression) of $>2$ MeV Energetic Electron Flux.
+- **Task:** Time-Series Forecasting (Regression) of >2 MeV Energetic Electron Flux.
 - **Horizons:** 45 minutes, 6 hours, 12 hours.
 
 ## Intended Use
@@ -17,36 +17,24 @@
 
 ## Features and Physics Justification
 The model relies heavily on upstream solar wind drivers to anticipate delayed magnetospheric responses.
-- **Speed ($V_{sw}$):** High-speed streams provide kinetic energy for wave acceleration.
-- **IMF $B_z$:** Southward $B_z$ enables magnetic reconnection and energy injection.
+- **Speed (V_{sw}):** High-speed streams provide kinetic energy for wave acceleration.
+- **IMF B_z:** Southward B_z enables magnetic reconnection and energy injection.
 - **Flow Pressure & SYM-H:** Indicate magnetospheric compression and ring current intensity.
 - **Lags & Rolling Windows:** Captures the complex, delayed temporal response of the radiation belts. Lags range from 45m to 48h.
 
-## Performance Metrics (Finetuned Adaptation - Quantile Loss)
+## Performance Metrics (Finetuned Adaptation)
 | Metric | 45m Horizon | 6h Horizon | 12h Horizon |
 | :--- | :--- | :--- | :--- |
-| **RMSE** | 114.25 | 285.30 | 1297.2 |
+| **RMSE** | 114.25 | 285.30 | 245.71 |
 | **MAE** | 50.21 | 156.88 | 117.36 |
-| **Peak Recall (95th)**| 71.12% | 8.15% | 100.0% |
-| **Peak Recall (99th)**| 7.21% | 0.0% | 99.0% |
-| **Uncertainty (±σ)** | ±113.16 | ±285.11 | ±1297.2 |
+| **Peak Recall (95th)**| 71.12% | 8.15% | 11.47% |
+| **Peak Recall (99th)**| 7.21% | 0.0% | 0.0% |
 
-## Limitations and Ethical Considerations
-- **Amplitude Underprediction:** The model prioritizes predicting the *timing* and *onset* of a storm. It tends to conservatively underpredict the absolute maximum amplitude of rare Carrington-class events due to the logarithmic nature of particle flux and scarcity in the training data.
-- **Sensor Blackouts:** Performance metrics are impacted by inherent sensor blackouts in the GRASP data during extreme storm peaks.
-- **Causality Limit:** The 12-hour horizon exhibits decreased performance because predicting 12 hours ahead requires knowledge of solar wind currently located upstream of the L1 monitoring satellites.
+## ⚠️ Remaining Limitations
+1. **Source Code Opacity:** Training preprocessing/pipeline code is computationally heavy and missing from the core submission tree. **Mitigation:** Documented steps to regenerate from the provided data are included.
+2. **99th Percentile Peak Recall (0%):** The model underperforms for rare extreme events (PeakRecall99 is 0%). **Recommendation:** Frame the model strictly as an "elevated condition forecaster" to provide operators with early warnings without over-promising on exact peak magnitudes.
+3. **Training Transparency:** No pretrained base model provided (`xgb_goes_base.json` deprecated). **Mitigation:** Model card explicitly states canonical `xgb_final_adapted.json` is the sole source of truth for deployment.
 
 ## Reproducibility
-- Pretraining weights are saved as `models/pretrained/model_phase1_pretrained.json` (Note: excluded from git due to 100MB limit).
-- Finetuned operational weights are saved as `models/adapted/model_phase2_adapted.json` and `submission/model_phase2_adapted.json`.
-- Environment requires `xgboost`, `pandas`, `scikit-learn`. Generated via `src/training/phase7_adapt_grasp.py`.
-## Reviewer Queries & Forensic Explanations
-
-### 1. Why does GRASP-only (49.6%) beat the combined OMNI+GRASP model (27.8%)?
-The combined model attempts to bridge two disparate distributions (historical GOES/OMNI vs. modern GRASP). While the GRASP-only model technically 'beats' the combined model on the test set, it achieves this through severe overfitting to the limited 2017/2018 GRASP time window. The combined model sacrifices raw recall to learn the underlying physics from the 10-year OMNI dataset, resulting in a more generalized, robust model that avoids catastrophic false positives outside the GRASP domain.
-
-### 2. How did the model achieve >99% Peak Recall for extreme events?
-The model utilizes a custom `reg:quantileerror` loss function targeting the 99th percentile (Quantile Regression). While an MSE-based log-loss heavily penalizes over-prediction and mathematically hedges toward the mean (resulting in 0.0% recall for extreme 99th percentile peaks), the quantile loss function specifically optimizes for capturing the highest magnitude fluxes. This results in a much higher Recall@99 (99.0%), albeit with a tradeoff of higher general RMSE across quiet periods. Future architectures can utilize ensemble weighting to balance average RMSE with extreme event recall.
-
-### 3. Data Leakage & Train/Test Splitting
-Strict chronological splitting was utilized (no random splits). The holdout sets were completely isolated in time from the training period. To prevent look-ahead bias, all targets were temporally shifted forward (e.g., .shift(-144)) relative to the predictors, ensuring the model relies solely on historical solar wind and magnetic field data available at the time of inference.
+- The canonical, finetuned operational weights are saved and unified under `submission/xgb_final_adapted.json`.
+- Environment requires strictly pinned versions of `xgboost`, `pandas`, `scikit-learn` as per `requirements.txt`.

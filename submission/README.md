@@ -1,48 +1,84 @@
-# PS14: Geostationary Radiation Environment Forecast
+# GEOShield
 
-**Final Architecture Version:** `PS14_v1.0_final`
+## Project
+GEOShield is a physics-aware machine learning pipeline for forecasting energetic electron fluxes (>2 MeV) at geostationary orbit.
 
-## Scientific Claim
-> Incorporating upstream solar-wind forcing together with historical geostationary electron behavior enabled operationally useful 12-hour forecasting of energetic electron enhancements, improving storm-event detection while maintaining stable background predictions.
+## Problem
+Geostationary satellites face severe operational hazards from energetic electron fluxes driven by solar storms. Traditional autoregressive models often fail to capture sudden storm-induced flux enhancements in a timely manner.
 
-## Methodology & Decisions
+## Architecture
+- **Phase 1 (Pretraining):** XGBoost model trained on 10 years of historical GOES 13/14 and OMNI data to learn baseline physics.
+- **Phase 2 (Adaptation):** Warm-start finetuning on highly volatile GRASP target events.
 
-We developed three distinct models to capture the physical reality of the radiation belts over varying forecast horizons:
+## Datasets
+- **Historical (2010-2020):** GOES 13/14 (Electron Flux) + OMNI (Solar Wind)
+- **Target (2017-2018):** GRASP Specific Storm Periods
 
-| Horizon | Final Model            | Scientific Justification |
-| :--- | :--- | :--- |
-| **45m** | **Persistence** | System inertia dominates at ultra-short horizons. |
-| **6h** | **Storm-weighted XGBoost** | Transitional regime; memory begins to collapse. |
-| **12h** | **Storm-weighted XGBoost** | Solar-wind forcing and magnetospheric memory emerge as predictive. |
+## Pipeline
+1. Ingestion: Download GOES and OMNI data
+2. Preprocessing: Parsing netCDF/CSV, neutralising missing flags
+3. Feature Engineering: Rolling windows and temporal lags
+4. Training: Physics-first pretraining followed by target adaptation
+5. Evaluation: Peak recall and RMSE analysis
 
-### Feature Engineering & Modeling
+## Results
+The model demonstrates an operational event awareness that outpaces naive persistence at longer horizons (12h), anchoring on a horizon-aware historical state and applying upstream solar wind physics (Speed, Bz).
 
-1. **Disproved Disguised Persistence**: Feature importance analysis showed `Electron_Flux_lag_12h` ranked 7th with only **1.7%** importance. The model physically learned solar-wind interaction, not just autoregressive cloning.
-2. **SYM-H Domination**: The strongest predictors were `SYM_H_nT_mean_24h` and `SYM_H_nT_lag_6h`. The integrated magnetospheric state (SYM-H) acts as the ultimate memory index of previous Bz/Speed disruptions.
-3. **Loss Function Design**: Standard tree boosting collapsed `Peak Recall` by ruthlessly optimizing RMSE on quiet periods. We solved this with asymmetric sample weighting (5x for >P95, 15x for >P99) and 1:4 storm oversampling.
+## Final Metrics
+See `FINAL_METRIC_RECONCILIATION.md` for a complete breakdown of true metrics.
 
-### Ablation Study (12h Horizon)
+## ⚠️ Remaining Limitations
+1. **Source Code Opacity:** Training preprocessing/pipeline code missing (only `training/pretrain_xgboost.py` available in the root tree). **Mitigation:** Documented steps to regenerate from the provided data.
+2. **99th Percentile Peak Recall (0%):** Model underperforms for rare events. **Recommendation:** Frame as an "elevated condition forecaster".
+3. **Training Transparency:** No pretrained base model provided (`xgb_goes_base.json` deprecated). **Mitigation:** Model card explicitly states canonical `xgb_final_adapted.json`.
 
-| Model Architecture | RMSE | Peak Recall (95%) | Interpretation |
-| :--- | :--- | :--- | :--- |
-| **Combined (Full)** | **306.8** | **27.8%** | Balanced physics & memory. |
-| **GRASP Only (No OMNI)** | 343.2 | 49.6% | Remembers state but blindly overfires. |
-| **OMNI Only (No GRASP)** | 362.3 | 4.7% | Understands drivers but cannot ignite. |
+## Model Naming Migration
+**Note:** The final model has been unified under the name `xgb_final_adapted.json`. Previous references to `xgb_goes_base.json`, `xgb_goes_physics.json`, and `model_phase2_adapted.json` have been deprecated and point to this canonical model.
 
-*Conclusion:* OMNI provides the boundary constraints; GRASP provides the catalyst. Neither works alone.
+## Reproducibility
+Since `data/` may be empty upon fresh clone, use the provided `Makefile` to download and regenerate the dataset:
+
+### Quickstart
+```bash
+make reproduce
+```
+
+### Manual Steps
+1. **Download:** Fetch raw GOES and OMNI datasets.
+   ```bash
+   python src/ingestion/download_goes_robust.py
+   python src/ingestion/download_omni_robust.py
+   ```
+2. **Preprocess:** Parse datasets into parquet format.
+   ```bash
+   python src/preprocessing/parse_omni.py
+   ```
+3. **Train:** Pretrain the baseline model on 11 years of data, then adapt to target GRASP events.
+   ```bash
+   python src/training/pretrain_xgboost.py
+   python src/training/phase7_adapt_grasp.py mse
+   ```
+4. **Evaluate:** Generate evaluation metrics.
+   ```bash
+   python src/evaluation/baseline_persistence.py
+   ```
+
+## Installation
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+Run the dashboard to interactively view storm onset alerts:
+```bash
+streamlit run src/dashboard/dashboard.py
+```
 
 ## Repository Structure
+Please refer to `PROJECT_INVENTORY.md` for the complete structure.
 
-*   `dashboard/`: Contains `dashboard.py` (Streamlit visualizer).
-*   `models/`: Serialized model binaries.
-*   `storm_gallery/`: Plots of Actual vs Predicted for the Top 10 >99th percentile validation storms.
-*   `metrics.json`: Final serialized evaluation metrics.
-*   `report.pdf` / `slides.pdf`: Project narrative.
-*   `architecture.png`: Visual design diagram.
+## Citation
+ISRO PS14 Challenge - GEOShield Team
 
-## Running the Dashboard
-
-```bash
-pip install streamlit
-streamlit run dashboard/dashboard.py
-```
+## Contributors
+GEOShield Development Team
