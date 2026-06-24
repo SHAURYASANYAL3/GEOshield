@@ -1,1 +1,0 @@
-export default function FeatureBars() { return <div>FeatureBars</div>; }
