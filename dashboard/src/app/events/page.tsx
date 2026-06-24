@@ -1,7 +1,19 @@
-export default function Page() {
+import EventHero from '@/components/EventHero';
+import ProbabilityTimeline from '@/components/ProbabilityTimeline';
+import ThresholdSlider from '@/components/ThresholdSlider';
+import StormReplay from '@/components/StormReplay';
+import LeadTable from '@/components/LeadTable';
+
+export default function EventsPage() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold">EventWindow</h1>
-    </div>
+    <main className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-6">
+        <EventHero />
+        <ProbabilityTimeline />
+        <ThresholdSlider />
+        <StormReplay />
+        <LeadTable />
+      </div>
+    </main>
   );
 }
