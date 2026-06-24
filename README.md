@@ -636,6 +636,12 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 ---
 
+## 🖥️ Operational Dashboard
+
+The repository includes a Next.js frontend (`dashboard/`) designed as a **prototype wired for live data**. It demonstrates how GEOShield's 12-hour warnings, SHAP explainability, and GRASP (Indian-longitude) validation overlays will appear to operators. While the current build uses mock JSON to simulate a live storm event for demonstration purposes, the architecture is fully prepared to ingest real-time NOAA SWPC telemetry.
+
+---
+
 ## 👥 Team
 
 **Team AgniVyuha** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
