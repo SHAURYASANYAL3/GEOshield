@@ -1,0 +1,17 @@
+[
+  {
+    "type": "Missed Storm",
+    "description": "Probability threshold never breached 0.70 despite flux spike.",
+    "reason": "Rapid onset CME without precursor solar wind compression."
+  },
+  {
+    "type": "Underestimated Peak",
+    "description": "Actual flux reached 12,000 pfu. Model P90 capped at 8,500.",
+    "reason": "Known limitation: models smooth out the absolute highest statistical outliers."
+  },
+  {
+    "type": "False Alarm",
+    "description": "Issued 12h alert. Event fizzled at 800 pfu (below 1000 pfu hazard).",
+    "reason": "Favorable IMF Bz turn mitigated the incoming solar wind pressure."
+  }
+]
