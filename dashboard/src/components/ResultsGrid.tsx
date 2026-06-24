@@ -5,7 +5,7 @@ export default function ResultsGrid() {
   const [metrics, setMetrics] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/data/metrics.json').then(r => r.json()).then(setMetrics);
+    fetch('/data/validation.json').then(r => r.json()).then(setMetrics);
   }, []);
 
   if (!metrics) return null;
@@ -17,9 +17,9 @@ export default function ResultsGrid() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { label: "Lead Time", value: `${metrics.lead_time}h`, color: "text-primary" },
-            { label: "Precision", value: `${metrics.precision * 100}%`, color: "text-white" },
-            { label: "Recall", value: `${metrics.recall * 100}%`, color: "text-white" },
-            { label: "Status", value: metrics.status, color: "text-warning" }
+            { label: "Precision", value: `${(metrics.precision * 100).toFixed(1)}%`, color: "text-white" },
+            { label: "Recall", value: `${(metrics.recall * 100).toFixed(1)}%`, color: "text-white" },
+            { label: "Log RMSE", value: metrics.log_rmse.toFixed(3), color: "text-warning" }
           ].map((m, i) => (
             <div key={i} className="p-8 bg-card border border-gray-800 hover:-translate-y-1 transition-transform rounded-xl text-center flex flex-col justify-center">
               <div className={`text-5xl font-bold mb-2 ${m.color}`}>{m.value}</div>
