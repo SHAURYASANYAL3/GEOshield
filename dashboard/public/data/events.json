@@ -1,7 +1,362 @@
 [
   {
-    "event": "April 2017",
-    "probability": 0.92,
-    "lead_hours": 12
+    "timestamp": "2018-06-03 20:00:00",
+    "probability": 0.30266122,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:05:00",
+    "probability": 0.30704964,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:10:00",
+    "probability": 0.30513114,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:15:00",
+    "probability": 0.30670568,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:20:00",
+    "probability": 0.30487296,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:25:00",
+    "probability": 0.29618086,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:30:00",
+    "probability": 0.29980738,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:35:00",
+    "probability": 0.30291134000000003,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:40:00",
+    "probability": 0.30336066,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:45:00",
+    "probability": 0.29808834,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:50:00",
+    "probability": 0.31162296,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 20:55:00",
+    "probability": 0.31779858,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:00:00",
+    "probability": 0.31888933999999997,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:05:00",
+    "probability": 0.32867492000000004,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:10:00",
+    "probability": 0.32320492,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:15:00",
+    "probability": 0.3219152,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:20:00",
+    "probability": 0.32061886,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:25:00",
+    "probability": 0.31469612,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:30:00",
+    "probability": 0.32692182,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:35:00",
+    "probability": 0.32170318000000003,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:40:00",
+    "probability": 0.3265967,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:45:00",
+    "probability": 0.32234982,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:50:00",
+    "probability": 0.32506996,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 21:55:00",
+    "probability": 0.3256431,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:00:00",
+    "probability": 0.33879836,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:05:00",
+    "probability": 0.33870318,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:10:00",
+    "probability": 0.35396296000000005,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:15:00",
+    "probability": 0.35676408000000004,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:20:00",
+    "probability": 0.38127572,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:25:00",
+    "probability": 0.40439084,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:30:00",
+    "probability": 0.3919753,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:35:00",
+    "probability": 0.38338732,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:40:00",
+    "probability": 0.3884321,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:45:00",
+    "probability": 0.3939507,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:50:00",
+    "probability": 0.39924065999999997,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 22:55:00",
+    "probability": 0.40770878,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:00:00",
+    "probability": 0.38224895999999997,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:05:00",
+    "probability": 0.3592035,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:10:00",
+    "probability": 0.35207468,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:15:00",
+    "probability": 0.36195088000000003,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:20:00",
+    "probability": 0.35126142,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:25:00",
+    "probability": 0.35611228,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:30:00",
+    "probability": 0.38057262000000003,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:35:00",
+    "probability": 0.35762238,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:40:00",
+    "probability": 0.3526556,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:45:00",
+    "probability": 0.34027622,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:50:00",
+    "probability": 0.34246057999999996,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-03 23:55:00",
+    "probability": 0.32563285999999997,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:00:00",
+    "probability": 0.30195436,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:05:00",
+    "probability": 0.29673425999999997,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:10:00",
+    "probability": 0.305775,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:15:00",
+    "probability": 0.3198916,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:20:00",
+    "probability": 0.31847084,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:25:00",
+    "probability": 0.32815384,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:30:00",
+    "probability": 0.31577916,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:35:00",
+    "probability": 0.30477272,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:40:00",
+    "probability": 0.28909584,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:45:00",
+    "probability": 0.29237062,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:50:00",
+    "probability": 0.29039584,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2018-06-04 00:55:00",
+    "probability": 0.29536586000000004,
+    "threshold": 0.7,
+    "actual": 0
   }
 ]

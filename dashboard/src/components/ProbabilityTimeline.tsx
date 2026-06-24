@@ -6,12 +6,15 @@ export default function ProbabilityTimeline() {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/data/events_series.json')
+    fetch('/data/events.json')
       .then(res => res.json())
       .then(json => {
-        const labels = json.map((d: any) => d.timestamp.split(' ')[1]);
+        const labels = json.map((d: any) => {
+          const parts = d.timestamp.split(' ');
+          return parts.length > 1 ? parts[1] : d.timestamp;
+        });
         const probs = json.map((d: any) => d.probability);
-        const thresholds = json.map((d: any) => 0.70);
+        const thresholds = json.map((d: any) => d.threshold);
 
         setData({
           labels,
@@ -42,12 +45,8 @@ export default function ProbabilityTimeline() {
 
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-bold text-white mb-6">Interactive Event Timeline</h2>
+      <h2 className="text-2xl font-bold text-white mb-6">Interactive Event Timeline (Real Export)</h2>
       <div className="w-full bg-card p-6 rounded-xl border border-gray-800 shadow-xl relative">
-        {/* Fake Alert Marker */}
-        <div className="absolute top-10 left-[60%] bg-danger text-white px-3 py-1 font-mono text-sm rounded animate-bounce z-10 shadow-[0_0_15px_rgba(255,75,92,0.5)]">
-          ALERT ISSUED
-        </div>
         <div className="h-[400px]">
           <Line 
             data={data} 
