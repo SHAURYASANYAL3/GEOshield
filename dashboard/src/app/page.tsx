@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart, BarChart, Bar, ScatterChart, Scatter, Cell } from 'recharts';
-import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2, Github, Linkedin } from 'lucide-react';
 
 export default function OperationalDashboard() {
   const [showGrasp, setShowGrasp] = useState(false);
@@ -351,6 +351,61 @@ export default function OperationalDashboard() {
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+          </div>
+        </div>
+
+        {/* --- TEAM SECTION --- */}
+        <div className="col-span-12 mt-12 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-[#94a3b8] font-mono text-sm font-bold uppercase tracking-widest border-l-4 border-[#00E5FF] pl-3">Project Team</h2>
+            <div className="h-px bg-[#1e293b] flex-grow"></div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Paavni Bansal */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 hover:border-[#00E5FF] transition-all flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">PB</div>
+              <h3 className="text-white font-bold mb-1">Paavni Bansal</h3>
+              <p className="text-[#00E5FF] font-mono text-xs mb-4 uppercase tracking-wider">Team Leader</p>
+              <div className="flex items-center gap-4">
+                <a href="https://www.linkedin.com/in/paavni-bansal/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5" /></a>
+                <a href="https://github.com/pavsoss" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
+              </div>
+            </div>
+
+            {/* Shaurya Sanyal */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 hover:border-[#00E5FF] transition-all flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SS</div>
+              <h3 className="text-white font-bold mb-1">Shaurya Sanyal</h3>
+              <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
+              <div className="flex items-center gap-4">
+                <a href="https://www.linkedin.com/in/shaurya-sanyal-7b57a0382/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5" /></a>
+                <a href="https://github.com/SHAURYASANYAL3" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
+              </div>
+            </div>
+
+            {/* Sree Revanth */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 hover:border-[#00E5FF] transition-all flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SR</div>
+              <h3 className="text-white font-bold mb-1">Sree Revanth</h3>
+              <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
+              <div className="flex items-center gap-4">
+                <a href="https://www.linkedin.com/in/sree-revanth/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5" /></a>
+                <a href="https://github.com/sreerevanth" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
+              </div>
+            </div>
+
+            {/* Saketh Suman Bathini */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 hover:border-[#00E5FF] transition-all flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SB</div>
+              <h3 className="text-white font-bold mb-1">Saketh Suman Bathini</h3>
+              <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
+              <div className="flex items-center gap-4">
+                <a href="https://www.linkedin.com/in/saketh-suman/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5" /></a>
+                <a href="https://github.com/SakethSumanBathini" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
+              </div>
             </div>
 
           </div>
