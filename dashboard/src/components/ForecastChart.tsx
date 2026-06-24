@@ -26,10 +26,14 @@ ChartJS.register(
 
 export default function ForecastChart() {
   const [data, setData] = useState<any>(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch('/data/forecast.json')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Data not found');
+        return r.json();
+      })
       .then(json => {
         const times = json.map((d: any) => {
           const parts = d.time.split(' ');
@@ -67,8 +71,17 @@ export default function ForecastChart() {
             }
           ]
         });
-      });
+      })
+      .catch(() => setError(true));
   }, []);
+
+  if (error) {
+    return (
+      <div className="h-[400px] w-full bg-card rounded-xl border border-gray-800 flex items-center justify-center text-gray-500 font-mono">
+        No exported model data found.
+      </div>
+    );
+  }
 
   if (!data) return <div className="h-[400px] bg-card animate-pulse rounded-xl border border-gray-800"></div>;
 

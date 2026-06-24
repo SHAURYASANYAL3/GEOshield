@@ -1,6 +1,6 @@
 {
   "lead_time": 12,
-  "precision": 91,
-  "recall": 66,
-  "log_rmse": 0.88
+  "precision": 0.657599053814311,
+  "recall": 0.657599053814311,
+  "log_rmse": 6645.350032917444
 }
