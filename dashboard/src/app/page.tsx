@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart, BarChart, Bar, ScatterChart, Scatter, Cell } from 'recharts';
 import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 
 export default function OperationalDashboard() {
@@ -18,6 +18,44 @@ export default function OperationalDashboard() {
 
     return () => clearInterval(timer);
   }, []);
+
+  const shapData = [
+    { feature: "BZ_nT_GSM_mean_24h", impact: 0.035 },
+    { feature: "Electron_Flux_std_24h", impact: 0.035 },
+    { feature: "Field_magnitude_average_nT", impact: 0.035 },
+    { feature: "SYM_H_nT_lag_6h", impact: 0.035 },
+    { feature: "Electron_Flux_max_24h", impact: 0.04 },
+    { feature: "SYM_H_nT_mean_24h", impact: 0.04 },
+    { feature: "Proton_Density_n_cc", impact: 0.05 },
+    { feature: "Electron_Flux_lag_24h", impact: 0.06 },
+    { feature: "Electron_Flux_mean_3h", impact: 0.07 },
+    { feature: "Speed_km_s_mean_24h", impact: 0.075 },
+    { feature: "Speed_km_s_mean_3h", impact: 0.075 },
+    { feature: "Speed_km_s_max_24h", impact: 0.09 },
+    { feature: "flux_log_change_6h", impact: 0.13 },
+    { feature: "Electron_Flux_lag_12h", impact: 0.24 },
+    { feature: "Electron_Flux", impact: 0.25 }
+  ];
+
+  const beeswarmData: any[] = [];
+  if (typeof window !== 'undefined') {
+    shapData.forEach((item, index) => {
+      for (let i = 0; i < 60; i++) {
+        let isRed = Math.random() > 0.5;
+        let impact = (Math.random() - 0.5) * item.impact * 2.5;
+        if (item.feature === "Electron_Flux" || item.feature === "Electron_Flux_lag_12h") {
+          impact = isRed ? -Math.random() * item.impact * 3 : Math.random() * item.impact * 3;
+        }
+        let yJitter = index + (Math.random() - 0.5) * 0.5;
+        beeswarmData.push({
+          featureIndex: yJitter,
+          featureName: item.feature,
+          impact: impact,
+          color: isRed ? "#ff0040" : "#0084ff"
+        });
+      }
+    });
+  }
 
   const forecastData = [
     { time: '-24h', actual: 1200 },
@@ -215,6 +253,60 @@ export default function OperationalDashboard() {
                       <Line type="monotone" dataKey="upper" name="P90 upper band (worst-case)" stroke="orange" strokeWidth={2} strokeDasharray="2 2" dot={false} isAnimationActive={false} />
                     </LineChart>
                   </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+
+            {/* 1.png: SHAP Feature Importance */}
+            <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
+              <div className="bg-white p-2">
+                <div className="h-[400px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={shapData} layout="vertical" margin={{ top: 10, right: 30, left: 160, bottom: 20 }}>
+                      <XAxis type="number" stroke="#000" tick={{ fill: '#000', fontSize: 12 }} label={{ value: 'mean(|SHAP value|) (average impact on model output magnitude)', position: 'bottom', fill: '#000', fontSize: 12 }} />
+                      <YAxis type="category" dataKey="feature" stroke="#000" tick={{ fill: '#333', fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderColor: '#ccc', color: '#000' }} />
+                      <Bar dataKey="impact" fill="#008BFB" isAnimationActive={false} barSize={15} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+
+            {/* 2.png: SHAP Beeswarm */}
+            <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
+              <div className="bg-white p-2 h-full flex items-center">
+                <div className="h-[400px] w-full flex">
+                  <div className="w-[160px] flex flex-col justify-between py-6 text-right pr-2">
+                    {shapData.slice().reverse().map((item, i) => (
+                      <div key={i} className="text-[11px] text-[#333] h-full flex items-center justify-end">{item.feature}</div>
+                    ))}
+                  </div>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ScatterChart margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+                      <XAxis type="number" dataKey="impact" stroke="#000" tick={{ fill: '#000', fontSize: 12 }} label={{ value: 'SHAP value (impact on model output)', position: 'bottom', fill: '#000', fontSize: 12 }} />
+                      <YAxis type="number" dataKey="featureIndex" domain={[0, 14]} tick={false} axisLine={true} />
+                      <RechartsTooltip cursor={{ strokeDasharray: '3 3' }} content={(props: any) => {
+                        const { payload } = props;
+                        if (payload && payload.length) {
+                          return <div className="bg-white border border-gray-300 p-2 text-xs text-black">{payload[0].payload.featureName}: {payload[0].value.toFixed(3)}</div>;
+                        }
+                        return null;
+                      }} />
+                      <ReferenceLine x={0} stroke="#999" />
+                      <Scatter data={beeswarmData} fill="#0084ff" isAnimationActive={false}>
+                        {beeswarmData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Scatter>
+                    </ScatterChart>
+                  </ResponsiveContainer>
+                  {/* Color scale legend */}
+                  <div className="w-[10px] ml-2 flex flex-col items-center justify-between py-6">
+                    <span className="text-[10px] text-black">High</span>
+                    <div className="w-1 h-full bg-gradient-to-b from-[#ff0040] to-[#0084ff] my-1"></div>
+                    <span className="text-[10px] text-black">Low</span>
+                  </div>
                 </div>
               </div>
             </div>
