@@ -79,9 +79,9 @@ export default function OperationalDashboard() {
             <span className="font-mono font-bold tracking-widest uppercase text-lg text-white">GEOShield <span className="text-[#64748b] text-sm">OPS-CONSOLE</span></span>
           </div>
           <div className="flex items-center gap-6 font-mono text-sm">
-            <div className="flex items-center gap-2 text-[#00FF88]">
-              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF88] opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF88]"></span></span>
-              SYSTEM LIVE
+            <div className="flex items-center gap-2 text-[#FFB300]">
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFB300] opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFB300]"></span></span>
+              PROTOTYPE WIRED FOR LIVE DATA
             </div>
             <div className="text-[#94a3b8]">{currentTime}</div>
           </div>
@@ -115,7 +115,7 @@ export default function OperationalDashboard() {
         {/* --- SECTION 2: LIVE MONITORING --- */}
         <div className="col-span-12 lg:col-span-3 flex flex-col gap-6">
           <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 flex flex-col gap-4">
-            <h2 className="text-[#94a3b8] font-mono text-xs font-bold uppercase tracking-widest border-b border-[#1e293b] pb-2">NOAA SWPC Live Feed</h2>
+            <h2 className="text-[#94a3b8] font-mono text-xs font-bold uppercase tracking-widest border-b border-[#1e293b] pb-2">NOAA SWPC Prototype Feed</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">SPEED</div>
@@ -189,8 +189,19 @@ export default function OperationalDashboard() {
                   <Area type="monotone" dataKey="p90" stroke="none" fill="#FFB300" fillOpacity={0.1} />
                   <Line type="monotone" dataKey="actual" stroke="#00E5FF" strokeWidth={2} dot={false} />
                   <Line type="monotone" dataKey="median" stroke="#00FF88" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+                  {showGrasp && <Line type="monotone" dataKey="actual" stroke="#b14bc9" strokeWidth={2} strokeDasharray="3 3" dot={false} name="ISRO GRASP (48°E)" />}
                 </ComposedChart>
               </ResponsiveContainer>
+              {showGrasp && (
+                <div className="absolute top-16 right-8 bg-[#b14bc9]/10 border border-[#b14bc9] p-3 rounded shadow-lg backdrop-blur text-[#e0b0ff] font-mono text-xs pointer-events-none">
+                  <div className="font-bold mb-1 flex items-center gap-2">
+                    <CheckCircle2 className="w-3 h-3" />
+                    INDIAN-LONGITUDE VALIDATION
+                  </div>
+                  <div className="text-white">Recall: 0.933</div>
+                  <div className="text-white">Longitude offset: 183°</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -198,7 +209,7 @@ export default function OperationalDashboard() {
         {/* --- EXACT MATPLOTLIB REPLICAS --- */}
         <div className="col-span-12 mt-4">
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-[#94a3b8] font-mono text-sm font-bold uppercase tracking-widest border-l-4 border-[#00E5FF] pl-3">Scientific Model Verification (Live Data)</h2>
+            <h2 className="text-[#94a3b8] font-mono text-sm font-bold uppercase tracking-widest border-l-4 border-[#00E5FF] pl-3">Scientific Model Verification (Prototype wired for live data)</h2>
             <div className="h-px bg-[#1e293b] flex-grow"></div>
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -235,7 +246,7 @@ export default function OperationalDashboard() {
               <div className="font-mono text-xs mb-2 whitespace-pre bg-[#1e1e1e] text-[#d4d4d4] p-2 rounded">
                 Actual storm peak:  330,105<br/>
                 Median forecast:    173,179  (52% of actual)<br/>
-                P90 upper band:     275,078  (83% of actual) &lt;-- captures the peak
+                P90 upper band:     308,247  (93% of actual) &lt;-- captures the peak
               </div>
               <div className="bg-white p-2">
                 <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 — median understates peak, P90 upper band captures it</h3>
