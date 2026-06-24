@@ -146,6 +146,18 @@ raise hazard alerts. The router sends each query to the component that's stronge
 
 ---
 
+## 🖥️ Live Operational Dashboard
+
+To put these models into the hands of operators, we built a fully-featured, live **Operational Space Weather Dashboard** using modern web technologies:
+
+*   **Tech Stack:** Next.js 16 (App Router), React, and Tailwind CSS.
+*   **Live NOAA Feed:** Real-time ingestion and display of upstream solar wind metrics (Speed, IMF Bz, Kp Index, Density) and >2MeV Flux.
+*   **Horizon Forecaster:** At-a-glance cards showing expected flux and P99 threshold proximity at 45m, 6h, and 12h.
+*   **Logarithmic Timeline:** A highly responsive `Recharts` graph mapping actual flux history against the 12h median forecast and P90 uncertainty bounds.
+*   **Scientific Verification Gallery:** We built pixel-perfect, interactive Recharts replicas of the original Matplotlib Python plots directly into the browser. This includes the Advance Warning timeline, Peak Capture charts, and complex SHAP Feature Importance and Beeswarm scatter plots, proving the physics live to the user.
+
+---
+
 ## 🔒 The Forensic Data-Validation Pipeline
 
 **This is GEOShield's signature rigor — and how the project nearly went wrong.** The original
@@ -640,12 +652,10 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 **Team AgniVyuha** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
 
-| Member |
-|---|---|
-| **Shaurya** |
-| **Paavni Bansal** |
-| **Saketh Suman Bathini** |
-| **Sree Revanth** |
+*   **Paavni Bansal** (Team Leader) | [LinkedIn](https://www.linkedin.com/in/paavni-bansal/) | [GitHub](https://github.com/pavsoss)
+*   **Shaurya Sanyal** (Developer) | [LinkedIn](https://www.linkedin.com/in/shaurya-sanyal-7b57a0382/) | [GitHub](https://github.com/SHAURYASANYAL3)
+*   **Sree Revanth** (Developer) | [LinkedIn](https://www.linkedin.com/in/sree-revanth/) | [GitHub](https://github.com/sreerevanth)
+*   **Saketh Suman Bathini** (Developer) | [LinkedIn](https://www.linkedin.com/in/saketh-suman/) | [GitHub](https://github.com/SakethSumanBathini)
 
 **PS14 Mentors:** Dr. Ankush Bhaskar & Mr. Pritesh Meshram (SPL/VSSC)
 
