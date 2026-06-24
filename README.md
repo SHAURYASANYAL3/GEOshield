@@ -11,7 +11,7 @@
 ![Status](https://img.shields.io/badge/status-validated-success)
 ![Data](https://img.shields.io/badge/data-REAL%20%C2%B7%20704%2C108%20rows-blue)
 ![Warning](https://img.shields.io/badge/lead--time-median%2012%20hours-orange)
-![Benchmark](https://img.shields.io/badge/beats-NOAA%20REFM-brightgreen)
+![Benchmark](https://img.shields.io/badge/PE-0.809%20competitive%20with%20REFM-blue)
 ![Validation](https://img.shields.io/badge/validated%20on-ISRO%20GRASP-purple)
 ![Hackathon](https://img.shields.io/badge/BAH%202026-PS14-red)
 
@@ -24,7 +24,7 @@
 > **GEOShield is an operational hazard-window early-warning system.** It identifies developing
 > >2 MeV electron storms with a **median of 12 hours of advance warning**, validated against
 > **ISRO's own GRASP instrument at the Indian longitude**. Its Prediction Efficiency (**0.81**)
-> beats the published NOAA operational model (~0.71). Every forecast comes with calibrated
+> is competitive with the published NOAA operational model (~0.71). Every forecast comes with calibrated
 > uncertainty bands and bootstrap confidence intervals — and we are honest about the limits.
 
 ---
@@ -71,7 +71,7 @@ with quantified confidence and hours of lead time.
 | Capability | Result | What it means |
 |---|---|---|
 | **Lead time** | **Median 12 hours**, **event recall 97% across 176 storm onsets** (171/176) | Operators get most of a day to react |
-| **Beats published baseline** | PE **0.809** vs NOAA REFM ~0.71 | Competitive with / above the operational standard |
+| **Competitive with published baseline** | PE **0.809** vs NOAA REFM ~0.71 |
 | **Validated on ISRO instrument** | GRASP storm recall **0.933** at 48°E | Works at the Indian longitude, not just US data |
 | **No data leakage** | Shuffle test: 0.339 → 0.127 | Performance is real, not an artifact |
 | **Calibrated confidence** | ECE **0.019**, band coverage 0.771 | "70% chance" really means ~70% |
@@ -143,18 +143,6 @@ flowchart TB
 (electron flux is highly autocorrelated short-term — real physics). The Delta X100 model wins at
 6h and 12h where physics-driven change dominates. The EventWindow classifier runs in parallel to
 raise hazard alerts. The router sends each query to the component that's strongest for that task.
-
----
-
-## 🖥️ Live Operational Dashboard
-
-To put these models into the hands of operators, we built a fully-featured, live **Operational Space Weather Dashboard** using modern web technologies:
-
-*   **Tech Stack:** Next.js 16 (App Router), React, and Tailwind CSS.
-*   **Live NOAA Feed:** Real-time ingestion and display of upstream solar wind metrics (Speed, IMF Bz, Kp Index, Density) and >2MeV Flux.
-*   **Horizon Forecaster:** At-a-glance cards showing expected flux and P99 threshold proximity at 45m, 6h, and 12h.
-*   **Logarithmic Timeline:** A highly responsive `Recharts` graph mapping actual flux history against the 12h median forecast and P90 uncertainty bounds.
-*   **Scientific Verification Gallery:** We built pixel-perfect, interactive Recharts replicas of the original Matplotlib Python plots directly into the browser. This includes the Advance Warning timeline, Peak Capture charts, and complex SHAP Feature Importance and Beeswarm scatter plots, proving the physics live to the user.
 
 ---
 
@@ -260,7 +248,7 @@ flowchart TB
     S6 --> S7["Step 7<br/>SHAP physics<br/>solar wind 40 percent"]
     S7 --> S8["Step 8<br/>Lead-time<br/>176 storms, median 12h"]
     S8 --> S9["Step 9<br/>Uncertainty bands<br/>coverage 0.77"]
-    S9 --> S10["Step 10<br/>Benchmark vs NOAA<br/>PE 0.81 beats 0.71"]
+    S10["Step 10<br/>Benchmark vs NOAA<br/>PE 0.81 competitive with 0.71"]
     S10 --> S11["Step 11<br/>Reliability + cost-benefit<br/>ECE 0.019"]
     S11 --> S12["Step 12<br/>April 2017 case study<br/>12h warning plot"]
     S12 --> S13["Step 13<br/>GRASP Indian-longitude<br/>recall 0.933"]
@@ -561,8 +549,8 @@ expose as a tunable "high-sensitivity mode" rather than pretending it's free:
 
 | P99.5 weight | Recall @ P99.5 | Precision @ P99.5 | Log-RMSE |
 |---|---|---|---|
-| 100 (default) | 0.299 | 0.612 | 0.365 |
-| 350 (high-sensitivity) | **0.327** | 0.549 | 0.367 |
+| 100 (default)        | 0.272       | 0.579       | —        |
+| 350 (high-sensitivity)| **0.307** | 0.522       | —        |
 
 > Forecasting the *exact magnitude* of P99.5 events 12h out remains genuinely hard — true for every
 > operational model, including NOAA's. We report it with bootstrap error bars rather than overclaiming.
@@ -618,7 +606,7 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 ✅ Render the SHAP physics graphs (solar wind 40%)
 ✅ Compute lead-time (97% of 176 storms, median 12h)
 ✅ Calibrate uncertainty bands (coverage 0.77)
-✅ Beat the NOAA baseline (PE 0.809)
+✅ Benchmark vs NOAA (PE 0.809, competitive with REFM)
 ✅ Plot the April 2017 case study (12h warning)
 ✅ Validate on GRASP at the Indian longitude (recall 0.933)
 
@@ -642,7 +630,7 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 | ✅ DO say | ❌ DON'T say |
 |---|---|
 | "Median 12 hours of operational warning" | "We predict rare events with 90% accuracy" |
-| "Beats the published NOAA baseline" | "Our model is perfect / never misses" |
+| "PE 0.809, competitive with the NOAA baseline" | "Our model is perfect / never misses" |
 | "Validated on ISRO's own instrument" | "100% storm detection" |
 | "Calibrated uncertainty on every forecast" | any single number without its ± |
 
@@ -652,10 +640,12 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 **Team AgniVyuha** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
 
-*   **Paavni Bansal** (Team Leader) | [LinkedIn](https://www.linkedin.com/in/paavni-bansal/) | [GitHub](https://github.com/pavsoss)
-*   **Shaurya Sanyal** (Developer) | [LinkedIn](https://www.linkedin.com/in/shaurya-sanyal-7b57a0382/) | [GitHub](https://github.com/SHAURYASANYAL3)
-*   **Sree Revanth** (Developer) | [LinkedIn](https://www.linkedin.com/in/sree-revanth/) | [GitHub](https://github.com/sreerevanth)
-*   **Saketh Suman Bathini** (Developer) | [LinkedIn](https://www.linkedin.com/in/saketh-suman/) | [GitHub](https://github.com/SakethSumanBathini)
+| Member |
+|---|---|
+| **Shaurya** |
+| **Paavni Bansal** |
+| **Saketh Suman Bathini** |
+| **Sree Revanth** |
 
 **PS14 Mentors:** Dr. Ankush Bhaskar & Mr. Pritesh Meshram (SPL/VSSC)
 
