@@ -1,7 +1,17 @@
-export default function Page() {
+import Hero from '@/components/Hero';
+import Mission from '@/components/Mission';
+import Architecture from '@/components/Architecture';
+import ResultsGrid from '@/components/ResultsGrid';
+import CTA from '@/components/CTA';
+
+export default function Home() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold">☀️ GEOShield</h1>
-    </div>
+    <main className="min-h-screen bg-background">
+      <Hero />
+      <Mission />
+      <Architecture />
+      <ResultsGrid />
+      <CTA />
+    </main>
   );
 }
