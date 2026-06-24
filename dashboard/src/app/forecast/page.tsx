@@ -1,5 +1,6 @@
 import ForecastChart from '@/components/ForecastChart';
 import AlertPanel from '@/components/AlertPanel';
+import ModelBrain from '@/components/ModelBrain';
 
 export default function ForecastPage() {
   return (
@@ -21,13 +22,31 @@ export default function ForecastPage() {
               <div className="text-gray-500 text-sm font-mono mb-1">Forecast Horizon</div>
               <div className="text-white font-bold text-xl">12 Hours</div>
             </div>
+            
+            {/* Confidence Layer */}
             <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
-              <div className="text-gray-500 text-sm font-mono mb-1">Confidence</div>
-              <div className="text-white font-bold text-xl">80% Band</div>
+              <div className="flex justify-between items-end mb-4">
+                <div>
+                  <div className="text-gray-500 text-sm font-mono mb-1">Prediction</div>
+                  <div className="text-warning font-bold text-xl">HIGH</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-gray-500 text-sm font-mono mb-1">Confidence</div>
+                  <div className="text-primary font-bold text-xl">82%</div>
+                </div>
+              </div>
+              <div className="w-full h-2 bg-gray-900 rounded-full overflow-hidden flex">
+                <div className="h-full bg-primary" style={{ width: '82%' }}></div>
+              </div>
+              <div className="flex justify-between mt-2 text-[10px] font-mono text-gray-600 uppercase">
+                <span>Low Certainty</span>
+                <span>High Certainty</span>
+              </div>
             </div>
+            
             <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
               <div className="text-gray-500 text-sm font-mono mb-1">Model</div>
-              <div className="text-primary font-bold text-xl">Delta X100</div>
+              <div className="text-primary font-bold text-xl">XGB EventWindow</div>
             </div>
           </div>
 
@@ -37,8 +56,9 @@ export default function ForecastPage() {
           </div>
 
           {/* Right Column */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 flex flex-col gap-6">
             <AlertPanel />
+            <ModelBrain />
           </div>
         </div>
 

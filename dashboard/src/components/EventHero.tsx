@@ -36,7 +36,7 @@ export default function EventHero() {
         </div>
         <div className="p-8 bg-card border border-success/30 rounded-xl shadow-[0_0_20px_rgba(0,255,136,0.1)]">
           <div className="text-sm font-mono text-gray-500 uppercase mb-2">Alert State</div>
-          <div className="text-5xl font-bold text-success animate-pulse">ELEVATED</div>
+          <div className="text-5xl font-bold text-success">ELEVATED</div>
         </div>
       </div>
     </section>
