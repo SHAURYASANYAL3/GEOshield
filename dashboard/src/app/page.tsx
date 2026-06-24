@@ -26,6 +26,7 @@ export default function OperationalDashboard() {
     { time: '+12h', median: 58000, p90: 95000 },
   ];
 
+    return (
     <main className="min-h-screen bg-[#050816] text-[#e2e8f0] font-sans selection:bg-[#00E5FF] selection:text-[#050816] overflow-x-hidden relative">
 
       {/* Top Navbar */}
