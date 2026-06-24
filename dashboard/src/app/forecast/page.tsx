@@ -13,19 +13,19 @@ export default function ForecastPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Column */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="p-6 bg-card border border-gray-800 rounded-xl">
+            <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
               <div className="text-gray-500 text-sm font-mono mb-1">Current Risk</div>
               <div className="text-warning font-bold text-xl">ELEVATED</div>
             </div>
-            <div className="p-6 bg-card border border-gray-800 rounded-xl">
+            <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
               <div className="text-gray-500 text-sm font-mono mb-1">Forecast Horizon</div>
               <div className="text-white font-bold text-xl">12 Hours</div>
             </div>
-            <div className="p-6 bg-card border border-gray-800 rounded-xl">
+            <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
               <div className="text-gray-500 text-sm font-mono mb-1">Confidence</div>
               <div className="text-white font-bold text-xl">80% Band</div>
             </div>
-            <div className="p-6 bg-card border border-gray-800 rounded-xl">
+            <div className="p-6 bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
               <div className="text-gray-500 text-sm font-mono mb-1">Model</div>
               <div className="text-primary font-bold text-xl">Delta X100</div>
             </div>
@@ -45,7 +45,7 @@ export default function ForecastPage() {
         {/* Bottom */}
         <div className="mt-12">
           <h3 className="text-xl font-bold text-white mb-6">Recent Events Table</h3>
-          <div className="w-full overflow-x-auto bg-card border border-gray-800 rounded-xl">
+          <div className="w-full overflow-x-auto bg-card border border-gray-800 rounded-xl hover:-translate-y-1 transition-transform">
             <table className="w-full text-left">
               <thead className="bg-gray-900 border-b border-gray-800 text-gray-400 font-mono text-sm">
                 <tr>

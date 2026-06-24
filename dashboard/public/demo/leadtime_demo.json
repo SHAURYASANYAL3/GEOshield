@@ -1,0 +1,30 @@
+[
+  {
+    "event": "April 2017",
+    "predicted": "2017-04-23 10:00",
+    "actual": "2017-04-23 22:15",
+    "lead": "12.2h",
+    "result": "\ud83d\udd34 HIT"
+  },
+  {
+    "event": "Sept 2017",
+    "predicted": "2017-09-07 14:00",
+    "actual": "2017-09-07 23:45",
+    "lead": "9.7h",
+    "result": "\ud83d\udfe0 WATCH"
+  },
+  {
+    "event": "Aug 2018",
+    "predicted": "2018-08-26 05:00",
+    "actual": "2018-08-26 18:30",
+    "lead": "13.5h",
+    "result": "\ud83d\udd34 HIT"
+  },
+  {
+    "event": "May 2019",
+    "predicted": "2019-05-14 11:00",
+    "actual": "No Event",
+    "lead": "N/A",
+    "result": "FALSE ALARM"
+  }
+]

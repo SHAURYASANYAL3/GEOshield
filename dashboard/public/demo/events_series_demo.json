@@ -1,0 +1,146 @@
+[
+  {
+    "timestamp": "2026-06-24 00:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 01:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 02:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 03:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 04:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 05:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 06:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 07:00",
+    "probability": 0.1,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 08:00",
+    "probability": 0.4,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 09:00",
+    "probability": 0.4,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 10:00",
+    "probability": 0.4,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 11:00",
+    "probability": 0.4,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 12:00",
+    "probability": 0.85,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 13:00",
+    "probability": 0.85,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 14:00",
+    "probability": 0.85,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 15:00",
+    "probability": 0.85,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 16:00",
+    "probability": 0.95,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 17:00",
+    "probability": 0.95,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 18:00",
+    "probability": 0.95,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 19:00",
+    "probability": 0.95,
+    "threshold": 0.7,
+    "actual": 1
+  },
+  {
+    "timestamp": "2026-06-24 20:00",
+    "probability": 0.5,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 21:00",
+    "probability": 0.5,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 22:00",
+    "probability": 0.5,
+    "threshold": 0.7,
+    "actual": 0
+  },
+  {
+    "timestamp": "2026-06-24 23:00",
+    "probability": 0.5,
+    "threshold": 0.7,
+    "actual": 0
+  }
+]

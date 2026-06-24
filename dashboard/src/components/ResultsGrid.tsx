@@ -21,7 +21,7 @@ export default function ResultsGrid() {
             { label: "Recall", value: `${metrics.recall * 100}%`, color: "text-white" },
             { label: "Status", value: metrics.status, color: "text-warning" }
           ].map((m, i) => (
-            <div key={i} className="p-8 bg-card border border-gray-800 rounded-xl text-center flex flex-col justify-center">
+            <div key={i} className="p-8 bg-card border border-gray-800 hover:-translate-y-1 transition-transform rounded-xl text-center flex flex-col justify-center">
               <div className={`text-5xl font-bold mb-2 ${m.color}`}>{m.value}</div>
               <div className="text-sm font-mono text-gray-500 uppercase tracking-wider">{m.label}</div>
             </div>

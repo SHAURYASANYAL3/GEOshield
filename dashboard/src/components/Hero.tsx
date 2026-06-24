@@ -25,10 +25,10 @@ export default function Hero() {
             Physics-driven hazard forecasting using GOES, OMNI, and operational event detection.
           </p>
           <div className="flex gap-4 mt-8">
-            <Link href="/forecast" className="px-8 py-4 bg-primary text-background font-bold rounded hover:bg-primary/90 transition-all">
+            <Link href="/forecast" className="px-8 py-4 bg-primary text-background font-bold rounded hover:bg-primary/90 hover:scale-[1.02] transition-all">
               Launch Dashboard
             </Link>
-            <Link href="/validation" className="px-8 py-4 bg-card border border-gray-800 text-white font-bold rounded hover:bg-gray-800 transition-all">
+            <Link href="/validation" className="px-8 py-4 bg-card border border-gray-800 text-white font-bold rounded hover:bg-gray-800 hover:scale-[1.02] transition-all">
               View Validation
             </Link>
           </div>
