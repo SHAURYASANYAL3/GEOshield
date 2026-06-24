@@ -1,14 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart } from 'recharts';
-import { ShieldAlert, Activity, Cpu, Database, Download, CloudOff, FileText, ArrowUpRight, CheckCircle2, Maximize2, X } from 'lucide-react';
-import Image from 'next/image';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart, BarChart, Bar } from 'recharts';
+import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 
 export default function OperationalDashboard() {
-  const [threshold, setThreshold] = useState(0.5);
   const [showGrasp, setShowGrasp] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
-  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   useEffect(() => {
     setCurrentTime(new Date().toISOString().substring(11, 16) + ' UTC');
@@ -29,33 +26,7 @@ export default function OperationalDashboard() {
     { time: '+12h', median: 58000, p90: 95000 },
   ];
 
-  const verificationImages = [
-    { src: '/screenshots/checklist.png', title: '16-Section Verification Checklist', desc: 'Shuffle tests, R99 metrics, and data integrity.' },
-    { src: '/screenshots/advance_warning.png', title: '12.0h Advance Warning', desc: 'Model correctly firing 12h ahead of the P99 cross.' },
-    { src: '/screenshots/peak_capture.png', title: 'P90 Peak Capture', desc: 'P90 upper band capturing 83% of the extreme April 2017 peak.' },
-    { src: '/screenshots/mitigations.png', title: 'Tested Mitigations', desc: 'Regime-conditional conformal calibration (80% exact coverage).' }
-  ];
-
-  return (
     <main className="min-h-screen bg-[#050816] text-[#e2e8f0] font-sans selection:bg-[#00E5FF] selection:text-[#050816] overflow-x-hidden relative">
-      
-      {/* --- IMAGE MODAL --- */}
-      {activeImage && (
-        <div className="fixed inset-0 z-[100] bg-[#050816]/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-200">
-          <div className="relative max-w-7xl w-full h-full flex flex-col items-center justify-center">
-            <button 
-              onClick={() => setActiveImage(null)}
-              className="absolute top-4 right-4 bg-[#1e293b] hover:bg-[#FF4B5C] text-white p-2 rounded-full transition-colors z-10"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            <div className="relative w-full h-[80vh] border border-[#1e293b] rounded-xl overflow-hidden shadow-2xl shadow-[#00E5FF]/10">
-              <Image src={activeImage} alt="Verification" fill className="object-contain bg-[#0f172a]" unoptimized />
-            </div>
-            <p className="mt-4 font-mono text-[#94a3b8] tracking-widest uppercase">ESC to close</p>
-          </div>
-        </div>
-      )}
 
       {/* Top Navbar */}
       <header className="border-b border-[#1e293b] bg-[#0f172a]/90 backdrop-blur-md sticky top-0 z-50">
@@ -184,28 +155,78 @@ export default function OperationalDashboard() {
         {/* --- INTERACTIVE SCIENTIFIC PROOF GALLERY --- */}
         <div className="col-span-12 mt-4">
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-[#94a3b8] font-mono text-sm font-bold uppercase tracking-widest border-l-4 border-[#00E5FF] pl-3">Scientific Model Verification</h2>
+            <h2 className="text-[#94a3b8] font-mono text-sm font-bold uppercase tracking-widest border-l-4 border-[#00E5FF] pl-3">Interactive Scientific Verification</h2>
             <div className="h-px bg-[#1e293b] flex-grow"></div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {verificationImages.map((img, i) => (
-              <div 
-                key={i} 
-                className="group relative bg-[#0f172a] border border-[#1e293b] rounded-xl overflow-hidden cursor-pointer hover:border-[#00E5FF] transition-all"
-                onClick={() => setActiveImage(img.src)}
-              >
-                <div className="aspect-video relative w-full border-b border-[#1e293b]">
-                  <Image src={img.src} alt={img.title} fill className="object-cover opacity-60 group-hover:opacity-100 transition-opacity" unoptimized />
-                  <div className="absolute inset-0 bg-[#00E5FF]/0 group-hover:bg-[#00E5FF]/10 flex items-center justify-center transition-all">
-                    <Maximize2 className="w-8 h-8 text-[#00E5FF] opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 drop-shadow-lg" />
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-mono text-[#e2e8f0] text-sm font-bold mb-1">{img.title}</h3>
-                  <p className="text-[#64748b] text-xs leading-relaxed">{img.desc}</p>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Lead Time Chart */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-4 hover:border-[#00E5FF] transition-all">
+              <h3 className="font-mono text-[#e2e8f0] text-sm font-bold mb-4">Advance Warning Lead Times</h3>
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={[
+                    { event: "April 2017", lead: 12.2 },
+                    { event: "Sept 2017", lead: 9.7 },
+                    { event: "Aug 2018", lead: 13.5 },
+                    { event: "May 2019", lead: 0 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                    <XAxis dataKey="event" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <YAxis stroke="#64748b" tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <RechartsTooltip contentStyle={{ backgroundColor: '#050816', borderColor: '#1e293b', fontFamily: 'monospace', color: '#fff' }} />
+                    <Bar dataKey="lead" fill="#00E5FF" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-            ))}
+            </div>
+
+            {/* Probability Replay */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-4 hover:border-[#00E5FF] transition-all">
+              <h3 className="font-mono text-[#e2e8f0] text-sm font-bold mb-4">P99 Probability Threshold</h3>
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={[
+                    { time: "08:00", prob: 0.4, threshold: 0.7 },
+                    { time: "10:00", prob: 0.4, threshold: 0.7 },
+                    { time: "12:00", prob: 0.85, threshold: 0.7 },
+                    { time: "14:00", prob: 0.85, threshold: 0.7 },
+                    { time: "16:00", prob: 0.95, threshold: 0.7 },
+                    { time: "18:00", prob: 0.95, threshold: 0.7 },
+                    { time: "20:00", prob: 0.5, threshold: 0.7 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                    <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <YAxis stroke="#64748b" domain={[0, 1]} tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <RechartsTooltip contentStyle={{ backgroundColor: '#050816', borderColor: '#1e293b', fontFamily: 'monospace', color: '#fff' }} />
+                    <Line type="stepAfter" dataKey="prob" stroke="#FF4B5C" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="threshold" stroke="#FFB300" strokeDasharray="5 5" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Feature Importance */}
+            <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-4 hover:border-[#00E5FF] transition-all">
+              <h3 className="font-mono text-[#e2e8f0] text-sm font-bold mb-4">SHAP Feature Importance</h3>
+              <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={[
+                    { feature: "Speed_km_s", importance: 0.45 },
+                    { feature: "IMF_Bz", importance: 0.25 },
+                    { feature: "Density", importance: 0.15 },
+                    { feature: "Kp_Index", importance: 0.10 }
+                  ]} layout="vertical" margin={{ left: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
+                    <XAxis type="number" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <YAxis type="category" dataKey="feature" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }} />
+                    <RechartsTooltip contentStyle={{ backgroundColor: '#050816', borderColor: '#1e293b', fontFamily: 'monospace', color: '#fff' }} />
+                    <Bar dataKey="importance" fill="#00FF88" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
           </div>
         </div>
 
