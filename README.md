@@ -9,10 +9,9 @@
 <br/>
 
 ![Status](https://img.shields.io/badge/status-validated-success)
-![Architecture](https://img.shields.io/badge/Operational_Prototype-Replay_+_Live--Ready-amber)
 ![Data](https://img.shields.io/badge/data-REAL%20%C2%B7%20704%2C108%20rows-blue)
 ![Warning](https://img.shields.io/badge/lead--time-median%2012%20hours-orange)
-![Benchmark](https://img.shields.io/badge/PE-0.809%20competitive%20with%20REFM-blue)
+![Benchmark](https://img.shields.io/badge/competitive%20with-NOAA%20REFM-brightgreen)
 ![Validation](https://img.shields.io/badge/validated%20on-ISRO%20GRASP-purple)
 ![Hackathon](https://img.shields.io/badge/BAH%202026-PS14-red)
 
@@ -76,7 +75,7 @@ with quantified confidence and hours of lead time.
 | **Validated on ISRO instrument** | GRASP storm recall **0.933** at 48°E | Works at the Indian longitude, not just US data |
 | **No data leakage** | Shuffle test: 0.339 → 0.127 | Performance is real, not an artifact |
 | **Calibrated confidence** | ECE **0.019**, band coverage 0.771 | "70% chance" really means ~70% |
-| **Recall @ P99 (12h)** | **0.43 ± 0.01** (4-seed mean) | Honest, with quantified variance |
+| **Recall @ P99 (12h)** | **0.44 ± 0.01** (4-seed mean) | Honest, with quantified variance |
 | **Physics-grounded** | Solar wind = **40%** of importance (SHAP) | Learned real physics, not autocorrelation |
 
 > Every number above was **independently reproduced** on Google Colab — three separate machines
@@ -105,7 +104,7 @@ flowchart TB
     subgraph MODEL["Models"]
         direction LR
         D["Delta X100<br/>predicts log-flux CHANGE<br/>6h and 12h"]
-        E["EventWindow<br/>hazard classifier<br/>ROC 0.997"]
+        E["EventWindow<br/>hazard classifier<br/>ROC 0.988"]
         P["Persistence<br/>baseline at 45m"]
     end
     R{"Router"}
@@ -214,7 +213,7 @@ The discarded synthetic file (1,157,040 rows × 56 columns) was proven fake **fi
 
 ## 🔐 Leakage Audit
 
-A 0.997 classifier AUC and strong recall numbers naturally invite the reviewer's first question:
+A 0.988 classifier AUC and strong recall numbers naturally invite the reviewer's first question:
 *"Is the model cheating — seeing the answer in its features?"* We confront that head-on rather
 than burying it. **Data leakage** is when information from the test period (or the target itself)
 sneaks into training, inflating scores. The **shuffle test is the gold standard**: scramble the
@@ -245,7 +244,7 @@ flowchart TB
     S2 --> S3["Step 3<br/>Build 64 features"]
     S3 --> S4["Step 4<br/>Leakage audit + shuffle test<br/>0.339 to 0.127"]
     S4 --> S5["Step 5<br/>Delta X100 multi-horizon<br/>45m / 6h / 12h"]
-    S5 --> S6["Step 6<br/>Seed variance<br/>R99 = 0.43 plus-minus 0.01"]
+    S5 --> S6["Step 6<br/>Seed variance<br/>R99 = 0.44 plus-minus 0.01"]
     S6 --> S7["Step 7<br/>SHAP physics<br/>solar wind 40 percent"]
     S7 --> S8["Step 8<br/>Lead-time<br/>176 storms, median 12h"]
     S8 --> S9["Step 9<br/>Uncertainty bands<br/>coverage 0.77"]
@@ -337,13 +336,13 @@ Forcing the model to predict the *delta* makes it learn the **upstream solar-win
 A parallel **EventWindow classifier** answers a different question — *"will a P99 event occur any
 time in the next 12 hours?"* — and drives the operational alert.
 
-**Full disclosure (to pre-empt the "AUC 0.997 looks suspicious" reaction every reviewer will have):**
+**Full disclosure (to pre-empt the "AUC 0.988 looks suspicious" reaction every reviewer will have):**
 
-- **Train/test split:** train ≤ 2016, test ≥ 2017 (strict temporal — see Leakage Audit below)
-- **Positive rate on real data:** ~2.8% of windows are positive (rare-event problem)
-  - *Note: the earlier synthetic file had a 21% positive rate, which is why its 0.99 AUC was
+- **Train/test split:** train ≤ 2016, test 2017–2019 (strict temporal — see Leakage Audit below)
+- **Positive rate on real data:** ~6.3% of windows are positive (rare-event problem)
+  - *Note: the earlier synthetic file had a 21% positive rate, which is why its AUC was
     artificially inflated. On real data the task is much harder and the AUC is genuinely earned.*
-- **Precision / Recall / F1:** **0.772 / 0.779 / 0.775**
+- **Precision / Recall / F1:** **0.792 / 0.716 / 0.752**
 - **Why the AUC is legitimately high:** the question asks whether *any* P99 crossing occurs in a
   12 h window. Storms last many hours, and the model has strong physical signal from storm-state
   features (`time_since_last_P95`, `hours_above_P95_24h`, `storm_intensity_24h`). The shuffle test
@@ -366,7 +365,7 @@ time in the next 12 hours?"* — and drives the operational alert.
 | **6 hours** | 0.315 | 0.774 | 0.523 | 0.274 |
 | **12 hours** | 0.358 | 0.716 | **0.448** | 0.270 |
 
-**Seed-averaged (4 seeds), 12h:** Recall @ P99 = **0.434 ± 0.005** · Recall @ P99.5 = 0.262 ± 0.006
+**Seed-averaged (4 seeds), 12h:** Recall @ P99 = **0.44 ± 0.01** · Recall @ P99.5 = 0.265 ± 0.007
 
 ### Bootstrap 95% confidence intervals (12h, 1000× resampling)
 
@@ -429,7 +428,7 @@ to act.* GEOShield was tested on **176 real storm onsets (2017–2019):**
 
 - **Event recall 97% across 176 storm onsets** (171/176 detected before threshold crossing)
 - **Median 12 hours of advance warning**
-- EventWindow ROC AUC 0.997
+- EventWindow ROC AUC 0.988
 
 ### Tunable for ISRO's risk appetite
 
@@ -473,8 +472,8 @@ The largest >2 MeV electron storm in the validation period — and GEOShield's s
 - Forecast-actual correlation **0.70** through the storm
 
 **Honest assessment (tell ISRO this truthfully):** the model's **timing is excellent** — it saw the
-storm coming half a day out. It is **conservative on the absolute peak** (forecast ~110K vs the
-actual 330K spike). Forecasting the exact magnitude of an ultra-extreme event remains hard, and we
+storm coming half a day out. It is **conservative on the absolute peak** (median forecast ~200K vs the
+actual 330K spike — see the P90-band mitigation below, which recovers 93% of the peak). Forecasting the exact magnitude of an ultra-extreme event remains hard, and we
 report that openly rather than overclaiming.
 
 ### Why NOT the famous September 2017 flare?
@@ -607,7 +606,7 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 ✅ Verify the data is real (9/9 integrity checks — refuses synthetic)
 ✅ Prove no leakage (shuffle test collapses to 0.127)
 ✅ Reproduce the multi-horizon table (45m / 6h / 12h)
-✅ Quantify seed variance (R99 = 0.43 ± 0.01)
+✅ Quantify seed variance (R99 = 0.44 ± 0.01)
 ✅ Render the SHAP physics graphs (solar wind 40%)
 ✅ Compute lead-time (97% of 176 storms, median 12h)
 ✅ Calibrate uncertainty bands (coverage 0.77)
@@ -626,8 +625,8 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 > "GEOShield is an operational hazard-window early-warning system. It identifies developing >2 MeV
 > electron storms with a median 12 hours of advance warning, validated against ISRO's own GRASP
-> instrument at the Indian longitude. Its Prediction Efficiency (0.81) is competitive with — and
-> slightly above — the published NOAA operational model. Forecasts come with calibrated uncertainty
+> instrument at the Indian longitude. Its Prediction Efficiency (0.81) is competitive with the
+> published NOAA operational model (~0.71), at a finer time resolution. Forecasts come with calibrated uncertainty
 > bands and confidence intervals on every metric. We are honest about limits: forecasting the
 > absolute magnitude of the rarest events remains challenging, and we report that with quantified
 > error bars rather than overclaiming."
@@ -645,10 +644,10 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 **Team AstraVajra** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
 
-- **Paavni Bansal**
-- **Shaurya Sanyal**
-- **Sree Revanth**
-- **Saketh Suman Bathini**
+- **Paavni Bansal** — Team Lead — Indira Gandhi Delhi Technical University for Women
+- **Shaurya Sanyal** — Baba Institute of Technology and Sciences
+- **Sree Revanth** — Ramaiah Polytechnic
+- **Saketh Suman Bathini** — BITS Pilani, Hyderabad
 
 **PS14 Mentors:** Dr. Ankush Bhaskar & Mr. Pritesh Meshram (SPL/VSSC)
 
