@@ -285,7 +285,7 @@ export default function OperationalDashboard() {
               <div className="bg-white p-2">
                 <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 Storm - model forecast vs reality</h3>
                 <div className="w-full h-auto">
-                  <img src="/plots/plotA.png" alt="Advance Warning Chart" className="w-full h-auto object-contain max-h-[300px] mx-auto" />
+                  <img src="/plots/Screenshot_1.png" alt="Advance Warning Calibration" className="w-full h-auto rounded border border-slate-700" />
                 </div>
               </div>
             </div>
@@ -300,7 +300,7 @@ export default function OperationalDashboard() {
               <div className="bg-white p-2">
                 <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 — median understates peak, P90 upper band captures it</h3>
                 <div className="w-full h-auto">
-                  <img src="/plots/plotB.png" alt="Peak Capture Chart" className="w-full h-auto object-contain max-h-[300px] mx-auto" />
+                  <img src="/plots/Screenshot_2.png" alt="Peak Capture Evaluation" className="w-full h-auto rounded border border-slate-700" />
                 </div>
               </div>
             </div>
@@ -309,7 +309,7 @@ export default function OperationalDashboard() {
             <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
               <div className="bg-white p-2">
                 <div className="w-full h-auto flex items-center justify-center">
-                  <img src="/plots/plotC.png" alt="SHAP Feature Importance" className="w-full h-auto object-contain max-h-[400px]" />
+                  <img src="/plots/Screenshot_3.png" alt="SHAP Feature Importance" className="w-full h-auto rounded border border-slate-700" />
                 </div>
               </div>
             </div>
@@ -318,7 +318,7 @@ export default function OperationalDashboard() {
             <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
               <div className="bg-white p-2 h-full flex items-center">
                 <div className="w-full h-auto flex items-center justify-center">
-                  <img src="/plots/plotD.png" alt="SHAP Beeswarm" className="w-full h-auto object-contain max-h-[400px]" />
+                  <img src="/plots/Screenshot_4.png" alt="SHAP Beeswarm" className="w-full h-auto rounded border border-slate-700" />
                 </div>
               </div>
             </div>
