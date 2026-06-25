@@ -1,11 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, Area, ComposedChart, Line } from 'recharts';
-import { ShieldAlert, Activity, ArrowUpRight, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 export default function OperationalDashboard() {
   const [showGrasp, setShowGrasp] = useState(false);
-  const [currentTime, setCurrentTime] = useState('');
   
   const [dataState, setDataState] = useState<{
     status: 'loading' | 'success' | 'missing' | 'malformed' | 'network_failure',
@@ -16,11 +14,6 @@ export default function OperationalDashboard() {
   });
 
   useEffect(() => {
-    setCurrentTime(new Date().toISOString().substring(11, 16) + ' UTC');
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toISOString().substring(11, 16) + ' UTC');
-    }, 60000);
-    
     const loadData = async () => {
       try {
         const res = await fetch('/data/state.json').catch(() => null);
@@ -53,7 +46,6 @@ export default function OperationalDashboard() {
       }
     };
     loadData();
-    return () => clearInterval(timer);
   }, []);
 
   const renderErrorState = () => {
@@ -65,7 +57,7 @@ export default function OperationalDashboard() {
 
     return (
       <div className="bg-[#FF4B5C]/10 border border-[#FF4B5C] p-3 mb-4 flex items-center gap-3 text-[#FF4B5C] font-mono text-xs">
-        <AlertTriangle className="w-4 h-4" />
+        <span className="font-bold">[!]</span>
         <span className="font-bold tracking-widest uppercase">{message}</span>
       </div>
     );
@@ -97,7 +89,7 @@ export default function OperationalDashboard() {
       <header className="border-b border-white/10 bg-[#0A0E17] sticky top-0 z-50">
         <div className="max-w-[1800px] mx-auto px-4 py-2 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <ShieldAlert className="text-[#00E5FF] w-5 h-5" />
+            <span className="text-[#00E5FF] font-mono text-lg font-bold">[GEO]</span>
             <div className="flex flex-col">
               <span className="font-mono font-bold tracking-widest uppercase text-sm text-white leading-none">GEOShield</span>
               <span className="text-[#8892A6] text-[9px] font-mono tracking-widest mt-0.5 uppercase">Operational Console</span>
@@ -111,7 +103,7 @@ export default function OperationalDashboard() {
             <div className="flex items-center gap-2 text-[#FFB300] border border-[#FFB300]/30 bg-[#FFB300]/5 px-2 py-1 uppercase tracking-wider">
               PROTOTYPE
             </div>
-            <div className="text-white tracking-widest border-l border-white/10 pl-4">{currentTime}</div>
+            <div className="text-white tracking-widest border-l border-white/10 pl-4">SYS_TIME: SYNCED</div>
           </div>
         </div>
       </header>
@@ -160,19 +152,19 @@ export default function OperationalDashboard() {
           <div className="col-span-12 xl:col-span-4 bg-[#0A0E17] border border-white/10 p-5">
             <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
               <span className="text-[#8892A6] font-mono text-[10px] font-bold uppercase tracking-widest">Live Telemetry</span>
-              <Activity className="text-[#00FF88] w-3 h-3" />
+              <span className="text-[#00FF88] font-mono">~</span>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-5">
               <div>
                 <div className="text-[#8892A6] font-mono text-[9px] tracking-widest mb-1 uppercase">SPEED (km/s)</div>
                 <div className="font-mono text-lg text-white flex items-center gap-2">
-                  {appState.speed} <ArrowUpRight className="w-3 h-3 text-[#FFB300]" />
+                  {appState.speed} <span className="text-[#FFB300] text-xs">↗</span>
                 </div>
               </div>
               <div>
                 <div className="text-[#8892A6] font-mono text-[9px] tracking-widest mb-1 uppercase">IMF Bz (nT)</div>
                 <div className="font-mono text-lg text-white flex items-center gap-2">
-                  {appState.imf_bz} <ArrowUpRight className="w-3 h-3 text-[#FFB300] rotate-90" />
+                  {appState.imf_bz} <span className="text-[#FFB300] text-xs">↗</span>
                 </div>
               </div>
               <div>
@@ -289,7 +281,7 @@ export default function OperationalDashboard() {
         {/* --- GRID SYSTEM: ROW 3 (VALIDATION PANELS) --- */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
           <div className="col-span-1 xl:col-span-2 flex items-center gap-3 border-b border-white/10 pb-2">
-            <ShieldCheck className="text-[#00E5FF] w-4 h-4" />
+            <span className="text-[#00E5FF] font-mono font-bold">[OK]</span>
             <span className="text-white font-mono text-xs uppercase tracking-widest">Model Validation Matrix</span>
           </div>
 
