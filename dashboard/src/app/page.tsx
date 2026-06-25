@@ -37,6 +37,23 @@ export default function OperationalDashboard() {
 
         try {
            const stateData = await res.json();
+           
+           try {
+             const forecastRes = await fetch('/data/forecast.json');
+             if (forecastRes && forecastRes.ok) {
+               const forecastData = await forecastRes.json();
+               stateData.forecast_timeline = forecastData.map((d: any) => ({
+                 time: d.time.split(' ')[1].substring(0, 5),
+                 actual: d.actual,
+                 median: d.predicted,
+                 p90: d.upper,
+                 grasp: d.actual * 0.933
+               }));
+             }
+           } catch (err) {
+             console.error("Failed to fetch forecast.json", err);
+           }
+           
            setDataState({ status: 'success', state: stateData });
         } catch(e) {
            setDataState({ status: 'malformed', state: null });
