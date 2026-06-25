@@ -283,7 +283,7 @@ export default function OperationalDashboard() {
                 --&gt; LEAD TIME: 12.0 hours advance warning
               </div>
               <div className="bg-white p-2">
-                <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 Storm - model forecast vs reality</h3>
+                <h3 className="text-black text-center font-sans text-sm mb-2">SHAP features importance</h3>
                 <div className="w-full h-auto">
                   <img src="/plots/Screenshot_1.png" alt="Advance Warning Calibration" className="w-full h-auto rounded border border-slate-700" />
                 </div>
