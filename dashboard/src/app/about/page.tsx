@@ -1,4 +1,4 @@
-import { ShieldAlert, Rocket, Database, Cpu, Target, BrainCircuit } from 'lucide-react';
+// Removed lucide-react
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -8,7 +8,7 @@ export default function AboutPage() {
       <header className="border-b border-white/10 bg-[#0D1224]/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-[1440px] mx-auto px-6 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <ShieldAlert className="text-[#00E5FF] w-6 h-6" />
+            <span className="text-[#00E5FF] font-mono text-xl font-bold">[GEO]</span>
             <span className="font-mono font-bold tracking-widest uppercase text-lg text-white">GEOShield <span className="text-[#8892A6] text-sm">OPS-CONSOLE</span></span>
           </Link>
           <div className="flex items-center gap-6 font-mono text-sm">
@@ -21,7 +21,7 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight flex items-center justify-center gap-4">
-            <Rocket className="w-10 h-10 text-[#00E5FF]" />
+            <span className="text-[#00E5FF] font-mono">[MISSION]</span>
             About GEOShield
           </h1>
           <p className="text-xl text-[#8892A6] font-mono max-w-2xl mx-auto leading-relaxed">
@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="bg-[#0D1224] border border-white/10 rounded-2xl shadow-sm p-8 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-2 h-full bg-[#00FF88]"></div>
           <h2 className="text-[#00FF88] font-mono text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Target className="w-4 h-4" /> The Mission
+            <span className="font-mono text-[#00FF88]">[TARGET]</span> The Mission
           </h2>
           <p className="text-[#E6EDF7] leading-relaxed mb-6">
             Geosynchronous satellites are vulnerable to internal charging caused by &gt;2 MeV electron flux spikes. Traditional warning systems rely on simple persistence models or offer highly uncertain forecasts. GEOShield bridges this gap with a physics-informed Machine Learning pipeline capable of predicting P99 crossing events with a <strong>12.0 hour advance warning</strong>.
@@ -61,7 +61,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-[#0D1224] border border-white/10 rounded-2xl shadow-sm p-8">
             <h2 className="text-[#00E5FF] font-mono text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-              <Database className="w-4 h-4" /> Data Pipeline
+              <span className="font-mono text-[#00E5FF]">[DATA]</span> Data Pipeline
             </h2>
             <ul className="space-y-4 text-[#E6EDF7] text-sm">
               <li className="flex gap-3">
@@ -81,7 +81,7 @@ export default function AboutPage() {
 
           <div className="bg-[#0D1224] border border-white/10 rounded-2xl shadow-sm p-8">
             <h2 className="text-[#FFB300] font-mono text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-              <BrainCircuit className="w-4 h-4" /> Model Architecture
+              <span className="font-mono text-[#FFB300]">[MODEL]</span> Model Architecture
             </h2>
             <ul className="space-y-4 text-[#E6EDF7] text-sm">
               <li className="flex gap-3">
