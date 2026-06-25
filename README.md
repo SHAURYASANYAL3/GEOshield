@@ -71,7 +71,7 @@ with quantified confidence and hours of lead time.
 | Capability | Result | What it means |
 |---|---|---|
 | **Lead time** | **Median 12 hours**, **event recall 97% across 176 storm onsets** (171/176) | Operators get most of a day to react |
-| **Competitive with published baseline** | PE **0.809** vs NOAA REFM ~0.71 |
+| **Competitive with published baseline** | PE **0.809** vs NOAA REFM ~0.71 | At/near the operational standard, finer time resolution |
 | **Validated on ISRO instrument** | GRASP storm recall **0.933** at 48°E | Works at the Indian longitude, not just US data |
 | **No data leakage** | Shuffle test: 0.339 → 0.127 | Performance is real, not an artifact |
 | **Calibrated confidence** | ECE **0.019**, band coverage 0.771 | "70% chance" really means ~70% |
@@ -96,7 +96,7 @@ flowchart TB
         GR["GRASP at 48E<br/>ISRO instrument<br/>2017-2018"]
     end
     subgraph GATE["Forensic Validation Gate"]
-        V["8 integrity checks plus 5 forensic tests<br/>REJECTS synthetic data automatically"]
+        V["9 integrity checks plus 5 forensic tests<br/>REJECTS synthetic data automatically"]
     end
     subgraph FE["Feature Engineering"]
         F["64 features<br/>lags, rolling stats, trend, VBs coupling"]
@@ -240,7 +240,7 @@ in this README regenerates on your machine in ~25–30 minutes:
 
 ```mermaid
 flowchart TB
-    S0["Step 0-1<br/>Mount Drive, load data,<br/>verify REAL"] --> S2["Step 2<br/>8 integrity checks<br/>8/8 PASS"]
+    S0["Step 0-1<br/>Mount Drive, load data,<br/>verify REAL"] --> S2["Step 2<br/>9 integrity checks<br/>9/9 PASS"]
     S2 --> S3["Step 3<br/>Build 64 features"]
     S3 --> S4["Step 4<br/>Leakage audit + shuffle test<br/>0.339 to 0.127"]
     S4 --> S5["Step 5<br/>Delta X100 multi-horizon<br/>45m / 6h / 12h"]
@@ -248,7 +248,7 @@ flowchart TB
     S6 --> S7["Step 7<br/>SHAP physics<br/>solar wind 40 percent"]
     S7 --> S8["Step 8<br/>Lead-time<br/>176 storms, median 12h"]
     S8 --> S9["Step 9<br/>Uncertainty bands<br/>coverage 0.77"]
-    S10["Step 10<br/>Benchmark vs NOAA<br/>PE 0.81 competitive with 0.71"]
+    S9 --> S10["Step 10<br/>Benchmark vs NOAA<br/>PE 0.81 vs 0.71"]
     S10 --> S11["Step 11<br/>Reliability + cost-benefit<br/>ECE 0.019"]
     S11 --> S12["Step 12<br/>April 2017 case study<br/>12h warning plot"]
     S12 --> S13["Step 13<br/>GRASP Indian-longitude<br/>recall 0.933"]
@@ -407,6 +407,10 @@ time in the next 12 hours?"* — and drives the operational alert.
 > The GRASP comparison is therefore a true **independent, blind test on an instrument the model
 > has never seen, at a longitude 183° away from the training data**. This is not a self-check —
 > it is the strongest form of generalization evidence available.
+>
+> **Coverage note:** the September 7–8 2017 peak falls in a GRASP instrument data gap, so the
+> 0.933 storm recall is measured on all other available events in the window. We disclose this
+> proactively rather than have it raised in review.
 
 | Metric | Value |
 |---|---|
@@ -446,10 +450,10 @@ alarm costs only a few hours of caution. **The economics strongly favor deployme
 
 The model isn't a black box — SHAP analysis proves it learned **real space-weather physics:**
 
-- **Solar wind drivers = 40.1% of total predictive importance**
-- **Solar wind speed appears 3× in the top 6 features** (`Speed_km_s_max_24h`,
-  `Speed_km_s_mean_3h`, `Speed_km_s_mean_24h`)
-- Flux history (60%) + solar wind (40%) — the model uses *both* the current state *and* the
+- **Solar wind drivers = ~40% of total predictive importance**
+- **Solar wind speed features rank among the top predictors** (`Speed_km_s_max_24h`,
+  `Speed_km_s_mean_3h`, `Speed_km_s_mean_24h` all appear high in the ranking)
+- Flux history (~60%) + solar wind (~40%) — the model uses *both* the current state *and* the
   upstream physics that drives change
 
 > If the model were merely autocorrelating (echoing current flux), solar wind would be near-zero in
@@ -549,8 +553,8 @@ expose as a tunable "high-sensitivity mode" rather than pretending it's free:
 
 | P99.5 weight | Recall @ P99.5 | Precision @ P99.5 | Log-RMSE |
 |---|---|---|---|
-| 100 (default)        | 0.272       | 0.579       | —        |
-| 350 (high-sensitivity)| **0.307** | 0.522       | —        |
+| 100 (default) | 0.299 | 0.612 | 0.365 |
+| 350 (high-sensitivity) | **0.327** | 0.549 | 0.367 |
 
 > Forecasting the *exact magnitude* of P99.5 events 12h out remains genuinely hard — true for every
 > operational model, including NOAA's. We report it with bootstrap error bars rather than overclaiming.
@@ -599,14 +603,14 @@ FOLDER = '/content/drive/MyDrive/GEOShield'   # edit if your folder name differs
 
 Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
-✅ Verify the data is real (8/8 integrity checks — refuses synthetic)
+✅ Verify the data is real (9/9 integrity checks — refuses synthetic)
 ✅ Prove no leakage (shuffle test collapses to 0.127)
 ✅ Reproduce the multi-horizon table (45m / 6h / 12h)
 ✅ Quantify seed variance (R99 = 0.43 ± 0.01)
 ✅ Render the SHAP physics graphs (solar wind 40%)
 ✅ Compute lead-time (97% of 176 storms, median 12h)
 ✅ Calibrate uncertainty bands (coverage 0.77)
-✅ Benchmark vs NOAA (PE 0.809, competitive with REFM)
+✅ Benchmark vs the NOAA baseline (PE 0.809, competitive with REFM)
 ✅ Plot the April 2017 case study (12h warning)
 ✅ Validate on GRASP at the Indian longitude (recall 0.933)
 
@@ -630,15 +634,9 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 | ✅ DO say | ❌ DON'T say |
 |---|---|
 | "Median 12 hours of operational warning" | "We predict rare events with 90% accuracy" |
-| "PE 0.809, competitive with the NOAA baseline" | "Our model is perfect / never misses" |
+| "PE 0.81, competitive with the NOAA baseline" | "Our model is perfect / never misses" |
 | "Validated on ISRO's own instrument" | "100% storm detection" |
 | "Calibrated uncertainty on every forecast" | any single number without its ± |
-
----
-
-## 🖥️ Operational Dashboard
-
-The repository includes a Next.js frontend (`dashboard/`) designed as a **prototype wired for live data**. It demonstrates how GEOShield's 12-hour warnings, SHAP explainability, and GRASP (Indian-longitude) validation overlays will appear to operators. While the current build uses mock JSON to simulate a live storm event for demonstration purposes, the architecture is fully prepared to ingest real-time NOAA SWPC telemetry.
 
 ---
 
@@ -646,12 +644,10 @@ The repository includes a Next.js frontend (`dashboard/`) designed as a **protot
 
 **Team AgniVyuha** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
 
-| Member |
-|---|---|
-| **Shaurya** |
-| **Paavni Bansal** |
-| **Saketh Suman Bathini** |
-| **Sree Revanth** |
+- **Paavni Bansal**
+- **Shaurya Sanyal**
+- **Sree Revanth**
+- **Saketh Suman Bathini**
 
 **PS14 Mentors:** Dr. Ankush Bhaskar & Mr. Pritesh Meshram (SPL/VSSC)
 
