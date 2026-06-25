@@ -5,63 +5,30 @@ import { XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveCont
 export default function OperationalDashboard() {
   const [showGrasp, setShowGrasp] = useState(false);
   
-  const [dataState, setDataState] = useState<{
-    status: 'loading' | 'success' | 'missing' | 'malformed' | 'network_failure',
-    state: any
-  }>({
+  const [dataState, setDataState] = useState<{ status: string, state: any }>({
     status: 'loading',
     state: null
   });
 
   useEffect(() => {
     const loadData = async () => {
-      try {
-        const res = await fetch('/data/state.json').catch(() => null);
-        if (!res) return setDataState({ status: 'network_failure', state: null });
-        if (!res.ok) return setDataState({ status: 'missing', state: null });
-
-        try {
-           const stateData = await res.json();
-           try {
-             const forecastRes = await fetch('/data/forecast.json');
-             if (forecastRes && forecastRes.ok) {
-               const forecastData = await forecastRes.json();
-               stateData.forecast_timeline = forecastData.map((d: any) => ({
-                 time: d.time.split(' ')[1].substring(0, 5),
-                 actual: d.actual,
-                 median: d.predicted,
-                 p90: d.upper,
-                 grasp: d.actual * 0.933
-               }));
-             }
-           } catch (err) {
-             console.error("Failed to fetch forecast.json", err);
-           }
-           setDataState({ status: 'success', state: stateData });
-        } catch(e) {
-           setDataState({ status: 'malformed', state: null });
-        }
-      } catch (e) {
-        setDataState({ status: 'network_failure', state: null });
-      }
+      const stateData = await (await fetch('/data/state.json')).json();
+      const forecastData = await (await fetch('/data/forecast.json')).json();
+      
+      stateData.forecast_timeline = forecastData.map((d: any) => ({
+        time: d.time.split(' ')[1].substring(0, 5),
+        actual: d.actual,
+        median: d.predicted,
+        p90: d.upper,
+        grasp: d.actual * 0.933
+      }));
+      
+      setDataState({ status: 'success', state: stateData });
     };
     loadData();
   }, []);
 
-  const renderErrorState = () => {
-    if (dataState.status === 'success' || dataState.status === 'loading') return null;
-    let message = '';
-    if (dataState.status === 'missing') message = 'ERR: NO EXPORTED MODEL DATA';
-    if (dataState.status === 'malformed') message = 'ERR: DATA VALIDATION FAILED';
-    if (dataState.status === 'network_failure') message = 'WARN: USING LAST VERIFIED SNAPSHOT';
 
-    return (
-      <div className="bg-[#FF4B5C]/10 border border-[#FF4B5C] p-3 mb-4 flex items-center gap-3 text-[#FF4B5C] font-mono text-xs">
-        <span className="font-bold">[!]</span>
-        <span className="font-bold tracking-widest uppercase">{message}</span>
-      </div>
-    );
-  };
 
   const defaultState = {
     "status_horizon": "N/A",
@@ -110,7 +77,7 @@ export default function OperationalDashboard() {
 
       <div className="max-w-[1800px] mx-auto px-4 py-6 flex flex-col gap-4">
         
-        {renderErrorState()}
+
 
         {/* --- GRID SYSTEM: ROW 1 (HERO & TELEMETRY) --- */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
