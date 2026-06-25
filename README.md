@@ -15,7 +15,7 @@
 ![Validation](https://img.shields.io/badge/validated%20on-ISRO%20GRASP-purple)
 ![Hackathon](https://img.shields.io/badge/BAH%202026-PS14-red)
 
-**Team AgniVyuha** · Bharatiya Antariksh Hackathon 2026 · Problem Statement 14
+**Team AstraVajra** · Bharatiya Antariksh Hackathon 2026 · Problem Statement 14
 
 </div>
 
@@ -642,7 +642,7 @@ Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 ## 👥 Team
 
-**Team AgniVyuha** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
+**Team AstraVajra** — Bharatiya Antariksh Hackathon 2026, Problem Statement 14
 
 - **Paavni Bansal**
 - **Shaurya Sanyal**
