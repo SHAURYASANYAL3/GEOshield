@@ -307,7 +307,7 @@ export default function OperationalDashboard() {
                 <div className="flex justify-between text-[#00E5FF] mt-2 pt-2 border-t border-white/10"><span>LEAD_TIME:</span><span>12.0 HRS</span></div>
               </div>
               <div className="flex items-center justify-center bg-white p-1 border border-white/20">
-                <img src="/plots/Screenshot_1.png" alt="Advance Warning" className="max-h-[120px] object-contain" />
+                <img src="/plots/Screenshot_1.png" alt="Advance Warning" className="w-full h-auto object-contain" />
               </div>
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function OperationalDashboard() {
                 <div className="flex justify-between text-[#FFB300] mt-2 pt-2 border-t border-white/10"><span>P90_BAND:</span><span>308,247 (93%)</span></div>
               </div>
               <div className="flex items-center justify-center bg-white p-1 border border-white/20">
-                <img src="/plots/Screenshot_2.png" alt="Peak Capture" className="max-h-[120px] object-contain" />
+                <img src="/plots/Screenshot_2.png" alt="Peak Capture" className="w-full h-auto object-contain" />
               </div>
             </div>
           </div>
@@ -335,8 +335,8 @@ export default function OperationalDashboard() {
             <div className="mb-4 border-b border-white/5 pb-2">
               <span className="font-mono text-[9px] text-[#8892A6] tracking-widest uppercase">Global SHAP Importance</span>
             </div>
-            <div className="flex justify-center bg-white p-2 border border-white/20 h-[150px]">
-              <img src="/plots/Screenshot_3.png" alt="SHAP Importance" className="h-full object-contain" />
+            <div className="flex justify-center bg-white p-2 border border-white/20">
+              <img src="/plots/Screenshot_3.png" alt="SHAP Importance" className="w-full h-auto object-contain" />
             </div>
           </div>
 
@@ -345,8 +345,8 @@ export default function OperationalDashboard() {
             <div className="mb-4 border-b border-white/5 pb-2">
               <span className="font-mono text-[9px] text-[#8892A6] tracking-widest uppercase">SHAP Feature Impact</span>
             </div>
-            <div className="flex justify-center bg-white p-2 border border-white/20 h-[150px]">
-              <img src="/plots/Screenshot_4.png" alt="SHAP Beeswarm" className="h-full object-contain" />
+            <div className="flex justify-center bg-white p-2 border border-white/20">
+              <img src="/plots/Screenshot_4.png" alt="SHAP Beeswarm" className="w-full h-auto object-contain" />
             </div>
           </div>
         </div>
