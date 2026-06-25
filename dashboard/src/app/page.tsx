@@ -284,19 +284,8 @@ export default function OperationalDashboard() {
               </div>
               <div className="bg-white p-2">
                 <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 Storm - model forecast vs reality</h3>
-                <div className="h-[250px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={realForecast} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                      <XAxis dataKey="time" stroke="#000" tick={{ fill: '#000', fontSize: 10 }} tickFormatter={(val) => val ? val.split(' ')[0] : ''} />
-                      <YAxis scale="log" domain={['auto', 'auto']} stroke="#000" tick={{ fill: '#000', fontSize: 10 }} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderColor: '#ccc', color: '#000' }} />
-                      <Legend wrapperStyle={{ fontSize: '12px', color: '#000' }} />
-                      <ReferenceLine y={59153} stroke="red" strokeDasharray="2 2" />
-                      <Line type="monotone" dataKey="actual" name="Actual flux" stroke="blue" strokeWidth={2} dot={false} isAnimationActive={false} />
-                      <Line type="monotone" dataKey="predicted" name="Forecast (12h ahead)" stroke="green" strokeWidth={2} strokeDasharray="5 5" dot={false} isAnimationActive={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <div className="w-full h-auto">
+                  <img src="/plots/plotA.png" alt="Advance Warning Chart" className="w-full h-auto object-contain max-h-[300px] mx-auto" />
                 </div>
               </div>
             </div>
@@ -310,20 +299,8 @@ export default function OperationalDashboard() {
               </div>
               <div className="bg-white p-2">
                 <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 — median understates peak, P90 upper band captures it</h3>
-                <div className="h-[250px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={realForecast} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                      <XAxis dataKey="time" stroke="#000" tick={{ fill: '#000', fontSize: 10 }} tickFormatter={(val) => val ? val.split(' ')[0] : ''} />
-                      <YAxis scale="log" domain={['auto', 'auto']} stroke="#000" tick={{ fill: '#000', fontSize: 10 }} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderColor: '#ccc', color: '#000' }} />
-                      <Legend wrapperStyle={{ fontSize: '12px', color: '#000' }} />
-                      <ReferenceLine y={59153} stroke="red" strokeDasharray="2 2" />
-                      <Line type="monotone" dataKey="actual" name="Actual flux" stroke="blue" strokeWidth={2} dot={false} isAnimationActive={false} />
-                      <Line type="monotone" dataKey="predicted" name="Median forecast" stroke="green" strokeWidth={2} strokeDasharray="5 5" dot={false} isAnimationActive={false} />
-                      <Line type="monotone" dataKey="upper" name="P90 upper band (worst-case)" stroke="orange" strokeWidth={2} strokeDasharray="2 2" dot={false} isAnimationActive={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <div className="w-full h-auto">
+                  <img src="/plots/plotB.png" alt="Peak Capture Chart" className="w-full h-auto object-contain max-h-[300px] mx-auto" />
                 </div>
               </div>
             </div>
@@ -331,15 +308,8 @@ export default function OperationalDashboard() {
             {/* 1.png: SHAP Feature Importance */}
             <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
               <div className="bg-white p-2">
-                <div className="h-[400px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={shapData} layout="vertical" margin={{ top: 10, right: 30, left: 160, bottom: 20 }}>
-                      <XAxis type="number" stroke="#000" tick={{ fill: '#000', fontSize: 12 }} label={{ value: 'mean(|SHAP value|) (average impact on model output magnitude)', position: 'bottom', fill: '#000', fontSize: 12 }} />
-                      <YAxis type="category" dataKey="feature" stroke="#000" tick={{ fill: '#333', fontSize: 11 }} axisLine={false} tickLine={false} />
-                      <RechartsTooltip contentStyle={{ backgroundColor: '#fff', borderColor: '#ccc', color: '#000' }} />
-                      <Bar dataKey="impact" fill="#008BFB" isAnimationActive={false} barSize={15} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <div className="w-full h-auto flex items-center justify-center">
+                  <img src="/plots/plotC.png" alt="SHAP Feature Importance" className="w-full h-auto object-contain max-h-[400px]" />
                 </div>
               </div>
             </div>
@@ -347,37 +317,8 @@ export default function OperationalDashboard() {
             {/* 2.png: SHAP Beeswarm */}
             <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
               <div className="bg-white p-2 h-full flex items-center">
-                <div className="h-[400px] w-full flex">
-                  <div className="w-[160px] flex flex-col justify-between py-6 text-right pr-2">
-                    {shapData.slice().reverse().map((item, i) => (
-                      <div key={i} className="text-[11px] text-[#333] h-full flex items-center justify-end">{item.feature}</div>
-                    ))}
-                  </div>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <ScatterChart margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
-                      <XAxis type="number" dataKey="impact" stroke="#000" tick={{ fill: '#000', fontSize: 12 }} label={{ value: 'SHAP value (impact on model output)', position: 'bottom', fill: '#000', fontSize: 12 }} />
-                      <YAxis type="number" dataKey="featureIndex" domain={[0, 14]} tick={false} axisLine={true} />
-                      <RechartsTooltip cursor={{ strokeDasharray: '3 3' }} content={(props: any) => {
-                        const { payload } = props;
-                        if (payload && payload.length) {
-                          return <div className="bg-white border border-gray-300 p-2 text-xs text-black">{payload[0].payload.featureName}: {payload[0].value.toFixed(3)}</div>;
-                        }
-                        return null;
-                      }} />
-                      <ReferenceLine x={0} stroke="#999" />
-                      <Scatter data={beeswarmData} fill="#0084ff" isAnimationActive={false}>
-                        {beeswarmData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Scatter>
-                    </ScatterChart>
-                  </ResponsiveContainer>
-                  {/* Color scale legend */}
-                  <div className="w-[10px] ml-2 flex flex-col items-center justify-between py-6">
-                    <span className="text-[10px] text-black">High</span>
-                    <div className="w-1 h-full bg-gradient-to-b from-[#ff0040] to-[#0084ff] my-1"></div>
-                    <span className="text-[10px] text-black">Low</span>
-                  </div>
+                <div className="w-full h-auto flex items-center justify-center">
+                  <img src="/plots/plotD.png" alt="SHAP Beeswarm" className="w-full h-auto object-contain max-h-[400px]" />
                 </div>
               </div>
             </div>
