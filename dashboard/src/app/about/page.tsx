@@ -36,7 +36,7 @@ export default function AboutPage() {
             <Target className="w-4 h-4" /> The Mission
           </h2>
           <p className="text-[#cbd5e1] leading-relaxed mb-6">
-            Geosynchronous satellites are vulnerable to internal charging caused by &gt;2 MeV electron flux spikes. Traditional warning systems rely on simple persistence models or offer highly uncertain forecasts. GEOShield bridges this gap with a physics-informed Machine Learning pipeline capable of predicting P99 crossing events with an unprecedented <strong>12.0 hour advance warning</strong>.
+            Geosynchronous satellites are vulnerable to internal charging caused by &gt;2 MeV electron flux spikes. Traditional warning systems rely on simple persistence models or offer highly uncertain forecasts. GEOShield bridges this gap with a physics-informed Machine Learning pipeline capable of predicting P99 crossing events with a <strong>12.0 hour advance warning</strong>.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-[#050816] p-4 rounded-lg border border-[#1e293b]">
@@ -66,7 +66,7 @@ export default function AboutPage() {
             <ul className="space-y-4 text-[#cbd5e1] text-sm">
               <li className="flex gap-3">
                 <span className="text-[#00E5FF] mt-1">▹</span>
-                <span><strong>Telemetry:</strong> Trained on 398,319 rows of GOES-15 electron flux data (2011–2016).</span>
+                <span><strong>Telemetry:</strong> Trained on 458,731 rows of GOES-15 electron flux data (2010–2016).</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-[#00E5FF] mt-1">▹</span>
@@ -90,7 +90,7 @@ export default function AboutPage() {
               </li>
               <li className="flex gap-3">
                 <span className="text-[#FFB300] mt-1">▹</span>
-                <span><strong>Quantile Regression:</strong> Predicts P50, P90, and P95 bands to accurately capture extreme peak storm events.</span>
+                <span><strong>Quantile Regression:</strong> Predicts P10, P50, P90 bands to accurately capture extreme peak storm events.</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-[#FFB300] mt-1">▹</span>

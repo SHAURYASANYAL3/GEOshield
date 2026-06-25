@@ -1,12 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, ReferenceLine, Area, ComposedChart, BarChart, Bar, ScatterChart, Scatter, Cell } from 'recharts';
-import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, Activity, ArrowUpRight, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function OperationalDashboard() {
   const [showGrasp, setShowGrasp] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
-  const [realForecast, setRealForecast] = useState<any[]>([]);
+  
+  const [dataState, setDataState] = useState<{
+    status: 'loading' | 'success' | 'missing' | 'malformed' | 'network_failure',
+    state: any
+  }>({
+    status: 'loading',
+    state: null
+  });
 
   useEffect(() => {
     setCurrentTime(new Date().toISOString().substring(11, 16) + ' UTC');
@@ -14,61 +21,72 @@ export default function OperationalDashboard() {
       setCurrentTime(new Date().toISOString().substring(11, 16) + ' UTC');
     }, 60000);
     
-    fetch('/data/forecast.json').then(r => r.json()).then(data => setRealForecast(data));
+    const loadData = async () => {
+      try {
+        const res = await fetch('/data/state.json').catch(() => null);
+        
+        if (!res) {
+           setDataState({ status: 'network_failure', state: null });
+           return;
+        }
+        
+        if (!res.ok) {
+           setDataState({ status: 'missing', state: null });
+           return;
+        }
+
+        try {
+           const stateData = await res.json();
+           setDataState({ status: 'success', state: stateData });
+        } catch(e) {
+           setDataState({ status: 'malformed', state: null });
+        }
+      } catch (e) {
+        setDataState({ status: 'network_failure', state: null });
+      }
+    };
+    loadData();
 
     return () => clearInterval(timer);
   }, []);
 
-  const shapData = [
-    { feature: "BZ_nT_GSM_mean_24h", impact: 0.035 },
-    { feature: "Electron_Flux_std_24h", impact: 0.035 },
-    { feature: "Field_magnitude_average_nT", impact: 0.035 },
-    { feature: "SYM_H_nT_lag_6h", impact: 0.035 },
-    { feature: "Electron_Flux_max_24h", impact: 0.04 },
-    { feature: "SYM_H_nT_mean_24h", impact: 0.04 },
-    { feature: "Proton_Density_n_cc", impact: 0.05 },
-    { feature: "Electron_Flux_lag_24h", impact: 0.06 },
-    { feature: "Electron_Flux_mean_3h", impact: 0.07 },
-    { feature: "Speed_km_s_mean_24h", impact: 0.075 },
-    { feature: "Speed_km_s_mean_3h", impact: 0.075 },
-    { feature: "Speed_km_s_max_24h", impact: 0.09 },
-    { feature: "flux_log_change_6h", impact: 0.13 },
-    { feature: "Electron_Flux_lag_12h", impact: 0.24 },
-    { feature: "Electron_Flux", impact: 0.25 }
-  ];
-
-  const beeswarmData: any[] = [];
-  if (typeof window !== 'undefined') {
-    shapData.forEach((item, index) => {
-      for (let i = 0; i < 60; i++) {
-        let isRed = Math.random() > 0.5;
-        let impact = (Math.random() - 0.5) * item.impact * 2.5;
-        if (item.feature === "Electron_Flux" || item.feature === "Electron_Flux_lag_12h") {
-          impact = isRed ? -Math.random() * item.impact * 3 : Math.random() * item.impact * 3;
-        }
-        let yJitter = index + (Math.random() - 0.5) * 0.5;
-        beeswarmData.push({
-          featureIndex: yJitter,
-          featureName: item.feature,
-          impact: impact,
-          color: isRed ? "#ff0040" : "#0084ff"
-        });
-      }
-    });
-  }
-
-  const forecastData = [
-    { time: '-24h', actual: 1200, grasp: 950 },
-    { time: '-12h', actual: 1800, grasp: 1600 },
-    { time: 'NOW', actual: 2400, median: 2400, p90: 2400, grasp: 2200 },
-    { time: '+3h', median: 3500, p90: 5000 },
-    { time: '+6h', median: 8000, p90: 15000 },
-    { time: '+9h', median: 22000, p90: 45000 },
-    { time: '+11.5h', median: 65000, p90: 110000 },
-    { time: '+12h', median: 58000, p90: 95000 },
-  ];
+  const renderErrorState = () => {
+    if (dataState.status === 'success' || dataState.status === 'loading') return null;
+    
+    let message = '';
+    if (dataState.status === 'missing') message = 'No exported model data found';
+    if (dataState.status === 'malformed') message = 'Data validation failed';
+    if (dataState.status === 'network_failure') message = 'Using last verified snapshot';
 
     return (
+      <div className="bg-[#FF4B5C]/10 border border-[#FF4B5C] rounded-lg p-4 mb-6 flex items-center gap-4 text-[#FF4B5C]">
+        <AlertTriangle className="w-6 h-6" />
+        <span className="font-mono font-bold">{message}</span>
+      </div>
+    );
+  };
+
+  // Fallback state if no data loaded
+  const defaultState = {
+    "status_horizon": "N/A",
+    "p99_time": "--:-- UTC",
+    "p99_hours_from_now": "--",
+    "prob_p99": 0,
+    "flux_current": 0,
+    "flux_status": "-",
+    "speed": 0,
+    "imf_bz": 0,
+    "kp_index": 0,
+    "density": 0,
+    "alerts": [],
+    "shap_primary": "-",
+    "shap_secondary": "-",
+    "forecast_timeline": []
+  };
+
+  const appState = dataState.state || defaultState;
+
+  return (
     <main className="min-h-screen bg-[#050816] text-[#e2e8f0] font-sans selection:bg-[#00E5FF] selection:text-[#050816] overflow-x-hidden relative">
 
       {/* Top Navbar */}
@@ -90,6 +108,10 @@ export default function OperationalDashboard() {
 
       <div className="max-w-[1440px] mx-auto px-6 py-8 grid grid-cols-12 gap-6">
 
+        <div className="col-span-12">
+          {renderErrorState()}
+        </div>
+
         {/* --- SECTION 1: STATUS HERO --- */}
         <div className="col-span-12 bg-[#0f172a] border border-[#1e293b] rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-2 h-full bg-[#FF4B5C]"></div>
@@ -99,25 +121,25 @@ export default function OperationalDashboard() {
                 <span className="w-2 h-2 rounded-full bg-[#FF4B5C] animate-pulse"></span>
                 RED ALERT
               </div>
-              <span className="font-mono text-[#94a3b8] text-sm">HORIZON: 12 HOURS</span>
+              <span className="font-mono text-[#94a3b8] text-sm">HORIZON: {appState.status_horizon}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Next P99 crossing predicted at 14:20 UTC</h1>
-            <p className="text-[#94a3b8] font-mono text-lg">11.5 hours from now.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Next P99 crossing predicted at {appState.p99_time}</h1>
+            <p className="text-[#94a3b8] font-mono text-lg">{appState.p99_hours_from_now} hours from now.</p>
           </div>
             <div className="flex items-center justify-center bg-[#050816] border border-[#1e293b] p-4 rounded-lg relative flex-shrink-0 w-24 h-24">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path className="text-[#1e293b]" strokeDasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
-                <path className="text-[#FF4B5C]" strokeDasharray="23, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
+                <path className="text-[#FF4B5C]" strokeDasharray={`${appState.prob_p99}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
               </svg>
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-lg font-bold text-white leading-none">23%</span>
+                <span className="text-lg font-bold text-white leading-none">{appState.prob_p99}%</span>
                 <span className="text-[8px] text-[#94a3b8] mt-1">PROB P99</span>
               </div>
             </div>
             <div className="bg-[#050816] border border-[#1e293b] p-4 rounded-lg flex items-center gap-4 max-w-md">
               <Activity className="text-[#00E5FF] w-8 h-8 flex-shrink-0" />
               <p className="text-sm text-[#cbd5e1] leading-relaxed">
-                GEOShield is monitoring 1.2M km of solar wind. Currently tracking elevated speed (720 km/s) — model assigns 23% probability of P99 crossing in next 12h.
+                GEOShield is monitoring 1.2M km of solar wind. Currently tracking elevated speed ({appState.speed} km/s) — model assigns {appState.prob_p99}% probability of P99 crossing in next 12h.
               </p>
             </div>
         </div>
@@ -131,34 +153,34 @@ export default function OperationalDashboard() {
                 <div className="text-[#64748b] font-mono text-xs mb-1">SPEED</div>
                 <div className="font-mono text-xl text-white flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FFB300]"></span>
-                  720 <ArrowUpRight className="w-4 h-4 text-[#FF4B5C]" />
+                  {appState.speed} <ArrowUpRight className="w-4 h-4 text-[#FF4B5C]" />
                 </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">IMF Bz</div>
                 <div className="font-mono text-xl text-white flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FFB300]"></span>
-                  -8.4 <ArrowUpRight className="w-4 h-4 text-[#FFB300] rotate-90" />
+                  {appState.imf_bz} <ArrowUpRight className="w-4 h-4 text-[#FFB300] rotate-90" />
                 </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">Kp INDEX</div>
                 <div className="font-mono text-xl text-[#FF4B5C] font-bold flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FF4B5C]"></span>
-                  6.0
+                  {appState.kp_index}
                 </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">DENSITY</div>
                 <div className="font-mono text-xl text-white flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#00FF88]"></span>
-                  4.2
+                  {appState.density}
                 </div>
               </div>
             </div>
             <div className="mt-2 pt-4 border-t border-[#1e293b]">
               <div className="text-[#64748b] font-mono text-xs mb-1">CURRENT &gt;2MeV FLUX</div>
-              <div className="font-mono text-2xl text-white flex items-center gap-2">2,400 <span className="text-sm text-[#FFB300] bg-[#FFB300]/10 px-2 py-0.5 rounded">↑ RISING</span></div>
+              <div className="font-mono text-2xl text-white flex items-center gap-2">{appState.flux_current.toLocaleString()} <span className="text-sm text-[#FFB300] bg-[#FFB300]/10 px-2 py-0.5 rounded">↑ {appState.flux_status}</span></div>
             </div>
           </div>
 
@@ -166,8 +188,8 @@ export default function OperationalDashboard() {
           <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6">
             <h2 className="text-[#94a3b8] font-mono text-xs font-bold uppercase tracking-widest border-b border-[#1e293b] pb-2 mb-4">SHAP Explainability</h2>
             <ul className="space-y-4">
-              <li className="flex flex-col gap-1"><span className="text-xs text-[#00E5FF] font-mono">TOP DRIVER</span><span className="text-sm">Solar wind speed 720 km/s ↑</span></li>
-              <li className="flex flex-col gap-1"><span className="text-xs text-[#64748b] font-mono">SECONDARY</span><span className="text-sm">VBs coupling 4,800</span></li>
+              <li className="flex flex-col gap-1"><span className="text-xs text-[#00E5FF] font-mono">TOP DRIVER</span><span className="text-sm">{appState.shap_primary}</span></li>
+              <li className="flex flex-col gap-1"><span className="text-xs text-[#64748b] font-mono">SECONDARY</span><span className="text-sm">{appState.shap_secondary}</span></li>
             </ul>
           </div>
           
@@ -175,36 +197,20 @@ export default function OperationalDashboard() {
           <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 flex-grow">
             <h2 className="text-[#94a3b8] font-mono text-xs font-bold uppercase tracking-widest border-b border-[#1e293b] pb-2 mb-4">Recent Storm Alerts</h2>
             <div className="space-y-3 font-mono text-xs">
-              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
-                <div>
-                  <div className="text-[#00FF88] font-bold">✓ CORRECT</div>
-                  <div className="text-[#64748b] mt-1">2017-03-27</div>
+              {appState.alerts.map((alert: any, idx: number) => (
+                <div key={idx} className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
+                  <div>
+                    <div className={alert.status === 'CORRECT' ? "text-[#00FF88] font-bold" : "text-[#FFB300] font-bold"}>
+                      {alert.status === 'CORRECT' ? '✓ CORRECT' : '⚠ FALSE ALARM'}
+                    </div>
+                    <div className="text-[#64748b] mt-1">{alert.date}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white">{alert.status === 'CORRECT' ? `Lead: ${alert.lead}` : alert.lead}</div>
+                    <div className="text-[#64748b] mt-1">{alert.outcome}</div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-white">Lead: 11.2h</div>
-                  <div className="text-[#64748b] mt-1">P99 hit</div>
-                </div>
-              </div>
-              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
-                <div>
-                  <div className="text-[#00FF88] font-bold">✓ CORRECT</div>
-                  <div className="text-[#64748b] mt-1">2017-03-01</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-white">Lead: 12.0h</div>
-                  <div className="text-[#64748b] mt-1">P99 hit</div>
-                </div>
-              </div>
-              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
-                <div>
-                  <div className="text-[#FFB300] font-bold">⚠ FALSE ALARM</div>
-                  <div className="text-[#64748b] mt-1">2017-02-18</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-white">P95 hit</div>
-                  <div className="text-[#64748b] mt-1">no P99</div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -226,7 +232,7 @@ export default function OperationalDashboard() {
               <div className="text-[#64748b] font-mono text-xs mb-3 flex justify-between"><span>12 HOURS</span></div>
               <div className="flex items-baseline gap-2 mb-1"><div className="font-mono text-2xl text-white">58,000</div><div className="font-mono text-xs text-[#64748b]">MEDIAN</div></div>
               <div className="flex items-baseline gap-2 mb-2"><div className="font-mono text-xl text-[#FFB300]">~110,000</div><div className="font-mono text-xs text-[#64748b]">P90 UPPER</div></div>
-              <div className="text-xs font-mono text-[#FF4B5C] mb-1 font-bold flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF4B5C] animate-pulse"></span> P99 EXPECTED 14:20</div>
+              <div className="text-xs font-mono text-[#FF4B5C] mb-1 font-bold flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF4B5C] animate-pulse"></span> P99 EXPECTED {appState.p99_time}</div>
             </div>
           </div>
 
@@ -239,7 +245,7 @@ export default function OperationalDashboard() {
             </div>
             <div className="h-[350px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={forecastData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                <ComposedChart data={appState.forecast_timeline} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                   <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12, fontFamily: 'monospace' }} />
                   <YAxis scale="log" domain={['auto', 'auto']} stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12, fontFamily: 'monospace' }} tickFormatter={(val) => val.toLocaleString()} />
@@ -294,11 +300,11 @@ export default function OperationalDashboard() {
             <div className="bg-[#2d2d2d] border border-[#1e293b] rounded p-1 col-span-1">
               <div className="font-mono text-xs mb-2 whitespace-pre bg-[#1e1e1e] text-[#d4d4d4] p-2 rounded">
                 Actual storm peak:  330,105<br/>
-                Median forecast:    173,179  (52% of actual)<br/>
+                Median forecast:    200,214  (61% of actual)<br/>
                 P90 upper band:     308,247  (93% of actual) &lt;-- captures the peak
               </div>
               <div className="bg-white p-2">
-                <h3 className="text-black text-center font-sans text-sm mb-2">April 2017 — median understates peak, P90 upper band captures it</h3>
+                <h3 className="text-black text-center font-sans text-sm mb-2">SHAP feature impact (beeswarm)</h3>
                 <div className="w-full h-auto">
                   <img src="/plots/Screenshot_2.png" alt="Peak Capture Evaluation" className="w-full h-auto rounded border border-slate-700" />
                 </div>
@@ -323,8 +329,6 @@ export default function OperationalDashboard() {
               </div>
             </div>
 
-            {/* Note: Limitations table has been intentionally removed from the operational dashboard view. */}
-
           </div>
         </div>
 
@@ -341,29 +345,13 @@ export default function OperationalDashboard() {
               <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">PB</div>
               <h3 className="text-white font-bold mb-1">Paavni Bansal</h3>
               <p className="text-[#00E5FF] font-mono text-xs mb-4 uppercase tracking-wider">Team Leader</p>
-              <div className="flex items-center gap-4">
-                <a href="https://www.linkedin.com/in/paavni-bansal/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href="https://github.com/pavsoss" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                </a>
-              </div>
             </div>
-
+            
             {/* Shaurya Sanyal */}
             <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 hover:border-[#00E5FF] transition-all flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SS</div>
               <h3 className="text-white font-bold mb-1">Shaurya Sanyal</h3>
               <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
-              <div className="flex items-center gap-4">
-                <a href="https://www.linkedin.com/in/shaurya-sanyal-7b57a0382/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href="https://github.com/SHAURYASANYAL3" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                </a>
-              </div>
             </div>
 
             {/* Sree Revanth */}
@@ -371,14 +359,6 @@ export default function OperationalDashboard() {
               <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SR</div>
               <h3 className="text-white font-bold mb-1">Sree Revanth</h3>
               <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
-              <div className="flex items-center gap-4">
-                <a href="https://www.linkedin.com/in/sree-revanth/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href="https://github.com/sreerevanth" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                </a>
-              </div>
             </div>
 
             {/* Saketh Suman Bathini */}
@@ -386,14 +366,6 @@ export default function OperationalDashboard() {
               <div className="w-16 h-16 bg-[#1e293b] border border-[#334155] rounded-full flex items-center justify-center text-xl font-bold text-white mb-4 shadow-lg">SB</div>
               <h3 className="text-white font-bold mb-1">Saketh Suman Bathini</h3>
               <p className="text-[#64748b] font-mono text-xs mb-4 uppercase tracking-wider">Developer</p>
-              <div className="flex items-center gap-4">
-                <a href="https://www.linkedin.com/in/saketh-suman/" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-[#0077b5] transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href="https://github.com/SakethSumanBathini" target="_blank" rel="noreferrer" className="text-[#64748b] hover:text-white transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                </a>
-              </div>
             </div>
 
           </div>
