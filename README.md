@@ -9,6 +9,7 @@
 <br/>
 
 ![Status](https://img.shields.io/badge/status-validated-success)
+![Architecture](https://img.shields.io/badge/Operational_Prototype-Replay_+_Live--Ready-amber)
 ![Data](https://img.shields.io/badge/data-REAL%20%C2%B7%20704%2C108%20rows-blue)
 ![Warning](https://img.shields.io/badge/lead--time-median%2012%20hours-orange)
 ![Benchmark](https://img.shields.io/badge/PE-0.809%20competitive%20with%20REFM-blue)

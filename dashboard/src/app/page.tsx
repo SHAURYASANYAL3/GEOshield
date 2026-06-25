@@ -79,9 +79,9 @@ export default function OperationalDashboard() {
             <span className="font-mono font-bold tracking-widest uppercase text-lg text-white">GEOShield <span className="text-[#64748b] text-sm">OPS-CONSOLE</span></span>
           </div>
           <div className="flex items-center gap-6 font-mono text-sm">
-            <div className="flex items-center gap-2 text-[#00E5FF] bg-[#00E5FF]/10 px-3 py-1 rounded font-bold">
-              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E5FF] opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E5FF]"></span></span>
-              DEMO MODE — REPLAYING APRIL 2017 STORM EVENT
+            <div className="flex items-center gap-2 text-amber-400 bg-amber-400/10 px-3 py-1 rounded font-bold text-xs uppercase tracking-wider">
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span></span>
+              OPERATIONAL PROTOTYPE — REPLAY + LIVE-READY ARCHITECTURE
             </div>
             <div className="text-[#94a3b8]">{currentTime}</div>
           </div>
