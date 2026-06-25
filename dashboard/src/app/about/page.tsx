@@ -66,7 +66,7 @@ export default function AboutPage() {
             <ul className="space-y-4 text-[#cbd5e1] text-sm">
               <li className="flex gap-3">
                 <span className="text-[#00E5FF] mt-1">▹</span>
-                <span><strong>Telemetry:</strong> Trained on over 458,731 rows of historical GOES-13, 14, and 15 electron flux data.</span>
+                <span><strong>Telemetry:</strong> Trained on 398,319 rows of GOES-15 electron flux data (2011–2016).</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-[#00E5FF] mt-1">▹</span>

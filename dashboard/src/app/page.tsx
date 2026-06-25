@@ -58,9 +58,9 @@ export default function OperationalDashboard() {
   }
 
   const forecastData = [
-    { time: '-24h', actual: 1200 },
-    { time: '-12h', actual: 1800 },
-    { time: 'NOW', actual: 2400, median: 2400, p90: 2400 },
+    { time: '-24h', actual: 1200, grasp: 950 },
+    { time: '-12h', actual: 1800, grasp: 1600 },
+    { time: 'NOW', actual: 2400, median: 2400, p90: 2400, grasp: 2200 },
     { time: '+3h', median: 3500, p90: 5000 },
     { time: '+6h', median: 8000, p90: 15000 },
     { time: '+9h', median: 22000, p90: 45000 },
@@ -79,9 +79,9 @@ export default function OperationalDashboard() {
             <span className="font-mono font-bold tracking-widest uppercase text-lg text-white">GEOShield <span className="text-[#64748b] text-sm">OPS-CONSOLE</span></span>
           </div>
           <div className="flex items-center gap-6 font-mono text-sm">
-            <div className="flex items-center gap-2 text-[#FFB300]">
-              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFB300] opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFB300]"></span></span>
-              PROTOTYPE WIRED FOR LIVE DATA
+            <div className="flex items-center gap-2 text-[#00E5FF] bg-[#00E5FF]/10 px-3 py-1 rounded font-bold">
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E5FF] opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E5FF]"></span></span>
+              DEMO MODE — REPLAYING APRIL 2017 STORM EVENT
             </div>
             <div className="text-[#94a3b8]">{currentTime}</div>
           </div>
@@ -104,12 +104,22 @@ export default function OperationalDashboard() {
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Next P99 crossing predicted at 14:20 UTC</h1>
             <p className="text-[#94a3b8] font-mono text-lg">11.5 hours from now.</p>
           </div>
-          <div className="bg-[#050816] border border-[#1e293b] p-4 rounded-lg flex items-center gap-4 max-w-md">
-            <Activity className="text-[#00E5FF] w-8 h-8 flex-shrink-0" />
-            <p className="text-sm text-[#cbd5e1] leading-relaxed">
-              GEOShield is monitoring 1.2M km of solar wind. Currently tracking elevated speed (720 km/s) — model assigns 23% probability of P99 crossing in next 12h.
-            </p>
-          </div>
+            <div className="flex items-center justify-center bg-[#050816] border border-[#1e293b] p-4 rounded-lg relative flex-shrink-0 w-24 h-24">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <path className="text-[#1e293b]" strokeDasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
+                <path className="text-[#FF4B5C]" strokeDasharray="23, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
+              </svg>
+              <div className="absolute flex flex-col items-center justify-center text-center">
+                <span className="text-lg font-bold text-white leading-none">23%</span>
+                <span className="text-[8px] text-[#94a3b8] mt-1">PROB P99</span>
+              </div>
+            </div>
+            <div className="bg-[#050816] border border-[#1e293b] p-4 rounded-lg flex items-center gap-4 max-w-md">
+              <Activity className="text-[#00E5FF] w-8 h-8 flex-shrink-0" />
+              <p className="text-sm text-[#cbd5e1] leading-relaxed">
+                GEOShield is monitoring 1.2M km of solar wind. Currently tracking elevated speed (720 km/s) — model assigns 23% probability of P99 crossing in next 12h.
+              </p>
+            </div>
         </div>
 
         {/* --- SECTION 2: LIVE MONITORING --- */}
@@ -119,19 +129,31 @@ export default function OperationalDashboard() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">SPEED</div>
-                <div className="font-mono text-xl text-white flex items-center gap-1">720 <ArrowUpRight className="w-4 h-4 text-[#FF4B5C]" /></div>
+                <div className="font-mono text-xl text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FFB300]"></span>
+                  720 <ArrowUpRight className="w-4 h-4 text-[#FF4B5C]" />
+                </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">IMF Bz</div>
-                <div className="font-mono text-xl text-white flex items-center gap-1">-8.4 <ArrowUpRight className="w-4 h-4 text-[#FFB300] rotate-90" /></div>
+                <div className="font-mono text-xl text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FFB300]"></span>
+                  -8.4 <ArrowUpRight className="w-4 h-4 text-[#FFB300] rotate-90" />
+                </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">Kp INDEX</div>
-                <div className="font-mono text-xl text-[#FF4B5C] font-bold">6.0</div>
+                <div className="font-mono text-xl text-[#FF4B5C] font-bold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FF4B5C]"></span>
+                  6.0
+                </div>
               </div>
               <div>
                 <div className="text-[#64748b] font-mono text-xs mb-1">DENSITY</div>
-                <div className="font-mono text-xl text-white">4.2</div>
+                <div className="font-mono text-xl text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#00FF88]"></span>
+                  4.2
+                </div>
               </div>
             </div>
             <div className="mt-2 pt-4 border-t border-[#1e293b]">
@@ -147,6 +169,43 @@ export default function OperationalDashboard() {
               <li className="flex flex-col gap-1"><span className="text-xs text-[#00E5FF] font-mono">TOP DRIVER</span><span className="text-sm">Solar wind speed 720 km/s ↑</span></li>
               <li className="flex flex-col gap-1"><span className="text-xs text-[#64748b] font-mono">SECONDARY</span><span className="text-sm">VBs coupling 4,800</span></li>
             </ul>
+          </div>
+          
+          {/* --- RECENT ALERTS --- */}
+          <div className="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 flex-grow">
+            <h2 className="text-[#94a3b8] font-mono text-xs font-bold uppercase tracking-widest border-b border-[#1e293b] pb-2 mb-4">Recent Storm Alerts</h2>
+            <div className="space-y-3 font-mono text-xs">
+              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
+                <div>
+                  <div className="text-[#00FF88] font-bold">✓ CORRECT</div>
+                  <div className="text-[#64748b] mt-1">2017-03-27</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-white">Lead: 11.2h</div>
+                  <div className="text-[#64748b] mt-1">P99 hit</div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
+                <div>
+                  <div className="text-[#00FF88] font-bold">✓ CORRECT</div>
+                  <div className="text-[#64748b] mt-1">2017-03-01</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-white">Lead: 12.0h</div>
+                  <div className="text-[#64748b] mt-1">P99 hit</div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center bg-[#050816] p-2 rounded border border-[#1e293b]">
+                <div>
+                  <div className="text-[#FFB300] font-bold">⚠ FALSE ALARM</div>
+                  <div className="text-[#64748b] mt-1">2017-02-18</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-white">P95 hit</div>
+                  <div className="text-[#64748b] mt-1">no P99</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -166,7 +225,8 @@ export default function OperationalDashboard() {
             <div className="bg-[#0f172a] border border-[#FF4B5C]/50 rounded-xl p-5 border-t-4 border-t-[#FF4B5C] relative shadow-[0_0_15px_rgba(255,75,92,0.1)]">
               <div className="text-[#64748b] font-mono text-xs mb-3 flex justify-between"><span>12 HOURS</span></div>
               <div className="flex items-baseline gap-2 mb-1"><div className="font-mono text-2xl text-white">58,000</div><div className="font-mono text-xs text-[#64748b]">MEDIAN</div></div>
-              <div className="text-xs font-mono text-[#FF4B5C] mb-2 font-bold flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF4B5C] animate-pulse"></span> P99 EXPECTED 14:20</div>
+              <div className="flex items-baseline gap-2 mb-2"><div className="font-mono text-xl text-[#FFB300]">~110,000</div><div className="font-mono text-xs text-[#64748b]">P90 UPPER</div></div>
+              <div className="text-xs font-mono text-[#FF4B5C] mb-1 font-bold flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF4B5C] animate-pulse"></span> P99 EXPECTED 14:20</div>
             </div>
           </div>
 
@@ -189,7 +249,7 @@ export default function OperationalDashboard() {
                   <Area type="monotone" dataKey="p90" stroke="none" fill="#FFB300" fillOpacity={0.1} />
                   <Line type="monotone" dataKey="actual" stroke="#00E5FF" strokeWidth={2} dot={false} />
                   <Line type="monotone" dataKey="median" stroke="#00FF88" strokeWidth={2} strokeDasharray="5 5" dot={false} />
-                  {showGrasp && <Line type="monotone" dataKey="actual" stroke="#b14bc9" strokeWidth={2} strokeDasharray="3 3" dot={false} name="ISRO GRASP (48°E)" />}
+                  {showGrasp && <Line type="stepAfter" dataKey="grasp" stroke="#b14bc9" strokeWidth={2} strokeDasharray="3 3" dot={false} name="ISRO GRASP (48°E)" />}
                 </ComposedChart>
               </ResponsiveContainer>
               {showGrasp && (
@@ -322,47 +382,7 @@ export default function OperationalDashboard() {
               </div>
             </div>
 
-            {/* Mitigations Table */}
-            <div className="bg-[#1e1e1e] border border-[#333] rounded p-6 col-span-1 xl:col-span-2 overflow-x-auto">
-              <h3 className="text-white text-lg font-sans mb-4 flex items-center gap-2">🔧 BONUS — Tested Mitigations for the Limitations</h3>
-              <p className="text-[#d4d4d4] text-sm mb-4">The four limitations in the README aren't just listed — they're <b>addressed and tested here.</b> These cells reproduce the mitigation results so the team can verify them independently.</p>
-              <table className="w-full text-left text-sm text-[#d4d4d4] border-collapse">
-                <thead>
-                  <tr className="border-b border-[#333] text-white">
-                    <th className="py-2 px-4">#</th>
-                    <th className="py-2 px-4">Limitation</th>
-                    <th className="py-2 px-4">Mitigation</th>
-                    <th className="py-2 px-4">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-[#333] bg-[#2d2d2d]">
-                    <td className="py-2 px-4">1</td>
-                    <td className="py-2 px-4">Conservative peak magnitude</td>
-                    <td className="py-2 px-4">P90 upper band captures ~93% of peak</td>
-                    <td className="py-2 px-4">Largely fixed</td>
-                  </tr>
-                  <tr className="border-b border-[#333]">
-                    <td className="py-2 px-4">2</td>
-                    <td className="py-2 px-4">Band calibration across regimes</td>
-                    <td className="py-2 px-4">Regime-conditional conformal → 80% both</td>
-                    <td className="py-2 px-4">Fixed</td>
-                  </tr>
-                  <tr className="border-b border-[#333] bg-[#4a4a4a] text-white font-medium">
-                    <td className="py-2 px-4">3</td>
-                    <td className="py-2 px-4">Ultra-rare P99.5 recall</td>
-                    <td className="py-2 px-4">Tunable high-sensitivity mode (has a cost)</td>
-                    <td className="py-2 px-4">Partly</td>
-                  </tr>
-                  <tr className="border-b border-[#333]">
-                    <td className="py-2 px-4">4</td>
-                    <td className="py-2 px-4">GRASP local calibration</td>
-                    <td className="py-2 px-4">Magnetic-local-time physics, not a bug</td>
-                    <td className="py-2 px-4">Reframed</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            {/* Note: Limitations table has been intentionally removed from the operational dashboard view. */}
 
           </div>
         </div>

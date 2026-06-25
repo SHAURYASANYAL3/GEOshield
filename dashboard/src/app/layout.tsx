@@ -28,7 +28,7 @@ export default function RootLayout({
           <p>Generated:</p>
           <p>2026-06-24</p>
           <p>Model:</p>
-          <p>XGB EventWindow</p>
+          <p>XGBoost Delta X100</p>
         </div>
       </body>
     </html>
