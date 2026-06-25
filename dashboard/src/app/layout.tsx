@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from 'next/link';
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "GEOShield Dashboard",
@@ -17,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#050816] text-white min-h-screen overflow-x-hidden relative`}>
+      <body className="font-sans bg-[#050816] text-white min-h-screen overflow-x-hidden relative">
         <nav className="flex gap-4 p-4 border-b border-gray-800">
           <Link href="/" className="font-bold">Home</Link>
           <Link href="/about">About</Link>
