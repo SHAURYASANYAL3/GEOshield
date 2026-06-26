@@ -265,7 +265,7 @@ export default function April2017P90Chart() {
           <Tooltip content={<CustomTooltip />} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <ReferenceLine y={P99_THRESHOLD} stroke={DANGER} strokeDasharray="6 4" strokeWidth={1.5}
-            label={{ value: "P99 danger", fill: DANGER, fontSize: 10, position: "insideTopRight" }} />
+            label={{ value: "P99 LIMIT (TRAIN-ONLY)", fill: DANGER, fontSize: 10, position: "insideTopRight" }} />
           <Line type="monotone" dataKey="actual" name="Actual flux" stroke={ACTUAL} strokeWidth={2.5} dot={false} />
           <Line type="monotone" dataKey="median" name="P50 Median" stroke={MEDIAN} strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
           <Line type="monotone" dataKey="p90" name="P90 Worst-case" stroke={P90} strokeWidth={2.5} strokeDasharray="5 5" dot={false} />

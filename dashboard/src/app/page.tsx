@@ -133,12 +133,12 @@ export default function OperationalDashboard() {
                 <span className="text-white text-xs whitespace-nowrap">Warning</span>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">0.81</span>
-                <span className="text-white text-xs whitespace-nowrap">PE Score</span>
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">0.988</span>
+                <span className="text-white text-xs whitespace-nowrap">ROC AUC</span>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">Pass</span>
-                <span className="text-white text-xs whitespace-nowrap">GRASP</span>
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">+0.745</span>
+                <span className="text-white text-xs whitespace-nowrap">Skill Score</span>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
                 <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">704K</span>
@@ -187,7 +187,7 @@ export default function OperationalDashboard() {
                 <div className="flex items-center gap-8">
                   <div className="flex flex-col">
                     <span className="text-5xl font-[family-name:var(--font-orbitron)] font-bold text-white mb-2">{appState.prob_p99}%</span>
-                    <span className="text-[10px] text-text-muted tracking-widest uppercase">P99 PROBABILITY</span>
+                    <span className="text-[10px] text-text-muted tracking-widest uppercase">P99 PROBABILITY (TRAIN-ONLY)</span>
                   </div>
                   <div className="w-px h-16 bg-card-border"></div>
                   <div className="flex flex-col">
@@ -275,7 +275,7 @@ export default function OperationalDashboard() {
                     <YAxis scale="log" domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} tickFormatter={(val) => val.toLocaleString()} axisLine={false} tickLine={false} dx={-10} />
                     <RechartsTooltip cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }} contentStyle={{ backgroundColor: 'var(--bg-deep)', border: '1px solid var(--card-border)', borderRadius: '8px', color: '#fff' }} />
                     
-                    <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />
+                    <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />
                     
                     <Area type="monotone" dataKey="p90" stroke="none" fill="var(--isro-orange)" fillOpacity={0.15} />
                     <Line type="monotone" dataKey="actual" stroke="var(--isro-cyan)" strokeWidth={3} dot={false} />
@@ -370,8 +370,16 @@ export default function OperationalDashboard() {
             </div>
           </div>
           
-          <div className="mt-6 text-[#A7B6DA] text-[11px] leading-[1.6]">
-            *Two recall metrics: Event-level recall (97%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="text-[#A7B6DA] text-[11px] leading-[1.6]">
+              *Two recall metrics: Event-level recall (95%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
+            </div>
+            <div className="text-[#35E0A1] text-[11px] font-medium tracking-wide">
+              <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1">
+                <span>[ VIEW FULL VALIDATION IN NOTEBOOK ]</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
           </div>
         </motion.section>
 

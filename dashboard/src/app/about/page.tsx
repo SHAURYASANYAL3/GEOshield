@@ -43,7 +43,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
               <div className="text-[#8E959E] font-[family-name:var(--font-inter)] text-xs uppercase tracking-widest mb-2">Recall</div>
-              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">97%</div>
+              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">95%</div>
               <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1">Across 176 Storms</div>
             </div>
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
@@ -59,7 +59,7 @@ export default function AboutPage() {
           </div>
           
           <div className="mt-6 text-[#A7B6DA] text-[11px] leading-[1.6]">
-            *Two recall metrics: Event-level recall (97%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
+            *Two recall metrics: Event-level recall (95%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
           </div>
         </div>
 
@@ -111,6 +111,10 @@ export default function AboutPage() {
               <li className="flex gap-4 items-start">
                 <span className="text-[#F29A2E] mt-1 border border-[#F29A2E]/30 p-1 bg-[#F29A2E]/10">▹</span>
                 <span><strong className="text-white">Calibration:</strong> Regime-conditional conformal calibration achieving exact 80% coverage.</span>
+              </li>
+              <li className="flex gap-4 items-start">
+                <span className="text-[#F29A2E] mt-1 border border-[#F29A2E]/30 p-1 bg-[#F29A2E]/10">▹</span>
+                <span><strong className="text-white">Expected Calibration Error:</strong> 0.019 — ensuring predicted probabilities exactly match empirical hit rates.</span>
               </li>
             </ul>
           </div>

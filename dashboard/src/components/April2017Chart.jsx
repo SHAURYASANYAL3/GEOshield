@@ -289,7 +289,7 @@ export default function April2017Chart() {
           <Tooltip content={<CustomTooltip />} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <ReferenceLine y={P99} stroke={DANGER} strokeDasharray="6 4" strokeWidth={1.5}
-            label={{ value: "P99 danger", fill: DANGER, fontSize: 10, position: "insideTopRight" }} />
+            label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />
           <Line type="monotone" dataKey="actual" name="Actual flux" stroke={ACTUAL} strokeWidth={2.5} dot={false} />
           <Line type="monotone" dataKey="forecast" name="Forecast (12h ahead)" stroke={FORECAST} strokeWidth={2} strokeDasharray="5 4" dot={false} />
         </LineChart>
