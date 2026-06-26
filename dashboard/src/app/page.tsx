@@ -65,9 +65,8 @@ export default function OperationalDashboard() {
 
   return (
     <main className="w-full">
-      {/* HERO SECTION */}
-      <section className="relative w-full bg-[#060606] overflow-hidden flex items-center min-h-[600px]">
-        
+      {/* HERO VIDEO SECTION (Empty of text) */}
+      <section className="relative w-full bg-[#060606] overflow-hidden flex items-center min-h-[400px] md:min-h-[600px] max-h-[800px]">
         {/* Background Video */}
         <video 
           autoPlay 
@@ -76,7 +75,7 @@ export default function OperationalDashboard() {
           playsInline 
           preload="metadata"
           poster="/hero/astronaut-space-1.webp"
-          className="absolute inset-0 w-full h-full object-contain opacity-60 hidden md:block motion-reduce:hidden pointer-events-none"
+          className="absolute inset-0 w-full h-full object-contain opacity-80 hidden md:block motion-reduce:hidden pointer-events-none"
         >
           <source src="/hero/hero-video-web.mp4" type="video/mp4" />
         </video>
@@ -88,54 +87,10 @@ export default function OperationalDashboard() {
         ></div>
 
         {/* Dark overlay for contrast */}
-        <div className="absolute inset-0 bg-[#060606]/40 pointer-events-none"></div>
-
-        <motion.div 
-          className="max-w-[1400px] mx-auto w-full pt-[65px] px-6 relative z-10"
-          variants={staggerContainer}
-          initial="hidden"
-          animate="show"
-        >
-          {/* HEADING */}
-          <motion.h1 variants={fadeUp} className="font-[family-name:var(--font-orbitron)] text-[58px] font-light tracking-[0.5px] leading-[1.1]">
-            <div className="text-white">GEOShield Operational</div>
-            <div className="text-[#F29A2E]">Console 2026</div>
-          </motion.h1>
-
-          {/* HERO CONTENT */}
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-[70px] mt-[45px] pb-20">
-
-            {/* DESCRIPTION & STATS (Countdown style) */}
-            <motion.div variants={fadeUp} className="w-full lg:w-[620px] flex-shrink-0">
-              <p className="text-white text-[18px] font-light leading-[2] mb-[40px] font-[family-name:var(--font-inter)]">
-                Operational console tracking solar wind telemetry and radiation hazard forecasts. System nominal, tracking 1.2M_KM horizon.
-              </p>
-
-              <div className="flex flex-wrap h-auto md:h-[62px] gap-3">
-                <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                  <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">12h</span>
-                  <span className="text-white text-xs whitespace-nowrap">Warning</span>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                  <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">0.81</span>
-                  <span className="text-white text-xs whitespace-nowrap">PE Score</span>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                  <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">Pass</span>
-                  <span className="text-white text-xs whitespace-nowrap">GRASP</span>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
-                  <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">704K</span>
-                  <span className="text-white text-xs whitespace-nowrap">Samples</span>
-                </motion.div>
-              </div>
-            </motion.div>
-
-          </div>
-        </motion.div>
+        <div className="absolute inset-0 bg-[#060606]/20 pointer-events-none"></div>
       </section>
 
-      {/* DASHBOARD CONTENT */}
+      {/* DASHBOARD CONTENT & HERO INFO */}
       <motion.div 
         className="max-w-[1800px] mx-auto px-4 md:px-8 py-16 flex flex-col gap-16"
         variants={staggerContainer}
@@ -144,16 +99,53 @@ export default function OperationalDashboard() {
         viewport={{ once: true, amount: 0.1 }}
       >
         
-        {/* ASTRONAUT IMAGE (Moved below video) */}
-        <motion.div variants={fadeUp} className="w-full flex justify-center -mt-32 mb-16 relative z-10 pointer-events-none">
-          <motion.img 
-            src="/hero/astronaut-space-1.webp" 
-            alt="Astronaut" 
-            className="w-[500px] max-w-full h-auto transform -rotate-2"
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
+        {/* HERO INFO BLOCK (Moved below video) */}
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-[70px] border-b border-[#343B46] pb-16">
+          
+          {/* TEXT & STATS */}
+          <motion.div variants={fadeUp} className="w-full lg:w-[620px] flex-shrink-0">
+            {/* HEADING */}
+            <h1 className="font-[family-name:var(--font-orbitron)] text-[48px] md:text-[58px] font-light tracking-[0.5px] leading-[1.1] mb-8">
+              <div className="text-white">GEOShield Operational</div>
+              <div className="text-[#F29A2E]">Console 2026</div>
+            </h1>
+
+            <p className="text-white text-[18px] font-light leading-[2] mb-[40px] font-[family-name:var(--font-inter)]">
+              Operational console tracking solar wind telemetry and radiation hazard forecasts. System nominal, tracking 1.2M_KM horizon.
+            </p>
+
+            <div className="flex flex-wrap h-auto md:h-[62px] gap-3">
+              <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">12h</span>
+                <span className="text-white text-xs whitespace-nowrap">Warning</span>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">0.81</span>
+                <span className="text-white text-xs whitespace-nowrap">PE Score</span>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">Pass</span>
+                <span className="text-white text-xs whitespace-nowrap">GRASP</span>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
+                <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">704K</span>
+                <span className="text-white text-xs whitespace-nowrap">Samples</span>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ASTRONAUT IMAGE */}
+          <motion.div variants={fadeUp} className="flex-shrink-0 relative">
+            <motion.img 
+              src="/hero/astronaut-space-1.webp" 
+              alt="Astronaut" 
+              className="w-[500px] max-w-full h-auto transform -rotate-2"
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+
+        </div>
 
         {/* ROW 1: CRITICAL STATUS & TELEMETRY */}
         <motion.section variants={fadeUp}>
