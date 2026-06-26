@@ -66,7 +66,7 @@ export default function OperationalDashboard() {
   return (
     <main className="w-full">
       {/* HERO SECTION */}
-      <section className="relative w-full bg-[#060606] overflow-hidden">
+      <section className="relative w-full bg-[#060606] overflow-hidden md:aspect-video flex items-center">
         
         {/* Background Video */}
         <video 
