@@ -24,6 +24,13 @@ const fadeUp: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
+function alertLevel(p: number) {
+  if (p >= 80) return { label: "CRITICAL", color: "#FF4D4D", textColor: "#FFFFFF" };
+  if (p >= 50) return { label: "WARNING",  color: "#FF6500", textColor: "#FFFFFF" };
+  if (p >= 25) return { label: "WATCH",    color: "#FFB13D", textColor: "#060606" };
+  return { label: "NOMINAL", color: "#35E0A1", textColor: "#060606" };
+}
+
 export default function OperationalDashboard() {
   const [showGrasp, setShowGrasp] = useState(false);
   
@@ -165,8 +172,11 @@ export default function OperationalDashboard() {
             <div className="col-span-12 xl:col-span-8 bg-[#11151E] border border-[#343B46] rounded-none p-6 md:p-8 shadow-none hover:border-[#F29A2E] transition-all duration-300 group">
               <div className="flex justify-between items-start mb-8 pb-4 border-b border-[#343B46]">
                 <div className="flex items-center gap-3">
-                  <div className="bg-isro-orange text-white px-3 py-1 rounded-none font-bold text-xs uppercase tracking-wider">
-                    RED ALERT
+                  <div 
+                    className="px-3 py-1 rounded-none font-bold text-xs uppercase tracking-wider"
+                    style={{ backgroundColor: alertLevel(appState.prob_p99).color, color: alertLevel(appState.prob_p99).textColor }}
+                  >
+                    {alertLevel(appState.prob_p99).label}
                   </div>
                   <span className="text-text-muted text-xs uppercase tracking-widest font-medium">HORIZON: {appState.status_horizon}</span>
                 </div>
@@ -191,7 +201,7 @@ export default function OperationalDashboard() {
             {/* TELEMETRY FEED CARD */}
             <div className="col-span-12 xl:col-span-4 bg-[#11151E] border border-[#343B46] rounded-none p-6 md:p-8 shadow-none hover:-translate-y-1 hover:border-isro-orange transition-all duration-300 group flex flex-col justify-between">
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
-                <span className="text-text-muted text-sm font-semibold uppercase tracking-widest">Live Telemetry</span>
+                <span className="text-text-muted text-sm font-semibold uppercase tracking-widest">UPSTREAM DRIVERS — NOW</span>
                 <span className="text-isro-cyan flex items-center gap-2 text-xs uppercase tracking-wider font-bold">
                   <motion.span 
                     animate={{ scale: [1, 1.8, 1], opacity: [1, 0.2, 1] }} 
@@ -227,6 +237,9 @@ export default function OperationalDashboard() {
                   </div>
                 </div>
               </div>
+              <div className="mt-5 pt-4 border-t border-[#343B46] text-[#A7B6DA] text-[10px] leading-relaxed">
+                *High-speed solar wind energizes &gt;2 MeV electrons with a 1–3 day lag; the forecast reflects that delay.
+              </div>
             </div>
           </div>
         </motion.section>
@@ -244,7 +257,7 @@ export default function OperationalDashboard() {
             <div className="col-span-12 xl:col-span-9 bg-[#11151E] border border-[#343B46] rounded-none p-6 md:p-8 shadow-none hover:-translate-y-1 hover:border-isro-orange transition-all duration-300">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b border-[#343B46] gap-4">
                 <div className="flex gap-4 items-center">
-                  <span className="text-text-muted text-sm tracking-widest uppercase">Log Scale Projection</span>
+                  <span className="text-text-muted text-sm tracking-widest uppercase">ELECTRON FLUX FORECAST — 12h to 72h ahead</span>
                 </div>
                 <button 
                   onClick={() => setShowGrasp(!showGrasp)} 
@@ -355,6 +368,10 @@ export default function OperationalDashboard() {
                 <ShapBeeswarmChart />
               </div>
             </div>
+          </div>
+          
+          <div className="mt-6 text-[#A7B6DA] text-[11px] leading-[1.6]">
+            *Two recall metrics: Event-level recall (97%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
           </div>
         </motion.section>
 

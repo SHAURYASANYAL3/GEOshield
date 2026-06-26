@@ -57,6 +57,10 @@ export default function AboutPage() {
               <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1">Indian-Longitude Recall</div>
             </div>
           </div>
+          
+          <div className="mt-6 text-[#A7B6DA] text-[11px] leading-[1.6]">
+            *Two recall metrics: Event-level recall (97%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
+          </div>
         </div>
 
         {/* The Science */}
