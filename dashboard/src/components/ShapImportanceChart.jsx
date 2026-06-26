@@ -73,7 +73,7 @@ export default function ShapImportanceChart() {
       <p style={{ color: TEXT_MUTED, fontSize: 12, margin: "0 0 16px" }}>
         The model learned real physics — solar-wind speed sits in the top features, not just flux autocorrelation.
       </p>
-      <ResponsiveContainer width="100%" height={420}>
+      <div style={{ width: "100%", overflowX: "auto", overflowY: "hidden", paddingBottom: "8px" }} className="scrollbar-thin"><div style={{ minWidth: "600px", height: "420px" }}><ResponsiveContainer width="100%" height="100%">
         <BarChart data={DATA} layout="vertical" margin={{ top: 4, right: 48, left: 8, bottom: 4 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={GRID} horizontal={false} />
           <XAxis
@@ -94,7 +94,7 @@ export default function ShapImportanceChart() {
               style={{ fill: TEXT_MUTED, fontSize: 10 }} />
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></div></div>
       <div style={{ display: "flex", gap: 20, marginTop: 12, fontSize: 12 }}>
         <span style={{ color: ISRO_CYAN }}>■ Flux history (~60%)</span>
         <span style={{ color: ISRO_ORANGE }}>■ Solar wind (~40%)</span>

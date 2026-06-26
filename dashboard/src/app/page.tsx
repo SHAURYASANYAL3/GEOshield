@@ -273,22 +273,24 @@ export default function OperationalDashboard() {
                 </button>
               </div>
               
-              <div className="w-full min-w-0 h-[360px] overflow-hidden">
-                <ResponsiveContainer width="100%" height={360}>
-                  <ComposedChart data={showGrasp ? GRASP_OVERLAY : appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1F2A44" vertical={true} horizontal={true} />
-                    <XAxis dataKey={showGrasp ? "t" : "time"} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
-                    <YAxis scale="log" domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} tickFormatter={(val) => val.toLocaleString()} axisLine={false} tickLine={false} dx={-10} />
-                    <RechartsTooltip cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }} contentStyle={{ backgroundColor: 'var(--bg-deep)', border: '1px solid var(--card-border)', borderRadius: '8px', color: '#fff' }} />
-                    
-                    {!showGrasp && <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />}
-                    
-                    {!showGrasp && <Area type="monotone" dataKey="p90" stroke="none" fill="var(--isro-orange)" fillOpacity={0.15} />}
-                    <Line type="monotone" dataKey={showGrasp ? "goes" : "actual"} name={showGrasp ? "GOES-15" : "Actual"} stroke="var(--isro-cyan)" strokeWidth={3} dot={false} />
-                    {!showGrasp && <Line type="monotone" dataKey="median" name="Median" stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" dot={false} />}
-                    {showGrasp && <Line type="monotone" dataKey="grasp" name="GRASP (48°E)" stroke="#746FC8" strokeWidth={2} dot={false} />}
-                  </ComposedChart>
-                </ResponsiveContainer>
+              <div className="w-full min-w-0 h-[380px] overflow-x-auto overflow-y-hidden scrollbar-thin pb-4">
+                <div style={{ minWidth: '700px', height: '100%' }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={showGrasp ? GRASP_OVERLAY : appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1F2A44" vertical={true} horizontal={true} />
+                      <XAxis dataKey={showGrasp ? "t" : "time"} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
+                      <YAxis scale="log" domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} tickFormatter={(val) => val.toLocaleString()} axisLine={false} tickLine={false} dx={-10} />
+                      <RechartsTooltip cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }} contentStyle={{ backgroundColor: 'var(--bg-deep)', border: '1px solid var(--card-border)', borderRadius: '8px', color: '#fff' }} />
+                      
+                      {!showGrasp && <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />}
+                      
+                      {!showGrasp && <Area type="monotone" dataKey="p90" stroke="none" fill="var(--isro-orange)" fillOpacity={0.15} />}
+                      <Line type="monotone" dataKey={showGrasp ? "goes" : "actual"} name={showGrasp ? "GOES-15" : "Actual"} stroke="var(--isro-cyan)" strokeWidth={3} dot={false} />
+                      {!showGrasp && <Line type="monotone" dataKey="median" name="Median" stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" dot={false} />}
+                      {showGrasp && <Line type="monotone" dataKey="grasp" name="GRASP (48°E)" stroke="#746FC8" strokeWidth={2} dot={false} />}
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
 

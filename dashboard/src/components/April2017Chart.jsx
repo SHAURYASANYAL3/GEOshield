@@ -279,7 +279,7 @@ export default function April2017Chart() {
       <p style={{ color: TEXT_MUTED, fontSize: 12, margin: "0 0 16px" }}>
         Largest storm in the test period. Model trained ≤2016 — this event was completely unseen. Peak 330,105 = 5.6× P99.
       </p>
-      <ResponsiveContainer width="100%" height={360}>
+      <div style={{ width: "100%", overflowX: "auto", overflowY: "hidden", paddingBottom: "8px" }} className="scrollbar-thin"><div style={{ minWidth: "600px", height: "360px" }}><ResponsiveContainer width="100%" height="100%">
         <LineChart data={STORM_DATA} margin={{ top: 8, right: 16, left: 8, bottom: 4 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
           <XAxis dataKey="t" stroke={TEXT_MUTED} fontSize={11} interval={27} minTickGap={20} tickFormatter={(v) => v.slice(0, 5)} />
@@ -293,7 +293,7 @@ export default function April2017Chart() {
           <Line type="monotone" dataKey="actual" name="Actual flux" stroke={ACTUAL} strokeWidth={2.5} dot={false} />
           <Line type="monotone" dataKey="forecast" name="Forecast (12h ahead)" stroke={FORECAST} strokeWidth={2} strokeDasharray="5 4" dot={false} />
         </LineChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></div></div>
     </div>
   );
 }

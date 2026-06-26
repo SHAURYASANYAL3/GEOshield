@@ -66,7 +66,7 @@ export default function ShapBeeswarmChart() {
       <p style={{ color: TEXT_MUTED, fontSize: 12, margin: "0 0 8px" }}>
         Each dot is one prediction. Right = pushes flux up, left = pushes down. Color = feature value (blue low, red high).
       </p>
-      <ResponsiveContainer width="100%" height={420}>
+      <div style={{ width: "100%", overflowX: "auto", overflowY: "hidden", paddingBottom: "8px" }} className="scrollbar-thin"><div style={{ minWidth: "600px", height: "420px" }}><ResponsiveContainer width="100%" height="100%">
         <ScatterChart margin={{ top: 8, right: 24, left: 120, bottom: 24 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={GRID} horizontal={false} />
           <XAxis
@@ -90,7 +90,7 @@ export default function ShapBeeswarmChart() {
             </Scatter>
           ))}
         </ScatterChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></div></div>
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 4, fontSize: 11, color: TEXT_MUTED, alignItems: "center" }}>
         <span style={{ color: "rgb(0,177,255)" }}>● low</span>
         <span>feature value</span>

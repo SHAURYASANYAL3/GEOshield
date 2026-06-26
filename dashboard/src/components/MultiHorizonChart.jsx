@@ -47,7 +47,7 @@ export default function MultiHorizonChart() {
       <p style={{ color: TEXT_MUTED, fontSize: 12, margin: "0 0 16px" }}>
         Fraction of threshold-crossing events caught, at three forecast horizons. Train ≤2016, test ≥2017.
       </p>
-      <ResponsiveContainer width="100%" height={340}>
+      <div style={{ width: "100%", overflowX: "auto", overflowY: "hidden", paddingBottom: "8px" }} className="scrollbar-thin"><div style={{ minWidth: "600px", height: "340px" }}><ResponsiveContainer width="100%" height="100%">
         <BarChart data={DATA} margin={{ top: 8, right: 16, left: 8, bottom: 4 }} barGap={4} barCategoryGap="22%">
           <CartesianGrid strokeDasharray="3 3" stroke={GRID} vertical={false} />
           <XAxis dataKey="horizon" stroke={TEXT_MUTED} fontSize={12} />
@@ -66,7 +66,7 @@ export default function MultiHorizonChart() {
             <LabelList dataKey="R995" position="top" formatter={(v) => v.toFixed(2)} style={{ fill: TEXT_MUTED, fontSize: 10 }} />
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></div></div>
     </div>
   );
 }

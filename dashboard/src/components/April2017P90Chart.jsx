@@ -255,7 +255,7 @@ export default function April2017P90Chart() {
       <p style={{ color: TEXT_MUTED, fontSize: 12, margin: "0 0 16px" }}>
         Why we need quantile regression: At peak (330k), the median forecast captured 48%. The P90 band captured 71%.
       </p>
-      <ResponsiveContainer width="100%" height={360}>
+      <div style={{ width: "100%", overflowX: "auto", overflowY: "hidden", paddingBottom: "8px" }} className="scrollbar-thin"><div style={{ minWidth: "600px", height: "360px" }}><ResponsiveContainer width="100%" height="100%">
         <LineChart data={P90_DATA} margin={{ top: 8, right: 16, left: 8, bottom: 4 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
           <XAxis dataKey="t" stroke={TEXT_MUTED} fontSize={11} interval={27} minTickGap={20} tickFormatter={(v) => v.slice(0, 5)} />
@@ -270,7 +270,7 @@ export default function April2017P90Chart() {
           <Line type="monotone" dataKey="median" name="P50 Median" stroke={MEDIAN} strokeWidth={1.5} strokeDasharray="4 4" dot={false} />
           <Line type="monotone" dataKey="p90" name="P90 Worst-case" stroke={P90} strokeWidth={2.5} strokeDasharray="5 5" dot={false} />
         </LineChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer></div></div>
     </div>
   );
 }
