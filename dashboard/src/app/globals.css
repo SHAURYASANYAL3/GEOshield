@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-isro-orange: #FF6500;
+  --color-isro-orange: #F29A2E;
   --color-isro-cyan: #00B1FF;
-  --color-isro-black: #000000;
-  --color-bg-deep: #0A0E1A;
-  --color-card-bg: #111726;
-  --color-card-border: #1F2A44;
+  --color-isro-black: #060606;
+  --color-bg-deep: #060606;
+  --color-card-bg: #11151E;
+  --color-card-border: #343B46;
   --color-text-primary: #FFFFFF;
-  --color-text-muted: #A7B6DA;
+  --color-text-muted: #D6D6D6;
 }
 
 @layer base {
   :root {
     /* For custom non-Tailwind elements or direct var() usage */
-    --isro-orange: #FF6500;
+    --isro-orange: #F29A2E;
     --isro-cyan: #00B1FF;
-    --isro-black: #000000;
-    --bg-deep: #0A0E1A;
-    --card-bg: #111726;
-    --card-border: #1F2A44;
+    --isro-black: #060606;
+    --bg-deep: #060606;
+    --card-bg: #11151E;
+    --card-border: #343B46;
     --text-primary: #FFFFFF;
-    --text-muted: #A7B6DA;
-    --isro-gradient: linear-gradient(90deg, #FF6500 0%, #ED6811 20%, #C56B5D 40%, #9E6D95 60%, #746FC8 80%, #4B6FF7 100%);
+    --text-muted: #D6D6D6;
+    --inactive-grey: #8E959E;
   }
   
   body {
