@@ -1,1 +1,62 @@
 @import "tailwindcss";
+
+@theme {
+  --color-isro-orange: #FF6500;
+  --color-isro-cyan: #00B1FF;
+  --color-isro-black: #000000;
+  --color-bg-deep: #0A0E1A;
+  --color-card-bg: #111726;
+  --color-card-border: #1F2A44;
+  --color-text-primary: #FFFFFF;
+  --color-text-muted: #A7B6DA;
+}
+
+@layer base {
+  :root {
+    /* For custom non-Tailwind elements or direct var() usage */
+    --isro-orange: #FF6500;
+    --isro-cyan: #00B1FF;
+    --isro-black: #000000;
+    --bg-deep: #0A0E1A;
+    --card-bg: #111726;
+    --card-border: #1F2A44;
+    --text-primary: #FFFFFF;
+    --text-muted: #A7B6DA;
+    --isro-gradient: linear-gradient(90deg, #FF6500 0%, #ED6811 20%, #C56B5D 40%, #9E6D95 60%, #746FC8 80%, #4B6FF7 100%);
+  }
+  
+  body {
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+  }
+
+  ::selection {
+    background-color: var(--isro-cyan);
+    color: var(--isro-black);
+  }
+
+  /* Custom Scrollbar for a premium feel */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--isro-orange);
+  }
+  
+  /* Utilities for scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
