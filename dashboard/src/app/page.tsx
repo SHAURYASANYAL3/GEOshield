@@ -66,7 +66,7 @@ export default function OperationalDashboard() {
   return (
     <main className="w-full">
       {/* HERO SECTION */}
-      <section className="relative w-full bg-[#060606] overflow-hidden md:aspect-video flex items-center">
+      <section className="relative w-full bg-[#060606] overflow-hidden flex items-center min-h-[600px]">
         
         {/* Background Video */}
         <video 
@@ -76,7 +76,7 @@ export default function OperationalDashboard() {
           playsInline 
           preload="metadata"
           poster="/hero/astronaut-space-1.webp"
-          className="absolute inset-0 w-full h-full object-cover opacity-60 hidden md:block motion-reduce:hidden pointer-events-none"
+          className="absolute inset-0 w-full h-full object-contain opacity-60 hidden md:block motion-reduce:hidden pointer-events-none"
         >
           <source src="/hero/hero-video-web.mp4" type="video/mp4" />
         </video>
