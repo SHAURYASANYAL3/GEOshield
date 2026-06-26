@@ -110,8 +110,7 @@ export default function OperationalDashboard() {
         className="max-w-[1800px] mx-auto px-4 md:px-8 py-16 flex flex-col gap-16"
         variants={staggerContainer}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
+        animate="show"
       >
         
         {/* HERO INFO BLOCK (Moved below video) */}
