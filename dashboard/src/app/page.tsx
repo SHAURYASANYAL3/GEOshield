@@ -66,9 +66,32 @@ export default function OperationalDashboard() {
   return (
     <main className="w-full">
       {/* HERO SECTION */}
-      <section className="w-full bg-[#060606] overflow-hidden">
+      <section className="relative w-full bg-[#060606] overflow-hidden">
+        
+        {/* Background Video */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          preload="metadata"
+          poster="/hero/astronaut-space-1.webp"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 hidden md:block motion-reduce:hidden pointer-events-none"
+        >
+          <source src="/hero/hero-video-web.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Fallback image for mobile and motion-reduce */}
+        <div 
+          className="absolute inset-0 md:hidden motion-reduce:block bg-center bg-cover bg-no-repeat opacity-60 pointer-events-none"
+          style={{ backgroundImage: "url('/hero/astronaut-space-1.webp')" }}
+        ></div>
+
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-[#060606]/40 pointer-events-none"></div>
+
         <motion.div 
-          className="max-w-[1400px] mx-auto w-full pt-[65px] px-6"
+          className="max-w-[1400px] mx-auto w-full pt-[65px] px-6 relative z-10"
           variants={staggerContainer}
           initial="hidden"
           animate="show"
