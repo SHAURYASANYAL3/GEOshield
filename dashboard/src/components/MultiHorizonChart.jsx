@@ -18,7 +18,7 @@ const CARD_BG = "#111726";
 
 // Verified from the multi-horizon table (seed 42 run, matches the deck).
 const DATA = [
-  { horizon: "45 min", R95: 0.937, R99: 0.922, R995: 0.839 },
+  { horizon: "30 min", R95: 0.937, R99: 0.922, R995: 0.839 },
   { horizon: "6 hours", R95: 0.774, R99: 0.528, R995: 0.262 },
   { horizon: "12 hours", R95: 0.718, R99: 0.442, R995: 0.270 },
 ];
