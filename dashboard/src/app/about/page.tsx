@@ -43,8 +43,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
               <div className="text-[#8E959E] font-[family-name:var(--font-inter)] text-xs uppercase tracking-widest mb-2">Recall</div>
-              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">95%–98%</div>
-              <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1 text-center">At tuned thresholds<br/>(168–172 / 176 Storms)</div>
+              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">95%</div>
+              <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1 text-center">168 / 176 &middot; default threshold<br/>(98% at looser thresholds)</div>
             </div>
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
               <div className="text-[#8E959E] font-[family-name:var(--font-inter)] text-xs uppercase tracking-widest mb-2">Advance Warning</div>
