@@ -103,7 +103,7 @@ export default function OperationalDashboard() {
             </h1>
 
             <p className="text-white text-[18px] font-light leading-[2] mb-[40px] font-[family-name:var(--font-inter)]">
-              Operational console tracking solar wind telemetry and radiation hazard forecasts. System nominal, tracking 1.2M_KM horizon.
+              Operational console tracking solar wind telemetry and radiation hazard forecasts. System nominal, tracking 1.5M_KM horizon.
             </p>
 
             <div className="flex flex-wrap h-auto md:h-[62px] gap-3">

@@ -86,7 +86,7 @@ export default function AboutPage() {
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-isro-cyan mt-1">▹</span>
-                <span><strong className="text-[#E8EEFC]">Merged:</strong> 704,108 total rows (458,731 training rows 2010–2016) × 64 engineered features, inner-joined on 5-minute timestamps. Missing values masked with <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">NaN</code> (mapped from raw <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">−999</code> instrument fill-values), ensuring XGBoost's sparsity-aware split processes them correctly without physics poisoning.</span>
+                <span><strong className="text-[#E8EEFC]">Merged:</strong> 704,108 total rows (458,731 training rows 2010–2016) × 64 engineered features, inner-joined on 5-minute timestamps. Missing values filled with a <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">−999</code> sentinel, placed far outside every feature's physical range, so XGBoost's trees isolate them in a single split rather than confusing them with real values. Never filled with <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">0</code>.</span>
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-isro-cyan mt-1">▹</span>
