@@ -56,8 +56,8 @@ function CustomTooltip({ active, payload }) {
 export default function ShapBeeswarmChart() {
   const rows = buildRows();
   return (
-    <div style={{ background: CARD_BG, borderRadius: 12, border: `1px solid ${GRID}`, padding: "20px 16px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+    <div style={{ background: CARD_BG, borderRadius: 12, border: `1px solid ${GRID}`, padding: "20px 16px", overflowX: "hidden" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "baseline", gap: "8px", marginBottom: 4 }}>
         <h3 style={{ color: "#fff", fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 18, margin: 0 }}>
           SHAP Value Impact on Model Output
         </h3>

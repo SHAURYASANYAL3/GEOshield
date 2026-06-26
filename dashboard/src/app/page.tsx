@@ -79,7 +79,7 @@ export default function OperationalDashboard() {
   const appState = dataState.state || defaultState;
 
   return (
-    <main className="w-full">
+    <main className="w-full overflow-x-hidden">
       {/* HERO VIDEO SECTION (Empty of text) */}
       <section className="relative w-full bg-[#060606] overflow-hidden flex items-center min-h-[400px] md:min-h-[600px] max-h-[800px]">
         {/* Background Video */}
@@ -115,7 +115,7 @@ export default function OperationalDashboard() {
       >
         
         {/* HERO INFO BLOCK (Moved below video) */}
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-[70px] border-b border-[#343B46] pb-16">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[70px] border-b border-[#343B46] pb-16">
           
           {/* TEXT & STATS */}
           <motion.div variants={fadeUp} className="w-full lg:w-[620px] flex-shrink-0">
@@ -129,7 +129,7 @@ export default function OperationalDashboard() {
               Operational console tracking solar wind telemetry and radiation hazard forecasts. System nominal, tracking 1.5M_KM horizon.
             </p>
 
-            <div className="flex flex-wrap h-auto md:h-[62px] gap-3">
+            <div className="flex flex-wrap gap-3">
               <motion.div whileHover={{ scale: 1.05, borderColor: "#F29A2E" }} className="bg-[#11151E] border border-[#343B46] px-5 py-3 md:py-0 flex flex-col justify-center items-center flex-1 transition-colors cursor-default">
                 <span className="text-[#F29A2E] font-[family-name:var(--font-orbitron)] text-lg mb-1">12h</span>
                 <span className="text-white text-xs whitespace-nowrap">Warning</span>
@@ -187,8 +187,8 @@ export default function OperationalDashboard() {
                 </div>
               </div>
               
-              <div className="flex flex-col md:flex-row justify-between items-end gap-8">
-                <div className="flex items-center gap-8">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8">
+                <div className="flex flex-wrap items-center gap-6 md:gap-8">
                   <div className="flex flex-col">
                     <span className="text-5xl font-[family-name:var(--font-orbitron)] font-bold text-white mb-2">{appState.prob_p99}%</span>
                     <span className="text-[10px] text-text-muted tracking-widest uppercase">P99 PROBABILITY (TRAIN-ONLY)</span>
@@ -273,7 +273,7 @@ export default function OperationalDashboard() {
                 </button>
               </div>
               
-              <div className="w-full h-[360px]">
+              <div className="w-full min-h-[300px] h-[50vh] md:h-[360px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={showGrasp ? GRASP_OVERLAY : appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1F2A44" vertical={true} horizontal={true} />
