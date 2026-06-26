@@ -43,8 +43,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
               <div className="text-[#8E959E] font-[family-name:var(--font-inter)] text-xs uppercase tracking-widest mb-2">Recall</div>
-              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">95%</div>
-              <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1">Across 176 Storms</div>
+              <div className="text-3xl text-white font-[family-name:var(--font-orbitron)] mb-1">95%–98%</div>
+              <div className="text-[#F29A2E] text-xs font-[family-name:var(--font-inter)] mt-1 text-center">At tuned thresholds<br/>(168–172 / 176 Storms)</div>
             </div>
             <div className="bg-[#060606] p-6 rounded-none border border-[#343B46] flex flex-col justify-center items-center hover:border-[#F29A2E] transition-colors cursor-default">
               <div className="text-[#8E959E] font-[family-name:var(--font-inter)] text-xs uppercase tracking-widest mb-2">Advance Warning</div>
@@ -86,7 +86,7 @@ export default function AboutPage() {
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-isro-cyan mt-1">▹</span>
-                <span><strong className="text-[#E8EEFC]">Merged:</strong> 704,108 rows × 64 engineered features, inner-joined on 5-minute timestamps. Missing values masked with <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">−999</code>, never <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">0</code> (zero electron flux is physically impossible).</span>
+                <span><strong className="text-[#E8EEFC]">Merged:</strong> 704,108 total rows (458,731 training rows 2010–2016) × 64 engineered features, inner-joined on 5-minute timestamps. Missing values masked with <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">NaN</code> (mapped from raw <code className="bg-[#060606] px-1 py-0.5 rounded text-isro-cyan">−999</code> instrument fill-values), ensuring XGBoost's sparsity-aware split processes them correctly without physics poisoning.</span>
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-isro-cyan mt-1">▹</span>

@@ -16,7 +16,7 @@ Our model has been rigorously validated. Key metrics include:
 - **Band Coverage (0.800):** Conformal calibration successfully shifted empirical coverage exactly to the 80% target.
 - **P99 Threshold (59,153 Train-Only):** The critical >2 MeV threshold is derived strictly from the training set, explicitly eliminating data leakage.
 - **Bootstrap CIs [0.429–0.457]:** P99 recall confidence intervals (n=5,033) prove the performance isn't just a lucky draw on a small test set.
-- **Recall (95%):** Event-level recall across 176 storm onsets (operational metric).
+- **Recall (95%–98%):** 95% at default threshold 0.5 (168/176), 98% at tuned threshold 0.2–0.3 (172/176).
 - **GRASP Validation (0.933):** Independent blind test on ISRO's GRASP data at Indian longitudes (48°E).
 
 ## 📡 Data Pipeline
@@ -24,7 +24,7 @@ Three real instruments, forensically verified:
 - **GOES-15 EPEAD (NOAA NCEI):** >2 MeV integral electron flux, 2010–2020. Resampled to 5-minute cadence — the forecast target.
 - **OMNI HRO (NASA SPDF):** 5-minute solar-wind drivers (flow speed, IMF Bz, proton density, flow pressure).
 - **GRASP (ISRO):** Storm flux at 48°E (Jul 2017 – Sep 2018). Held out entirely as an independent blind validation set.
-- **Dataset:** 704,108 rows × 64 engineered features, inner-joined on 5-minute timestamps.
+- **Dataset:** 704,108 total rows (458,731 training rows 2010–2016) × 64 engineered features, inner-joined on 5-minute timestamps.
 
 ## 🧠 Model Architecture
 - **Algorithm:** Gradient Boosted Trees (XGBoost) optimized for extreme imbalance.
