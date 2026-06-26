@@ -104,17 +104,6 @@ export default function OperationalDashboard() {
 
           {/* HERO CONTENT */}
           <div className="flex flex-col lg:flex-row justify-between items-center gap-[70px] mt-[45px] pb-20">
-            
-            {/* ASTRONAUT IMAGE */}
-            <motion.div variants={fadeUp} className="flex-shrink-0 relative">
-              <motion.img 
-                src="/hero/astronaut-space-1.webp" 
-                alt="Astronaut" 
-                className="w-[650px] max-w-full h-auto mt-[400px] -ml-4 lg:-ml-[50px] transform -rotate-2"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </motion.div>
 
             {/* DESCRIPTION & STATS (Countdown style) */}
             <motion.div variants={fadeUp} className="w-full lg:w-[620px] flex-shrink-0">
@@ -155,6 +144,17 @@ export default function OperationalDashboard() {
         viewport={{ once: true, amount: 0.1 }}
       >
         
+        {/* ASTRONAUT IMAGE (Moved below video) */}
+        <motion.div variants={fadeUp} className="w-full flex justify-center -mt-32 mb-16 relative z-10 pointer-events-none">
+          <motion.img 
+            src="/hero/astronaut-space-1.webp" 
+            alt="Astronaut" 
+            className="w-[500px] max-w-full h-auto transform -rotate-2"
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+
         {/* ROW 1: CRITICAL STATUS & TELEMETRY */}
         <motion.section variants={fadeUp}>
           <h2 className="font-[family-name:var(--font-orbitron)] font-semibold text-2xl text-white mb-8 flex items-center gap-3">
