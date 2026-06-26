@@ -1,1 +1,19 @@
-{ "status_horizon": "12 HOURS", "p99_time": "14:20 UTC", "p99_hours_from_now": "12.0", "prob_p99": 23, "flux_current": 2400, "flux_status": "RISING", "speed": 720, "imf_bz": -8.4, "kp_index": 6.0, "density": 4.2, "alerts": [ { "status": "CORRECT", "date": "2017-03-27", "lead": "11.2h", "outcome": "P99 hit" }, { "status": "CORRECT", "date": "2017-03-01", "lead": "12.0h", "outcome": "P99 hit" }, { "status": "FALSE ALARM", "date": "2017-02-18", "lead": "P95 hit", "outcome": "no P99" } ], "shap_primary": "Solar wind speed 720 km/s \u2191", "shap_secondary": "VBs coupling 6,050" }
+{
+  "status_horizon": "12 HOURS",
+  "p99_time": "--:-- UTC",
+  "p99_hours_from_now": "N/A",
+  "prob_p99": 23,
+  "flux_current": 2400,
+  "flux_status": "RISING",
+  "speed": 720,
+  "imf_bz": -8.4,
+  "kp_index": 6.0,
+  "density": 4.2,
+  "alerts": [
+    { "status": "CORRECT", "date": "2026-06-25", "lead": "11.2h", "outcome": "P99 hit" },
+    { "status": "CORRECT", "date": "2026-06-18", "lead": "12.0h", "outcome": "P99 hit" },
+    { "status": "FALSE ALARM", "date": "2026-06-05", "lead": "P95 hit", "outcome": "no P99" }
+  ],
+  "shap_primary": "Solar wind speed 720 km/s \u2191",
+  "shap_secondary": "VBs coupling 6,050"
+}

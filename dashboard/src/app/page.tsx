@@ -8,6 +8,7 @@ import April2017P90Chart from '@/components/April2017P90Chart';
 import MultiHorizonChart from '@/components/MultiHorizonChart';
 import ShapBeeswarmChart from '@/components/ShapBeeswarmChart';
 import ShapImportanceChart from '@/components/ShapImportanceChart';
+import { GRASP_OVERLAY } from '@/data/grasp_overlay_REAL';
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
@@ -48,13 +49,14 @@ export default function OperationalDashboard() {
         time: d.time.split(' ')[1].substring(0, 5),
         actual: d.actual,
         median: d.predicted,
-        p90: d.upper,
-        grasp: d.actual * 0.933
+        p90: d.upper
       }));
       
       setDataState({ status: 'success', state: stateData });
     };
     loadData();
+    const intervalId = setInterval(loadData, 60000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const defaultState = {
@@ -180,7 +182,9 @@ export default function OperationalDashboard() {
                   </div>
                   <span className="text-text-muted text-xs uppercase tracking-widest font-medium">HORIZON: {appState.status_horizon}</span>
                 </div>
-                <div className="text-xs text-text-muted uppercase">Time to impact: {appState.p99_hours_from_now}h</div>
+                <div className="text-xs text-text-muted uppercase">
+                  Time to impact: {appState.prob_p99 < 50 ? "N/A" : appState.p99_hours_from_now + "h"}
+                </div>
               </div>
               
               <div className="flex flex-col md:flex-row justify-between items-end gap-8">
@@ -257,7 +261,9 @@ export default function OperationalDashboard() {
             <div className="col-span-12 xl:col-span-9 bg-[#11151E] border border-[#343B46] rounded-none p-6 md:p-8 shadow-none hover:-translate-y-1 hover:border-isro-orange transition-all duration-300">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b border-[#343B46] gap-4">
                 <div className="flex gap-4 items-center">
-                  <span className="text-text-muted text-sm tracking-widest uppercase">ELECTRON FLUX FORECAST — 12h to 72h ahead</span>
+                  <span className="text-text-muted text-sm tracking-widest uppercase">
+                    {showGrasp ? "Real GRASP (48°E) vs GOES-15 — March 2018 storm" : "ELECTRON FLUX FORECAST — 12h to 72h ahead"}
+                  </span>
                 </div>
                 <button 
                   onClick={() => setShowGrasp(!showGrasp)} 
@@ -269,18 +275,18 @@ export default function OperationalDashboard() {
               
               <div className="w-full h-[360px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <ComposedChart data={showGrasp ? GRASP_OVERLAY : appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1F2A44" vertical={true} horizontal={true} />
-                    <XAxis dataKey="time" stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
+                    <XAxis dataKey={showGrasp ? "t" : "time"} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
                     <YAxis scale="log" domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} tickFormatter={(val) => val.toLocaleString()} axisLine={false} tickLine={false} dx={-10} />
                     <RechartsTooltip cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }} contentStyle={{ backgroundColor: 'var(--bg-deep)', border: '1px solid var(--card-border)', borderRadius: '8px', color: '#fff' }} />
                     
-                    <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />
+                    {!showGrasp && <ReferenceLine y={59153} stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" label={{ position: 'insideTopLeft', value: 'P99 LIMIT (TRAIN-ONLY)', fill: 'var(--isro-orange)', fontSize: 12, fontWeight: 600 }} />}
                     
-                    <Area type="monotone" dataKey="p90" stroke="none" fill="var(--isro-orange)" fillOpacity={0.15} />
-                    <Line type="monotone" dataKey="actual" stroke="var(--isro-cyan)" strokeWidth={3} dot={false} />
-                    <Line type="monotone" dataKey="median" stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" dot={false} />
-                    {showGrasp && <Line type="monotone" dataKey="grasp" stroke="#746FC8" strokeWidth={2} dot={false} />}
+                    {!showGrasp && <Area type="monotone" dataKey="p90" stroke="none" fill="var(--isro-orange)" fillOpacity={0.15} />}
+                    <Line type="monotone" dataKey={showGrasp ? "goes" : "actual"} name={showGrasp ? "GOES-15" : "Actual"} stroke="var(--isro-cyan)" strokeWidth={3} dot={false} />
+                    {!showGrasp && <Line type="monotone" dataKey="median" name="Median" stroke="var(--isro-orange)" strokeWidth={2} strokeDasharray="4 4" dot={false} />}
+                    {showGrasp && <Line type="monotone" dataKey="grasp" name="GRASP (48°E)" stroke="#746FC8" strokeWidth={2} dot={false} />}
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
