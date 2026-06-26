@@ -110,7 +110,7 @@ export default function OperationalDashboard() {
               <motion.img 
                 src="/hero/astronaut-space-1.webp" 
                 alt="Astronaut" 
-                className="w-[650px] max-w-full h-auto mt-8 -ml-4 lg:-ml-[50px] transform -rotate-2"
+                className="w-[650px] max-w-full h-auto mt-24 -ml-4 lg:-ml-[50px] transform -rotate-2"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
