@@ -116,6 +116,40 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* ── VALIDATION METRICS ─────────────────────────────────────── */}
+        <div className="bg-[#11151E] border border-[#343B46] rounded-none shadow-none p-8 relative hover:border-[#35E0A1] transition-colors group">
+          <h2 className="text-white font-[family-name:var(--font-orbitron)] text-lg font-medium uppercase tracking-wider mb-6 flex items-center gap-3">
+            <span className="bg-[#343B46] text-white px-3 py-1">[PERFORMANCE]</span> Validation Metrics
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="bg-[#060606] p-5 border border-[#343B46] hover:border-[#35E0A1] transition-colors">
+              <div className="text-[#35E0A1] text-xs font-bold uppercase tracking-widest mb-1">Skill vs Persistence</div>
+              <div className="text-2xl text-white font-[family-name:var(--font-orbitron)]">+0.745</div>
+              <div className="text-[#A7B6DA] text-[12px] mt-2 leading-relaxed">Significantly outperforms the standard 'persistence' baseline (guessing tomorrow equals today).</div>
+            </div>
+            <div className="bg-[#060606] p-5 border border-[#343B46] hover:border-[#35E0A1] transition-colors">
+              <div className="text-[#35E0A1] text-xs font-bold uppercase tracking-widest mb-1">ROC AUC (EventWindow)</div>
+              <div className="text-2xl text-white font-[family-name:var(--font-orbitron)]">0.988</div>
+              <div className="text-[#A7B6DA] text-[12px] mt-2 leading-relaxed">Near-perfect separation capability in distinguishing storm vs. non-storm conditions.</div>
+            </div>
+            <div className="bg-[#060606] p-5 border border-[#343B46] hover:border-[#35E0A1] transition-colors">
+              <div className="text-[#35E0A1] text-xs font-bold uppercase tracking-widest mb-1">Expected Calibration Error</div>
+              <div className="text-2xl text-white font-[family-name:var(--font-orbitron)]">0.019</div>
+              <div className="text-[#A7B6DA] text-[12px] mt-2 leading-relaxed">Incredibly low ECE ensures predicted probability explicitly matches empirical reality.</div>
+            </div>
+            <div className="bg-[#060606] p-5 border border-[#343B46] hover:border-[#35E0A1] transition-colors">
+              <div className="text-[#35E0A1] text-xs font-bold uppercase tracking-widest mb-1">Band Coverage</div>
+              <div className="text-2xl text-white font-[family-name:var(--font-orbitron)]">0.800</div>
+              <div className="text-[#A7B6DA] text-[12px] mt-2 leading-relaxed">Conformal calibration successfully shifted uncalibrated coverage (0.771) exactly to the 80% target.</div>
+            </div>
+            <div className="bg-[#060606] p-5 border border-[#343B46] hover:border-[#35E0A1] transition-colors md:col-span-2">
+              <div className="text-[#35E0A1] text-xs font-bold uppercase tracking-widest mb-1">P99 Threshold (Train-Only)</div>
+              <div className="text-2xl text-white font-[family-name:var(--font-orbitron)]">59,153</div>
+              <div className="text-[#A7B6DA] text-[12px] mt-2 leading-relaxed">The critical >2 MeV electron flux threshold (e- / cm² s sr) is strictly derived from the training set, explicitly eliminating any future data leakage.</div>
+            </div>
+          </div>
+        </div>
+
         {/* ── LIMITATIONS & FUTURE WORK ──────────────────────────────── */}
         <div className="bg-[#11151E] border border-[#343B46] rounded-none shadow-none p-8 relative">
           <div className="text-[#FFB13D] text-xs font-bold tracking-[1.5px] mb-2 uppercase">Limitations &amp; Future Work</div>
