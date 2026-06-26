@@ -2,6 +2,11 @@
 
 **India's Next-Generation Space Weather Operational Console**, designed to protect orbital assets from high-energy relativistic electron storms.
 
+### 🔗 Project Links (Verified Clean)
+- **[Google Colab Notebook (Run-all, ~25-30 min)](https://colab.research.google.com/drive/1b1n-guAdeyDesREi0wCRuDWHXhjHXs8z?usp=sharing)**
+- **[Google Drive Folder (Parquet Data)](https://drive.google.com/drive/folders/1nO6L4TA8_C8AIZ7ZwrSc5CvfSUO186k6?usp=drive_link)**
+*(Before running: make sure `goes_historical_features_REAL.parquet` and `grasp_parsed.parquet` are in your `MyDrive/GEOShield` folder).*
+
 ## 🚀 Mission
 
 Geosynchronous satellites are vulnerable to internal charging caused by >2 MeV electron flux spikes. Traditional warning systems rely on simple persistence models or offer highly uncertain forecasts. **GEOShield** bridges this gap with a physics-informed Machine Learning pipeline capable of predicting P99 crossing events with a **median 12.0-hour advance warning**.

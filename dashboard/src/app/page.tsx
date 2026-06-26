@@ -382,7 +382,7 @@ export default function OperationalDashboard() {
               *Two recall metrics: Event-level recall (95%, across 176 storm onsets) = did we issue any warning within the 12h window before a storm — the operational metric. R99 @ 12h (0.44 ± 0.01) = did the forecast cross P99 at the exact timestep the actual flux did — instantaneous magnitude precision, a stricter test. Both reported for transparency.
             </div>
             <div className="text-[#35E0A1] text-[11px] font-medium tracking-wide">
-              <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1">
+              <a href="https://colab.research.google.com/drive/1b1n-guAdeyDesREi0wCRuDWHXhjHXs8z?usp=sharing" target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1">
                 <span>[ VIEW FULL VALIDATION IN NOTEBOOK ]</span>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
               </a>
