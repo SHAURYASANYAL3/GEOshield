@@ -273,8 +273,8 @@ export default function OperationalDashboard() {
                 </button>
               </div>
               
-              <div className="w-full min-h-[300px] h-[50vh] md:h-[360px]">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="w-full min-w-0 h-[360px] overflow-hidden">
+                <ResponsiveContainer width="100%" height={360}>
                   <ComposedChart data={showGrasp ? GRASP_OVERLAY : appState.forecast_timeline} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1F2A44" vertical={true} horizontal={true} />
                     <XAxis dataKey={showGrasp ? "t" : "time"} stroke="var(--text-muted)" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} dy={10} />
@@ -340,7 +340,7 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Advance Warning Profile</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] w-full min-w-0 overflow-hidden">
                 <MultiHorizonChart />
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Peak Capture Efficacy</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] w-full min-w-0 overflow-hidden">
                 <April2017P90Chart />
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Global SHAP Importance</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] w-full min-w-0 overflow-hidden">
                 <ShapImportanceChart />
               </div>
             </div>
@@ -370,7 +370,7 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">SHAP Feature Impact</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] w-full min-w-0 overflow-hidden">
                 <ShapBeeswarmChart />
               </div>
             </div>
@@ -400,7 +400,7 @@ export default function OperationalDashboard() {
             <div className="mb-6 pb-4 border-b border-[#343B46]">
               <span className="font-semibold text-sm text-white uppercase tracking-wider">12H Forecast vs Actual - April 2017 Storm</span>
             </div>
-            <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
+            <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] w-full min-w-0 overflow-hidden">
               <April2017Chart />
             </div>
           </div>

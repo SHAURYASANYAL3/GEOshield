@@ -245,7 +245,7 @@ function CustomTooltip({ active, payload, label }) {
 
 export default function April2017P90Chart() {
   return (
-    <div style={{ background: CARD_BG, borderRadius: 12, border: `1px solid ${GRID}`, padding: "20px 16px", overflowX: "hidden" }}>
+    <div style={{ background: CARD_BG, borderRadius: 12, border: `1px solid ${GRID}`, padding: "20px 16px", overflowX: "hidden", width: "100%", minWidth: 0 }}>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "baseline", gap: "8px", marginBottom: 4 }}>
         <h3 style={{ color: "#fff", fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 18, margin: 0 }}>
           Quantile Bands (P90) vs Reality
