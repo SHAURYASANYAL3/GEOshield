@@ -4,7 +4,6 @@
 
 ### 🔗 Project Links (Verified Clean)
 - **[Google Colab Notebook (Run-all, ~25-30 min)](https://colab.research.google.com/drive/1b1n-guAdeyDesREi0wCRuDWHXhjHXs8z?usp=sharing)**
-- **[Google Drive Folder (Parquet Data)](https://drive.google.com/drive/folders/1nO6L4TA8_C8AIZ7ZwrSc5CvfSUO186k6?usp=drive_link)**
 *(Before running: make sure `goes_historical_features_REAL.parquet` and `grasp_parsed.parquet` are in your `MyDrive/GEOShield` folder).*
 
 ## 🚀 Mission
