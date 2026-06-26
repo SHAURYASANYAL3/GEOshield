@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 import { XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, Area, ComposedChart, Line } from 'recharts';
 import { motion, Variants } from 'framer-motion';
 
+import April2017Chart from '@/components/April2017Chart';
+import April2017P90Chart from '@/components/April2017P90Chart';
+import MultiHorizonChart from '@/components/MultiHorizonChart';
+import ShapBeeswarmChart from '@/components/ShapBeeswarmChart';
+import ShapImportanceChart from '@/components/ShapImportanceChart';
+
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -315,8 +321,8 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Advance Warning Profile</span>
               </div>
-              <div className="flex items-center justify-center bg-bg-deep rounded-none p-2 border border-[#343B46]">
-                <img src="/plots/Screenshot_1.png" alt="Advance Warning" className="w-full h-auto object-contain rounded" />
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[350px]">
+                <MultiHorizonChart />
               </div>
             </div>
 
@@ -325,8 +331,8 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Peak Capture Efficacy</span>
               </div>
-              <div className="flex items-center justify-center bg-bg-deep rounded-none p-2 border border-[#343B46]">
-                <img src="/plots/Screenshot_2.png" alt="Peak Capture" className="w-full h-auto object-contain rounded" />
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[350px]">
+                <April2017P90Chart />
               </div>
             </div>
 
@@ -335,8 +341,8 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Global SHAP Importance</span>
               </div>
-              <div className="flex justify-center bg-bg-deep rounded-none p-2 border border-[#343B46]">
-                <img src="/plots/Screenshot_3.png" alt="SHAP Importance" className="w-full h-auto object-contain rounded" />
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[400px]">
+                <ShapImportanceChart />
               </div>
             </div>
 
@@ -345,9 +351,26 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">SHAP Feature Impact</span>
               </div>
-              <div className="flex justify-center bg-bg-deep rounded-none p-2 border border-[#343B46]">
-                <img src="/plots/Screenshot_4.png" alt="SHAP Beeswarm" className="w-full h-auto object-contain rounded" />
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[400px]">
+                <ShapBeeswarmChart />
               </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ROW 4: BONUS CHART */}
+        <motion.section variants={fadeUp}>
+          <h2 className="font-[family-name:var(--font-orbitron)] font-semibold text-2xl text-white mb-8 flex items-center gap-3">
+            <span className="bg-isro-orange text-white rounded-none w-8 h-8 flex items-center justify-center text-sm">04</span>
+            Historical Storm Case Study (April 2017)
+          </h2>
+
+          <div className="bg-[#11151E] border border-[#343B46] rounded-none p-6 shadow-none hover:-translate-y-1 hover:border-isro-orange transition-all duration-300">
+            <div className="mb-6 pb-4 border-b border-[#343B46]">
+              <span className="font-semibold text-sm text-white uppercase tracking-wider">12H Forecast vs Actual - April 2017 Storm</span>
+            </div>
+            <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[450px]">
+              <April2017Chart />
             </div>
           </div>
         </motion.section>
