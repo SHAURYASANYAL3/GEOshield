@@ -321,7 +321,7 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Advance Warning Profile</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[350px]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
                 <MultiHorizonChart />
               </div>
             </div>
@@ -331,7 +331,7 @@ export default function OperationalDashboard() {
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Peak Capture Efficacy</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[350px]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
                 <April2017P90Chart />
               </div>
             </div>
@@ -341,7 +341,7 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">Global SHAP Importance</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[400px]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
                 <ShapImportanceChart />
               </div>
             </div>
@@ -351,7 +351,7 @@ export default function OperationalDashboard() {
               <div className="mb-6 pb-4 border-b border-[#343B46]">
                 <span className="font-semibold text-sm text-white uppercase tracking-wider">SHAP Feature Impact</span>
               </div>
-              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[400px]">
+              <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
                 <ShapBeeswarmChart />
               </div>
             </div>
@@ -369,7 +369,7 @@ export default function OperationalDashboard() {
             <div className="mb-6 pb-4 border-b border-[#343B46]">
               <span className="font-semibold text-sm text-white uppercase tracking-wider">12H Forecast vs Actual - April 2017 Storm</span>
             </div>
-            <div className="bg-bg-deep rounded-none p-2 border border-[#343B46] h-[450px]">
+            <div className="bg-bg-deep rounded-none p-2 border border-[#343B46]">
               <April2017Chart />
             </div>
           </div>
