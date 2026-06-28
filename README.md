@@ -280,7 +280,7 @@ sequenceDiagram
     Note over Model,GRASP: STAGE 2 - GRASP transfer
     Model->>GRASP: predict over 2017-2018 window
     GRASP->>GRASP: compare 48,806 matched points
-    GRASP-->>Model: storm recall 0.933, timing corr 0.580
+    GRASP-->>Model: storm recall 0.933, timing corr 0.577
     Note over GOES,GRASP: Model learns TIMING from global GOES,<br/>GRASP calibrates local LEVEL at Indian longitude
 ```
 
@@ -416,8 +416,8 @@ time in the next 12 hours?"* — and drives the operational alert.
 | Metric | Value |
 |---|---|
 | Storm-detection recall | **0.933** |
-| Timing correlation | 0.580 |
-| Log-RMSE (calibrated) | 0.562 |
+| Timing correlation | 0.577 |
+| Log-RMSE (calibrated) | 0.563 |
 | Matched validation points | 48,806 |
 
 ---
@@ -565,7 +565,7 @@ expose as a tunable "high-sensitivity mode" rather than pretending it's free:
 
 This isn't fixable because **it isn't broken.** >2 MeV flux at GEO varies with **magnetic local
 time** — different longitudes carry different absolute levels (observed in *all* multi-longitude
-GEO studies). The model transfers **storm timing** (recall 0.933, corr 0.580) *directly*; a thin
+GEO studies). The model transfers **storm timing** (recall 0.933, corr 0.577) *directly*; a thin
 linear offset handles the absolute level, exactly as NOAA/SWPC calibrate per location.
 
 > A model that needed **zero** local calibration would be *physically wrong* — it would ignore
