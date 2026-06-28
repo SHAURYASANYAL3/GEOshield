@@ -70,13 +70,15 @@ with quantified confidence and hours of lead time.
 
 | Capability | Result | What it means |
 |---|---|---|
-| **Lead time** | **Median 12 hours**, **event recall 97% across 176 storm onsets** (171/176) | Operators get most of a day to react |
+| **Lead time** | **Median 12 hours**, **event recall 95% at default threshold 0.5 (168/176), rising to 98% at looser thresholds**, across 176 storm onsets | Operators get most of a day to react |
 | **Competitive with published baseline** | PE **0.809** vs NOAA REFM ~0.71 | At/near the operational standard, finer time resolution |
 | **Validated on ISRO instrument** | GRASP storm recall **0.933** at 48°E | Works at the Indian longitude, not just US data |
-| **No data leakage** | Shuffle test: 0.339 → 0.127 | Performance is real, not an artifact |
+| **No data leakage** | Shuffle test: collapses to ~0.13 (chance) | Performance is real, not an artifact |
 | **Calibrated confidence** | ECE **0.019**, band coverage 0.771 | "70% chance" really means ~70% |
 | **Recall @ P99 (12h)** | **0.44 ± 0.01** (4-seed mean) | Honest, with quantified variance |
 | **Physics-grounded** | Solar wind = **40%** of importance (SHAP) | Learned real physics, not autocorrelation |
+
+> **Two recall metrics, two questions (read this before comparing them).** *Event-level recall* (95% at default threshold, 98% at looser thresholds, across 176 storm onsets) answers *"did we issue a warning within the 12-hour window before a storm?"* — the operational metric that matters to a satellite operator. *Recall @ P99 (0.44 ± 0.01)* answers a deliberately stricter question: *"did the forecast cross the P99 threshold at the exact 5-minute timestep the actual flux did?"* — instantaneous, pointwise magnitude precision. They measure **warning-timeliness** and **pointwise-accuracy** respectively; both are reported in full rather than quoting only the flattering one.
 
 > Every number above was **independently reproduced** on Google Colab — three separate machines
 > (build environment, Colab, and the team's reviewer) agree within seed variance.
@@ -91,7 +93,7 @@ The full pipeline, from raw satellite telemetry to operational alerts:
 flowchart TB
     subgraph SRC["Real Data Sources"]
         direction LR
-        G["GOES-15 EPEAD<br/>greater-than 2 MeV electrons<br/>112 months 2010-2020"]
+        G["GOES-15 EPEAD<br/>greater-than 2 MeV electrons<br/>2010-2020"]
         O["OMNI HRO<br/>solar wind plus IMF<br/>5-min cadence"]
         GR["GRASP at 48E<br/>ISRO instrument<br/>2017-2018"]
     end
@@ -105,7 +107,7 @@ flowchart TB
         direction LR
         D["Delta X100<br/>predicts log-flux CHANGE<br/>6h and 12h"]
         E["EventWindow<br/>hazard classifier<br/>ROC 0.988"]
-        P["Persistence<br/>baseline at 45m"]
+        P["Persistence<br/>baseline at 30m"]
     end
     R{"Router"}
     subgraph OUT["Operational Outputs"]
@@ -139,7 +141,7 @@ flowchart TB
     class O1,O2,O3 out
 ```
 
-**Why a router?** No single model wins at every horizon. Persistence is unbeatable at 45 minutes
+**Why a router?** No single model wins at every horizon. Persistence is unbeatable at 30 minutes
 (electron flux is highly autocorrelated short-term — real physics). The Delta X100 model wins at
 6h and 12h where physics-driven change dominates. The EventWindow classifier runs in parallel to
 raise hazard alerts. The router sends each query to the component that's strongest for that task.
@@ -221,14 +223,14 @@ targets, retrain, and if performance *doesn't* collapse to chance, there's leaka
 
 | # | Leakage test | What it checks | Result |
 |---|---|---|---|
-| 1 | **Split before features** | Features computed within each split, never across the train/test boundary | ✅ PASS |
-| 2 | **Split before windows** | Rolling windows / lags don't reach across the split | ✅ PASS |
+| 1 | **Split before features** | Lag/static features computed within each split, never across the train/test boundary | ✅ PASS |
+| 2 | **Split before windows** | Rolling-window features use only past samples within each split | ✅ PASS |
 | 3 | **Event overlap** | No P99 event straddles train and test | ✅ PASS |
-| 4 | **Shuffle test** | Randomize targets → signal must vanish | ✅ PASS (R99 **0.339 → 0.127**) |
+| 4 | **Shuffle test** | Randomize targets → signal must vanish | ✅ PASS (R99 **collapses to ~0.13**) |
 | 5 | **Temporal gap** | Train ends 2016-12-31, test starts 2017-01-01 — strict, no overlap | ✅ PASS |
 
 > **The shuffle test is reproducible in the notebook (Step 4).** When the targets are randomized,
-> recall collapses from 0.339 to 0.127 (chance level) — proof the model's skill comes from genuine
+> recall collapses to chance level (~0.13) — proof the model's skill comes from genuine
 > physical signal, not memorized leakage. Any reviewer can re-run that cell and watch it collapse.
 
 ---
@@ -242,8 +244,8 @@ in this README regenerates on your machine in ~25–30 minutes:
 flowchart TB
     S0["Step 0-1<br/>Mount Drive, load data,<br/>verify REAL"] --> S2["Step 2<br/>9 integrity checks<br/>9/9 PASS"]
     S2 --> S3["Step 3<br/>Build 64 features"]
-    S3 --> S4["Step 4<br/>Leakage audit + shuffle test<br/>0.339 to 0.127"]
-    S4 --> S5["Step 5<br/>Delta X100 multi-horizon<br/>45m / 6h / 12h"]
+    S3 --> S4["Step 4<br/>Leakage audit + shuffle test<br/>collapses to ~0.13"]
+    S4 --> S5["Step 5<br/>Delta X100 multi-horizon<br/>30m / 6h / 12h"]
     S5 --> S6["Step 6<br/>Seed variance<br/>R99 = 0.44 plus-minus 0.01"]
     S6 --> S7["Step 7<br/>SHAP physics<br/>solar wind 40 percent"]
     S7 --> S8["Step 8<br/>Lead-time<br/>176 storms, median 12h"]
@@ -274,7 +276,7 @@ sequenceDiagram
     Note over GOES,Model: STAGE 1 - GOES blind test
     GOES->>Model: train on 2010-2016
     Model->>Model: test on 2017 onward (unseen)
-    Model-->>GOES: 45m R99 0.921, 6h 0.523, 12h 0.448
+    Model-->>GOES: 30m R99 0.939, 6h 0.528, 12h 0.442
     Note over Model,GRASP: STAGE 2 - GRASP transfer
     Model->>GRASP: predict over 2017-2018 window
     GRASP->>GRASP: compare 48,806 matched points
@@ -295,7 +297,7 @@ All data is **real, public, and forensically verified.**
 
 | Source | Provider | Coverage | Role |
 |---|---|---|---|
-| **GOES-15 EPEAD** | NOAA NCEI | 112 months, 2010–2020 | >2 MeV electron flux (the target), DQF==0 quality filter, 5-min resample |
+| **GOES-15 EPEAD** | NOAA NCEI | 2010–2020 | >2 MeV electron flux (the target), DQF==0 quality filter, 5-min resample |
 | **OMNI HRO** | NASA SPDF | 2010–2020, 5-min | Solar wind speed, IMF Bz, density, flow pressure, AE, SYM-H (the drivers) |
 | **GRASP** | ISRO | Jul 2017 – Sep 2018 | Independent validation at 48°E (Indian longitude) |
 
@@ -361,10 +363,9 @@ time in the next 12 hours?"* — and drives the operational alert.
 
 | Horizon | Log-RMSE | Recall @ P95 | Recall @ P99 | Recall @ P99.5 |
 |---|---|---|---|---|
-| **45 min** | 0.131 | 0.937 | **0.921** | 0.836 |
-| **6 hours** | 0.315 | 0.774 | 0.523 | 0.274 |
-| **12 hours** | 0.358 | 0.716 | **0.448** | 0.270 |
-
+| **30 min** | 0.109 | 0.948 | **0.939** | 0.869 |
+| 6 hours    | 0.315 | 0.774 | 0.528    | 0.262 |
+| 12 hours   | 0.358 | 0.718 | **0.442** | 0.270 |
 **Seed-averaged (4 seeds), 12h:** Recall @ P99 = **0.44 ± 0.01** · Recall @ P99.5 = 0.265 ± 0.007
 
 ### Bootstrap 95% confidence intervals (12h, 1000× resampling)
@@ -384,7 +385,7 @@ time in the next 12 hours?"* — and drives the operational alert.
 
 > **Important caveat — this is not an apples-to-apples comparison.** NOAA's REFM model
 > predicts **24-hour daily fluence** (total particle dose integrated over a day), while
-> GEOShield predicts **sub-daily flux** at 45 min / 6 h / 12 h horizons. Different tasks,
+> GEOShield predicts **sub-daily flux** at 30 min / 6 h / 12 h horizons. Different tasks,
 > different time resolutions, different evaluation periods. **We do NOT claim to "beat" REFM.**
 > What we *can* say honestly: GEOShield's PE 0.809 is **competitive with the published REFM
 > values under our evaluation setup**, demonstrating that a well-validated sub-daily forecaster
@@ -426,7 +427,7 @@ time in the next 12 hours?"* — and drives the operational alert.
 **This is what no other team shows.** A forecast number is useful only if it arrives *early enough
 to act.* GEOShield was tested on **176 real storm onsets (2017–2019):**
 
-- **Event recall 97% across 176 storm onsets** (171/176 detected before threshold crossing)
+- **Event recall 95% at default threshold 0.5 (168/176), rising to 98% at threshold 0.2–0.3 (172/176)** — detected before threshold crossing
 - **Median 12 hours of advance warning**
 - EventWindow ROC AUC 0.988
 
@@ -434,9 +435,10 @@ to act.* GEOShield was tested on **176 real storm onsets (2017–2019):**
 
 | Alert threshold | Storms caught | Median lead time | Use case |
 |---|---|---|---|
-| 0.2 | 99% | 12.0 h | Maximum safety (more false alarms) |
-| **0.5** | **97%** | **12.0 h** | **Recommended balance** |
-| 0.8 | 97% | 11.7 h | Fewer false alarms |
+| 0.2 | 98% | 12.0 h | Maximum safety (more false alarms) |
+| 0.3 | 98% | 12.0 h | High safety |
+| **0.5** | **95%** | **12.0 h** | **Recommended balance** |
+| 0.8 | 94% | 11.8 h | Fewer false alarms |
 
 ### Cost-benefit (the operational argument)
 
@@ -604,11 +606,11 @@ FOLDER = '/content/drive/MyDrive/GEOShield'   # edit if your folder name differs
 Then **Runtime → Run all**. In ~25–30 minutes the notebook will:
 
 ✅ Verify the data is real (9/9 integrity checks — refuses synthetic)
-✅ Prove no leakage (shuffle test collapses to 0.127)
-✅ Reproduce the multi-horizon table (45m / 6h / 12h)
+✅ Prove no leakage (shuffle test collapses to ~0.13)
+✅ Reproduce the multi-horizon table (30m / 6h / 12h)
 ✅ Quantify seed variance (R99 = 0.44 ± 0.01)
 ✅ Render the SHAP physics graphs (solar wind 40%)
-✅ Compute lead-time (97% of 176 storms, median 12h)
+✅ Compute lead-time (95% at threshold 0.5, 98% at 0.2–0.3, across 176 storms, median 12h)
 ✅ Calibrate uncertainty bands (coverage 0.77)
 ✅ Benchmark vs the NOAA baseline (PE 0.809, competitive with REFM)
 ✅ Plot the April 2017 case study (12h warning)
